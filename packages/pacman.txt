@@ -1,0 +1,72 @@
+# ─── Window manager + lockscreen + idle ────────────────
+hyprland
+hyprlock
+hypridle
+xdg-desktop-portal-hyprland
+
+# ─── Bar (Waybar) ──────────────────────────────────────
+waybar
+
+# ─── Quickshell runtime dependencies ───────────────────
+# The installer accepts any already-installed package that provides
+# `quickshell` (for example quickshell-git); otherwise it installs this target.
+quickshell
+qt6-wayland
+mpv
+ffmpeg
+
+# ─── Terminal ──────────────────────────────────────────
+kitty
+yazi
+fastfetch
+btop
+
+# ─── Audio ─────────────────────────────────────────────
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+
+# ─── Notifications + polkit ────────────────────────────
+# Quickshell provides the notification daemon; libnotify provides notify-send.
+libnotify
+polkit-kde-agent
+
+# ─── Bluetooth + device sharing ────────────────────────
+bluez
+bluez-utils
+
+# ─── Screenshots, brightness, clipboard ────────────────
+brightnessctl
+grim
+slurp
+hyprshot
+wl-clipboard
+
+# ─── Auto-mount removable media ────────────────────────
+udiskie
+udisks2
+
+# ─── Network ───────────────────────────────────────────
+networkmanager
+
+# ─── Fonts ─────────────────────────────────────────────
+inter-font
+ttc-iosevka
+ttf-jetbrains-mono-nerd
+noto-fonts
+noto-fonts-cjk
+noto-fonts-emoji
+
+# ─── Python dependencies for Quickshare and clipboard ─
+python-pillow
+python-qrcode
+
+cloudflared
+
+# ─── XDG ───────────────────────────────────────────────
+xdg-user-dirs
+xdg-utils
+
+# ─── Wallpaper ─────────────────────────────────────────
+awww

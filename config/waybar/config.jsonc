@@ -1,0 +1,85 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 38,
+  "fixed-center": true,
+  "spacing": 0,
+  "modules-left": [
+    "hyprland/workspaces",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "custom/sidonia"
+  ],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "network",
+    "pulseaudio",
+    "battery",
+    "clock",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{id:02d}",
+    "on-click": "activate"
+  },
+
+  "hyprland/window": {
+    "format": "<span foreground='#cc1515'>//</span> {title}",
+    "max-length": 32
+  },
+
+  "cpu": {
+    "format": "<span foreground='#c8c8c4'>CPU</span> <span weight='medium'>{usage:02d}</span><span foreground='#c8c8c4'>%</span>",
+    "interval": 3
+  },
+
+  "memory": {
+    "format": "<span foreground='#c8c8c4'>MEM</span> <span weight='medium'>{percentage}</span><span foreground='#c8c8c4'>%</span>",
+    "interval": 3
+  },
+
+  "network": {
+    "format-wifi": "<span foreground='#c8c8c4'>NET</span> {essid}",
+    "format-ethernet": "<span foreground='#c8c8c4'>ETH</span> {ifname}",
+    "format-disconnected": "NET --",
+    "max-length": 14,
+    "tooltip-format": "{ipaddr}",
+    "tooltip-format-wifi": "{essid}\n{ipaddr}"
+  },
+
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "format-muted": "VOL --",
+    "on-click": "qs ipc call ctrl toggle"
+  },
+
+  "battery": {
+    "format": "BAT {capacity}%",
+    "format-charging": "BAT {capacity}%+",
+    "interval": 30,
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%d/%m}",
+    "tooltip-format": "{:%A %d %B %Y}"
+  },
+
+  "custom/sidonia": {
+    "format": "<span foreground='#cc1515' letter_spacing='2048' weight='medium'>SID0NIA</span>  <span foreground='#a29b96'>シドニア</span>",
+    "tooltip": false
+  },
+
+  "custom/power": {
+    "format": "",
+    "tooltip-format": "Lock screen",
+    "on-click": "${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/lock.sh"
+  }
+}
