@@ -39,7 +39,7 @@ intentionally exits with a clear error instead of silently installing latest
 packages. Once reviewed manifests are published, the command will be:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh) --pinned
+bash <(curl -fsSL https://raw.githubusercontent.com/pommedepains/Wille/main/install.sh) --pinned
 ```
 
 The installer verifies that a pinned manifest includes Hyprland, then asks the

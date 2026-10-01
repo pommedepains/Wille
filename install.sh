@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════════
 #   Wille installer — Hyprland + Quickshell + Waybar rice
-#   Usage: bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh)
+#   Usage: bash <(curl -fsSL https://raw.githubusercontent.com/pommedepains/Wille/main/install.sh)
 # ═══════════════════════════════════════════════════════════════════
 set -euo pipefail
 
@@ -9,7 +9,7 @@ set -euo pipefail
 # Run from a local checkout (a git clone or an unpacked archive), install that
 # folder exactly as it is on disk, uncommitted edits included. Piped from curl
 # there is no checkout, so the published repository is cloned instead. Replace
-# YOUR_GITHUB_USER once the project is published, or set WILLE_REPO_URL.
+# pommedepains once the project is published, or set WILLE_REPO_URL.
 _wille_script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd -P || true)
 LOCAL_SOURCE=""
 if [[ -z "${WILLE_REPO_URL:-}" && -n "$_wille_script_dir" \
@@ -18,7 +18,7 @@ if [[ -z "${WILLE_REPO_URL:-}" && -n "$_wille_script_dir" \
     LOCAL_SOURCE="$_wille_script_dir"
 fi
 readonly LOCAL_SOURCE
-readonly REPO_URL="${WILLE_REPO_URL:-https://github.com/YOUR_GITHUB_USER/Wille.git}"
+readonly REPO_URL="${WILLE_REPO_URL:-https://github.com/pommedepains/Wille.git}"
 readonly REPO_BRANCH="${WILLE_BRANCH:-main}"
 readonly CLONE_DIR="${TMPDIR:-/tmp}/Wille-install-$$"
 readonly MIN_HYPRLAND_VERSION="0.55.2"
@@ -1049,7 +1049,7 @@ finalize() {
     fi
     echo
     echo "  ${C_BOLD}Docs & support:${C_RESET}"
-    echo "    https://github.com/YOUR_GITHUB_USER/Wille#readme"
+    echo "    https://github.com/pommedepains/Wille#readme"
     echo
 }
 
