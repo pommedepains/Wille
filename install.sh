@@ -6,17 +6,19 @@
 set -euo pipefail
 
 # ─── Configuration ──────────────────────────────────────────────────
-# Run from a local checkout, install that checkout (committed state). Piped from
-# curl, there is no checkout, so the published repository is used. Replace
+# Run from a local checkout (a git clone or an unpacked archive), install that
+# folder exactly as it is on disk, uncommitted edits included. Piped from curl
+# there is no checkout, so the published repository is cloned instead. Replace
 # YOUR_GITHUB_USER once the project is published, or set WILLE_REPO_URL.
 _wille_script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd -P || true)
+LOCAL_SOURCE=""
 if [[ -z "${WILLE_REPO_URL:-}" && -n "$_wille_script_dir" \
-    && -d "$_wille_script_dir/.git" && -f "$_wille_script_dir/config/hypr/hyprland.lua" ]]; then
-    _wille_default_repo="$_wille_script_dir"
-else
-    _wille_default_repo="https://github.com/YOUR_GITHUB_USER/Wille.git"
+    && -f "$_wille_script_dir/config/hypr/hyprland.lua" \
+    && -d "$_wille_script_dir/packages" ]]; then
+    LOCAL_SOURCE="$_wille_script_dir"
 fi
-readonly REPO_URL="${WILLE_REPO_URL:-$_wille_default_repo}"
+readonly LOCAL_SOURCE
+readonly REPO_URL="${WILLE_REPO_URL:-https://github.com/YOUR_GITHUB_USER/Wille.git}"
 readonly REPO_BRANCH="${WILLE_BRANCH:-main}"
 readonly CLONE_DIR="${TMPDIR:-/tmp}/Wille-install-$$"
 readonly MIN_HYPRLAND_VERSION="0.55.2"
@@ -126,7 +128,17 @@ preflight() {
     # Keep sudo alive in background
     while true; do sudo -n true; sleep 60; kill -0 $$ 2>/dev/null || exit; done 2>/dev/null &
     log "Checking internet connectivity…"
-    curl -fsSIL --connect-timeout 5 --max-time 10 https://archlinux.org/ >/dev/null 2>&1 || fatal "Could not reach archlinux.org."
+    # Any HTTP answer proves the connection works; only a transport failure
+    # counts. A strict check (-f on HEAD) failed on a healthy network whenever a
+    # site answered 403/429 to curl, so try several hosts before giving up.
+    local host reached=false
+    for host in archlinux.org geo.mirror.pkgbuild.com github.com; do
+        if curl -sS -o /dev/null --connect-timeout 5 --max-time 10 "https://$host/" 2>/dev/null; then
+            reached=true
+            break
+        fi
+    done
+    $reached || fatal "No internet: could not reach archlinux.org, geo.mirror.pkgbuild.com or github.com."
     if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
         warn "You are running this from inside Hyprland. You will need to log out / restart your session at the end."
     fi
@@ -202,6 +214,13 @@ install_base() {
 
 # ─── Clone ──────────────────────────────────────────────────────────
 clone_repo() {
+    if [[ -n "$LOCAL_SOURCE" ]]; then
+        log "Using the local checkout at $LOCAL_SOURCE…"
+        mkdir -p -- "$CLONE_DIR"
+        tar -C "$LOCAL_SOURCE" --exclude=./.git -cf - . | tar -C "$CLONE_DIR" -xf - \
+            || fatal "Could not copy the local checkout."
+        return 0
+    fi
     log "Cloning Wille ($REPO_BRANCH)…"
     git clone --depth=1 --branch "$REPO_BRANCH" "$REPO_URL" "$CLONE_DIR"
 }

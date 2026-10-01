@@ -24,8 +24,8 @@ You need Arch Linux, Hyprland 0.55.2 or newer, a normal user account, and
 bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh)
 ```
 
-From a local checkout, run `./install.sh` instead; it installs the committed state
-of that checkout. Replace `YOUR_GITHUB_USER` with the account that hosts the
+From a local checkout, run `./install.sh` instead; it installs that folder as it is on disk,
+uncommitted edits included. Replace `YOUR_GITHUB_USER` with the account that hosts the
 repository, or set `WILLE_REPO_URL`.
 
 To see the available installer options without changing your system:

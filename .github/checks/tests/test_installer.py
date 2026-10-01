@@ -880,11 +880,66 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(old_theme.exists())
 
-    def test_local_checkout_is_the_default_repository(self) -> None:
-        result = self.run_installer_shell('printf "%s" "$REPO_URL"')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout, str(REPO_ROOT) if (REPO_ROOT / ".git").exists() else "https://github.com/YOUR_GITHUB_USER/Wille.git")
+    def test_local_checkout_is_installed_from_disk_including_uncommitted_files(self) -> None:
+        source = self.root / "checkout"
+        (source / "config/hypr").mkdir(parents=True)
+        (source / "packages").mkdir()
+        (source / ".git").mkdir()
+        (source / ".git/HEAD").write_text("ref: refs/heads/master\n", encoding="utf-8")
+        (source / "config/hypr/hyprland.lua").write_text("-- edited, not committed\n", encoding="utf-8")
+        shutil.copyfile(INSTALLER, source / "install.sh")
 
+        script = (
+            f'source "{source}/install.sh"\n'
+            'clone_repo >/dev/null\n'
+            'printf "%s|" "$LOCAL_SOURCE"\n'
+            'cat "$CLONE_DIR/config/hypr/hyprland.lua"\n'
+            '[[ ! -e "$CLONE_DIR/.git" ]] && echo no-git\n'
+            'rm -rf "$CLONE_DIR"\n'
+        )
+        env = self.env.copy()
+        env["TMPDIR"] = str(self.root)
+        result = subprocess.run(["/usr/bin/bash", "-c", script], env=env, cwd=self.root,
+                                text=True, capture_output=True, check=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(f"{source}|-- edited, not committed", result.stdout)
+        self.assertIn("no-git", result.stdout)
+
+    def test_explicit_repo_url_overrides_the_local_checkout(self) -> None:
+        result = self.run_installer_shell(
+            'printf "%s|%s" "$REPO_URL" "$LOCAL_SOURCE"',
+            extra_env={"WILLE_REPO_URL": "https://example.invalid/Wille.git"},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "https://example.invalid/Wille.git|")
+
+    def test_connectivity_check_accepts_any_http_answer_and_tries_every_host(self) -> None:
+        # A site answering 403 to curl still proves the network works; curl
+        # without -f exits 0 then. The first two hosts fail at transport level.
+        self.write_executable(
+            "curl",
+            "#!/bin/sh\n"
+            'case "$*" in\n'
+            '  *archlinux.org*|*pkgbuild.com*) exit 28 ;;\n'
+            "  *) exit 0 ;;\n"
+            "esac\n",
+        )
+        path_env = {"PATH": f"{self.fake_bin}{os.pathsep}{self.env['PATH']}"}
+        result = self.run_installer_shell(self.connectivity_snippet(), extra_env=path_env)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+        self.write_executable("curl", "#!/bin/sh\nexit 28\n")
+        result = self.run_installer_shell(self.connectivity_snippet(), extra_env=path_env)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("No internet", result.stdout + result.stderr)
+
+    @staticmethod
+    def connectivity_snippet() -> str:
+        # Extract just the connectivity block so sudo and realpath are not needed.
+        text = INSTALLER.read_text(encoding="utf-8")
+        start = text.index("    # Any HTTP answer proves the connection works")
+        end = text.index("    if [[ -n \"${HYPRLAND_INSTANCE_SIGNATURE")
+        return "check_net() {\n" + text[start:end] + "}\ncheck_net\n"
 
     def test_wallpaper_client_and_daemon_are_both_required(self) -> None:
         empty_bin = self.root / "empty-bin"
