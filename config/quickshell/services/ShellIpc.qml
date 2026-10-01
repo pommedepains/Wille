@@ -17,7 +17,7 @@ Scope {
     signal clipboardToggleRequested()
 
     IpcHandler {
-        target: "tsugumoriShell"
+        target: "willeShell"
 
         function showClipboard(): void {
             root.clipboardShowRequested()

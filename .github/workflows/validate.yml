@@ -13,7 +13,7 @@ jobs:
     container: archlinux:base
     timeout-minutes: 20
     env:
-      TSUGUMORI_REQUIRE_INTEGRATION: "1"
+      WILLE_REQUIRE_INTEGRATION: "1"
 
     steps:
       - name: Install target-platform validation tools

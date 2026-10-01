@@ -15,7 +15,7 @@ INSTALLER = REPO_ROOT / "install.sh"
 
 class InstallerLuaMigrationTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-installer-test-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-installer-test-")
         self.root = Path(self.tempdir.name)
         self.home = self.root / "home"
         self.config_home = self.root / "config"
@@ -112,7 +112,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             [[ -n "$config" ]]
             config_dir=$(dirname -- "$config")
             user=$(tr '\n' ';' <"$config_dir/user.lua")
-            options=$(tr '\n' ';' <"$config_dir/tsugumori_options.lua")
+            options=$(tr '\n' ';' <"$config_dir/wille_options.lua")
             printf '%s|%s|%s\n' "$config" "$user" "$options" >>"$FAKE_VERIFY_LOG"
             if grep -q 'INVALID_OVERRIDE' "$config_dir/user.lua"; then
                 exit 23
@@ -139,8 +139,8 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             extra_env={
                 "PATH": f"{self.fake_bin}{os.pathsep}{self.env['PATH']}",
                 "FAKE_GIT_LOG": str(git_log),
-                "TSUGUMORI_REPO_URL": str(candidate),
-                "TSUGUMORI_BRANCH": "lua-candidate",
+                "WILLE_REPO_URL": str(candidate),
+                "WILLE_BRANCH": "lua-candidate",
             },
         )
 
@@ -156,7 +156,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
                 str(candidate),
             ],
         )
-        self.assertTrue(git_args[-1].startswith(str(self.root / "Tsugumori-install-")))
+        self.assertTrue(git_args[-1].startswith(str(self.root / "Wille-install-")))
 
     def test_lua_and_legacy_overrides_are_both_preserved(self) -> None:
         result = self.run_installer_shell("printf '%s\n' \"${PRESERVED_FILES[@]}\"")
@@ -219,23 +219,23 @@ class InstallerLuaMigrationTests(unittest.TestCase):
     def test_options_are_atomic_reversible_and_do_not_modify_user_lua(self) -> None:
         result = self.run_installer_shell(
             """
-            target="$CONFIG_HOME/hypr/tsugumori_options.lua"
+            target="$CONFIG_HOME/hypr/wille_options.lua"
             user="$CONFIG_HOME/hypr/user.lua"
             mkdir -p "$CONFIG_HOME/hypr"
             printf '%s\n' 'user-sentinel' >"$user"
             VM_GL_TWEAKS=true
             BOOT_WALLPAPER_VM=true
-            write_tsugumori_options "$target" false
+            write_wille_options "$target" false
             grep -q 'vm_software_gl = true' "$target"
             grep -q 'boot_wallpaper = true' "$target"
             VM_GL_TWEAKS=false
             BOOT_WALLPAPER_VM=false
-            write_tsugumori_options "$target" false
+            write_wille_options "$target" false
             cat "$target"
             printf 'mode=%s\n' "$(stat -c '%a' "$target")"
             printf 'user=%s\n' "$(cat "$user")"
             shopt -s nullglob
-            leftovers=("$CONFIG_HOME/hypr"/.tsugumori_options.lua.*)
+            leftovers=("$CONFIG_HOME/hypr"/.wille_options.lua.*)
             printf 'temporary-files=%s\n' "${#leftovers[@]}"
             """
         )
@@ -254,7 +254,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             mkdir -p "$CONFIG_HOME/hypr" "$CONFIG_HOME/quickshell/settings"
             printf '%s\n' 'managed-config' >"$CLONE_DIR/config/hypr/hyprland.lua"
             printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
-            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/tsugumori_options.lua"
+            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/wille_options.lua"
             printf '%s\n' 'bundled-settings' >"$CLONE_DIR/config/quickshell/settings/Settings.qml"
             printf '%s\n' 'preserved-lua' >"$CONFIG_HOME/hypr/user.lua"
             printf '%s\n' 'preserved-legacy' >"$CONFIG_HOME/hypr/user.conf"
@@ -274,11 +274,11 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         self.assertIn("settings=preserved-settings\n", result.stdout)
         self.assertIn("managed=managed-config\n", result.stdout)
 
-    def test_install_lock_background_prefers_the_bundled_tsugumori_asset(self) -> None:
+    def test_install_lock_background_prefers_the_bundled_wille_asset(self) -> None:
         result = self.run_installer_shell(
             """
             mkdir -p "$CLONE_DIR/assets/wallpapers" "$CONFIG_HOME/hypr"
-            printf '%s\n' 'bundled-tsugumori-lock' >"$CLONE_DIR/assets/wallpapers/Aleph1.png"
+            printf '%s\n' 'bundled-wille-lock' >"$CLONE_DIR/assets/wallpapers/Wille1.png"
             install_lock_background
             printf 'mode=%s\n' "$(stat -c '%a' "$CONFIG_HOME/hypr/lockbg.png")"
             """
@@ -289,7 +289,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         self.assertIn("mode=644\n", result.stdout)
         self.assertEqual(
             (self.config_home / "hypr/lockbg.png").read_bytes(),
-            b"bundled-tsugumori-lock\n",
+            b"bundled-wille-lock\n",
         )
 
     def test_bundled_font_assets_are_installed_per_user(self) -> None:
@@ -315,7 +315,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
                 printf '%s\n' "$asset" >"$plex_source/$asset"
             done
             install_font_assets
-            font_dir="$XDG_DATA_HOME/fonts/Tsugumori"
+            font_dir="$XDG_DATA_HOME/fonts/Wille"
             stat -c 'font-mode=%a' "$font_dir/ShareTechMono-Regular.ttf"
             stat -c 'license-mode=%a' "$font_dir/OFL.txt"
             shopt -s nullglob
@@ -330,7 +330,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         )
 
         self.assertEqual(result.returncode, 0, result.stderr)
-        font_dir = data_home / "fonts/Tsugumori"
+        font_dir = data_home / "fonts/Wille"
         self.assertEqual(
             (font_dir / "ShareTechMono-Regular.ttf").read_bytes(), b"font-bytes\n"
         )
@@ -357,7 +357,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             mkdir -p "$plex_source"
             printf '%s\\n' 'new-plex-font' >"$plex_source/IBMPlexMono-Regular.ttf"
             printf '%s\\n' 'license' >"$plex_source/OFL.txt"
-            font_dir="$XDG_DATA_HOME/fonts/Tsugumori"
+            font_dir="$XDG_DATA_HOME/fonts/Wille"
             mkdir -p "$font_dir"
             printf '%s\\n' 'keep-installed-font' >"$font_dir/ShareTechMono-Regular.ttf"
             install_font_assets
@@ -367,7 +367,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Bundled IBM Plex Mono asset is missing or empty: IBMPlexMono-Medium.ttf",
                       result.stderr)
-        font_dir = data_home / "fonts/Tsugumori"
+        font_dir = data_home / "fonts/Wille"
         self.assertEqual((font_dir / "ShareTechMono-Regular.ttf").read_bytes(),
                          b"keep-installed-font\n")
         self.assertEqual([p.name for p in font_dir.iterdir()], ["ShareTechMono-Regular.ttf"])
@@ -399,7 +399,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             mkdir -p "$CLONE_DIR/config/hypr" "$CLONE_DIR/config/quickshell/settings"
             printf '%s\n' 'managed-config' >"$CLONE_DIR/config/hypr/hyprland.lua"
             printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
-            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/tsugumori_options.lua"
+            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/wille_options.lua"
             printf '%s\n' 'bundled-settings' >"$CLONE_DIR/config/quickshell/settings/Settings.qml"
             BACKUP_OLD=false
             deploy_configs
@@ -432,7 +432,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             mkdir -p "$CLONE_DIR/config/hypr" "$CLONE_DIR/config/kitty"
             printf '%s\n' 'managed-config' >"$CLONE_DIR/config/hypr/hyprland.lua"
             printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
-            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/tsugumori_options.lua"
+            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/wille_options.lua"
             printf '%s\n' 'managed-kitty' >"$CLONE_DIR/config/kitty/kitty.conf"
             BACKUP_OLD=false
             deploy_configs
@@ -558,7 +558,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
                     mkdir -p "$CLONE_DIR/config/hypr" "$CLONE_DIR/config/quickshell/settings"
                     printf '%s\n' 'replacement-config' >"$CLONE_DIR/config/hypr/hyprland.lua"
                     printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
-                    printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/tsugumori_options.lua"
+                    printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/wille_options.lua"
                     printf '%s\n' 'bundled-settings' >"$CLONE_DIR/config/quickshell/settings/Settings.qml"
                     BACKUP_OLD=false
                     deploy_configs
@@ -610,7 +610,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             mkdir -p "$CLONE_DIR/config/hypr"
             printf '%s\n' 'replacement-config' >"$CLONE_DIR/config/hypr/hyprland.lua"
             printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
-            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/tsugumori_options.lua"
+            printf '%s\n' 'return {}' >"$CLONE_DIR/config/hypr/wille_options.lua"
             BACKUP_OLD=false
             deploy_configs
             """
@@ -694,7 +694,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
             printf '%s\n' 'bundled-user' >"$CLONE_DIR/config/hypr/user.lua"
             VM_GL_TWEAKS=true
             BOOT_WALLPAPER_VM=true
-            write_tsugumori_options "$CLONE_DIR/config/hypr/tsugumori_options.lua" false
+            write_wille_options "$CLONE_DIR/config/hypr/wille_options.lua" false
             validate_hyprland_config
             """,
             extra_env=env,
@@ -749,7 +749,7 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         source = INSTALLER.read_text(encoding="utf-8")
         main_body = source.split("main() {", 1)[1].split("\n}", 1)[0]
 
-        render = main_body.index('write_tsugumori_options "$CLONE_DIR/config/hypr/tsugumori_options.lua"')
+        render = main_body.index('write_wille_options "$CLONE_DIR/config/hypr/wille_options.lua"')
         validate_font = main_body.index("validate_font_assets")
         install_font = main_body.index("install_font_assets")
         validate = main_body.index("validate_hyprland_config")
@@ -766,6 +766,125 @@ class InstallerLuaMigrationTests(unittest.TestCase):
         self.assertNotIn("apply_vm_software_gl_tweaks_deployed", source)
         self.assertNotIn("exec-once = sleep 4 && awww img", source)
         self.assertNotIn("hyprland.conf", source)
+
+    def test_legacy_data_is_moved_and_never_overwritten(self) -> None:
+        data_home = self.root / "data"
+        (data_home / "tsugumori" / "clipboard").mkdir(parents=True)
+        (data_home / "tsugumori" / "notes.json").write_text("notes", encoding="utf-8")
+        (data_home / "tsugumori" / "clipboard" / "entry").write_text("clip", encoding="utf-8")
+
+        result = self.run_installer_shell(
+            "migrate_legacy_data",
+            extra_env={"XDG_DATA_HOME": str(data_home)},
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse((data_home / "tsugumori").exists())
+        self.assertEqual((data_home / "wille" / "notes.json").read_text(encoding="utf-8"), "notes")
+        self.assertEqual((data_home / "wille" / "clipboard" / "entry").read_text(encoding="utf-8"), "clip")
+
+        # A second run, or an existing destination, must leave both sides alone.
+        (data_home / "tsugumori").mkdir()
+        (data_home / "tsugumori" / "kept.txt").write_text("old", encoding="utf-8")
+        result = self.run_installer_shell(
+            "migrate_legacy_data",
+            extra_env={"XDG_DATA_HOME": str(data_home)},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((data_home / "tsugumori" / "kept.txt").read_text(encoding="utf-8"), "old")
+        self.assertEqual((data_home / "wille" / "notes.json").read_text(encoding="utf-8"), "notes")
+
+    def test_legacy_settings_accent_is_updated_only_when_it_is_the_old_default(self) -> None:
+        settings = self.config_home / "quickshell/settings/Settings.qml"
+        settings.parent.mkdir(parents=True)
+        settings.write_text('curtainColor: "#cc1515"  // old\n', encoding="utf-8")
+        result = self.run_installer_shell("migrate_legacy_user_files")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('curtainColor: "#1ec8f0"', settings.read_text(encoding="utf-8"))
+
+        settings.write_text('curtainColor: "#00ff88"  // custom\n', encoding="utf-8")
+        result = self.run_installer_shell("migrate_legacy_user_files")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('curtainColor: "#00ff88"', settings.read_text(encoding="utf-8"))
+
+    def test_legacy_user_files_that_mention_the_old_name_are_reported_not_rewritten(self) -> None:
+        user_lua = self.config_home / "hypr/user.lua"
+        user_lua.parent.mkdir(parents=True)
+        original = 'hl.bind("SUPER + P", hl.dsp.exec_cmd("qs ipc call tsugumoriShell togglePlayer"))\n'
+        user_lua.write_text(original, encoding="utf-8")
+        result = self.run_installer_shell("migrate_legacy_user_files")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("willeShell", result.stdout)
+        self.assertEqual(user_lua.read_text(encoding="utf-8"), original)
+
+    def test_legacy_nautilus_font_and_cache_artifacts_are_removed_with_backup(self) -> None:
+        data_home = self.root / "data"
+        legacy_files = {
+            self.config_home / "nautilus/tsugumori/style.css": "css",
+            data_home / "nautilus-python/extensions/tsugumori.py": "ext",
+            self.config_home / "environment.d/80-tsugumori-filechooser.conf": "GTK3_MODULES=old",
+            data_home / "fonts/Tsugumori/ShareTechMono-Regular.ttf": "font",
+            self.home / ".cache/tsugumori/runtime/x": "cache",
+            self.runtime_dir / "tsugumori/lock": "runtime",
+        }
+        for path, text in legacy_files.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(text, encoding="utf-8")
+        unrelated = self.config_home / "nautilus/other/keep.css"
+        unrelated.parent.mkdir(parents=True)
+        unrelated.write_text("keep", encoding="utf-8")
+        gtk_css = self.config_home / "gtk-4.0/gtk.css"
+        gtk_css.parent.mkdir(parents=True)
+        gtk_css.write_text(
+            '@import url("../nautilus/tsugumori/filechooser-gtk4.css");\n'
+            '@import url("../nautilus/wille/filechooser-gtk4.css");\n'
+            "window { color: red; }\n",
+            encoding="utf-8",
+        )
+
+        result = self.run_installer_shell(
+            """
+            BACKUP_OLD=true
+            INSTALL_NAUTILUS=true
+            cleanup_legacy_install
+            printf '%s' "$BACKUP_DIR" >"$HOME/backup-dir"
+            """,
+            extra_env={"XDG_DATA_HOME": str(data_home)},
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        backup = Path((self.home / "backup-dir").read_text(encoding="utf-8"))
+        for path in legacy_files:
+            self.assertFalse(path.exists(), str(path))
+        self.assertEqual(unrelated.read_text(encoding="utf-8"), "keep")
+        self.assertEqual(
+            gtk_css.read_text(encoding="utf-8"),
+            '@import url("../nautilus/wille/filechooser-gtk4.css");\nwindow { color: red; }\n',
+        )
+        self.assertEqual((backup / "config/nautilus/tsugumori/style.css").read_text(encoding="utf-8"), "css")
+        self.assertEqual((backup / "data/fonts/Tsugumori/ShareTechMono-Regular.ttf").read_text(encoding="utf-8"), "font")
+        self.assertIn("tsugumori", (backup / "config/gtk-4.0/gtk.css").read_text(encoding="utf-8"))
+
+    def test_legacy_nautilus_artifacts_are_kept_when_nautilus_is_not_installed(self) -> None:
+        old_theme = self.config_home / "nautilus/tsugumori/style.css"
+        old_theme.parent.mkdir(parents=True)
+        old_theme.write_text("css", encoding="utf-8")
+        result = self.run_installer_shell(
+            """
+            BACKUP_OLD=false
+            INSTALL_NAUTILUS=false
+            cleanup_legacy_install
+            """,
+            extra_env={"XDG_DATA_HOME": str(self.root / "data")},
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(old_theme.exists())
+
+    def test_local_checkout_is_the_default_repository(self) -> None:
+        result = self.run_installer_shell('printf "%s" "$REPO_URL"')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, str(REPO_ROOT) if (REPO_ROOT / ".git").exists() else "https://github.com/YOUR_GITHUB_USER/Wille.git")
+
 
     def test_wallpaper_client_and_daemon_are_both_required(self) -> None:
         empty_bin = self.root / "empty-bin"

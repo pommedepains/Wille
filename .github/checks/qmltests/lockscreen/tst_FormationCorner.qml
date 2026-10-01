@@ -38,17 +38,17 @@ Item {
             compare(track.routeLength, 129);
             track.travel = track.routeLength;
             compare(track.signalPosition, Qt.point(114,18));
-            var sidonia = makeCorner(1), status = makeCorner(3);
+            var primary = makeCorner(1), status = makeCorner(3);
             for (var span of [244, 123]) {
-                sidonia.span = span; sidonia.travel = 0;
-                compare(sidonia.routeLength, span - 38);
-                compare(sidonia.signalPosition, Qt.point(0,32));
-                sidonia.travel = span - 56;
-                compare(sidonia.signalPosition, Qt.point(span - 56,32));
-                sidonia.travel += 10;
-                compare(sidonia.signalPosition, Qt.point(span - 56,22));
-                sidonia.travel = sidonia.routeLength;
-                compare(sidonia.signalPosition, Qt.point(span - 48,22));
+                primary.span = span; primary.travel = 0;
+                compare(primary.routeLength, span - 38);
+                compare(primary.signalPosition, Qt.point(0,32));
+                primary.travel = span - 56;
+                compare(primary.signalPosition, Qt.point(span - 56,32));
+                primary.travel += 10;
+                compare(primary.signalPosition, Qt.point(span - 56,22));
+                primary.travel = primary.routeLength;
+                compare(primary.signalPosition, Qt.point(span - 48,22));
                 status.span = span; status.travel = 0;
                 compare(status.routeLength, span + 20);
                 compare(status.signalPosition, Qt.point(0,9));
@@ -77,7 +77,7 @@ Item {
             wait(100); compare(track.travel, 0);
         }
         function test_right_corner_loops_data() {
-            return [{tag:"SID0NIA", index:1}, {tag:"LOCKED", index:3}];
+            return [{tag:"MAGI-03", index:1}, {tag:"LOCKED", index:3}];
         }
         function test_right_corner_loops(data) {
             var corner = makeCorner(data.index);

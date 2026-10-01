@@ -5,6 +5,6 @@ import QtQml
 QtObject {
     property bool reduceMotion: false
     function env(name) {
-        return name === "TSUGUMORI_REDUCED_MOTION" && reduceMotion ? "1" : ""
+        return name === "WILLE_REDUCED_MOTION" && reduceMotion ? "1" : ""
     }
 }

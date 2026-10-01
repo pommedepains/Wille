@@ -49,11 +49,11 @@ again closes it. From another monitor it moves the same drawer
 there without changing your note. Escape, the top-right × button, or clicking outside
 the drawer closes it.
 
-Opening and closing use the shared red illustrated curtain.
-The red hover and selection animations inside the note list are independent.
+Opening and closing use the shared cyan illustrated curtain.
+The cyan hover and selection animations inside the note list are independent.
 
 Choose `+ NEW NOTE`, then type a title and body. Rows use `01// title`
-numbering. The selected row stays red; choosing another row lets the previous
+numbering. The selected row stays cyan; choosing another row lets the previous
 row's fill retract. Use the separate X to delete a note and `UNDO` to restore
 the last deletion. Undo survives closing the drawer, but ends when the shell
 restarts.
@@ -65,12 +65,12 @@ in memory and offers Retry. Wait for `SAVED` before restarting the shell.
 The COPY button beside the save status copies only the note body, not its title.
 
 Notes are stored as private, unencrypted text at
-`$XDG_DATA_HOME/tsugumori/notes.json`, or
-`~/.local/share/tsugumori/notes.json` when that variable is unset. Notes do not
+`$XDG_DATA_HOME/wille/notes.json`, or
+`~/.local/share/wille/notes.json` when that variable is unset. Notes do not
 belong to the installed config or the Git repository.
 
 The drawer uses the existing `Settings.scale`. Set
-`TSUGUMORI_REDUCED_MOTION=1` in the desktop shell's launch environment to make
+`WILLE_REDUCED_MOTION=1` in the desktop shell's launch environment to make
 the drawer and row/button fill changes immediate. No new Settings fields are
 required.
 
@@ -91,8 +91,8 @@ entry; Clear removes unpinned history after confirmation. `UNDO` restores
 the latest deletion for 30 seconds.
 
 History is stored locally in an unencrypted database at
-`$XDG_DATA_HOME/tsugumori/clipboard/history.sqlite3`, or
-`~/.local/share/tsugumori/clipboard/history.sqlite3` when that variable is
+`$XDG_DATA_HOME/wille/clipboard/history.sqlite3`, or
+`~/.local/share/wille/clipboard/history.sqlite3` when that variable is
 unset. This data is not part of the configuration or repository.
 
 Set `clipboardDark: true` in `Settings.qml` for the charcoal palette.

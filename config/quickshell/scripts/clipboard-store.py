@@ -39,7 +39,7 @@ def private_directory():
     base = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local/share")
     if not base.is_absolute():
         raise StoreError("path")
-    directory = base / "tsugumori" / "clipboard"
+    directory = base / "wille" / "clipboard"
     directory.mkdir(mode=0o700, parents=True, exist_ok=True)
     info = directory.lstat()
     if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():

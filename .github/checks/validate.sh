@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 cd "$REPO_ROOT"
 
-REQUIRE_INTEGRATION=${TSUGUMORI_REQUIRE_INTEGRATION:-0}
+REQUIRE_INTEGRATION=${WILLE_REQUIRE_INTEGRATION:-0}
 
 missing_optional_tool() {
     local label="$1"
@@ -96,7 +96,7 @@ fi
 for retired in config/quickshell/videos maintenance \
     config/waybar/scripts/pomodoro.sh config/waybar/scripts/pomodoro_toggle.sh \
     config/quickshell/components/WipeCurtain.qml config/quickshell/components/Scanlines.qml \
-    config/quickshell/components/CornerDeco.qml config/quickshell/components/TsugumoriButton.qml; do
+    config/quickshell/components/CornerDeco.qml config/quickshell/components/WilleButton.qml; do
     [[ ! -e "$retired" ]] || { printf 'Retired file remains: %s\n' "$retired" >&2; exit 1; }
 done
 if rg -n '\bpython(3)?\b|pixel[_-]wave|ext_last|generat(e|ing|or)' config/quickshell/wave-check.sh; then
@@ -104,7 +104,7 @@ if rg -n '\bpython(3)?\b|pixel[_-]wave|ext_last|generat(e|ing|or)' config/quicks
     exit 1
 fi
 
-if rg -n 'playerctl|n[i]er-arrow\.png|/tmp/(pomodoro_state|qs-menu|qs-toggle|qs-front|mpv-tsugumori\.sock|qshare-(events|qr\.png)|yzi-out)|LOCKPWD|pamtester[[:space:]]+qs-lock' config packages; then
+if rg -n 'playerctl|n[i]er-arrow\.png|/tmp/(pomodoro_state|qs-menu|qs-toggle|qs-front|mpv-wille\.sock|qshare-(events|qr\.png)|yzi-out)|LOCKPWD|pamtester[[:space:]]+qs-lock' config packages; then
     printf 'Deprecated runtime path, asset, or credential transport found.\n' >&2
     exit 1
 fi
@@ -115,7 +115,7 @@ if rg -n 'pkill[[:space:]]+(-[^[:space:]]+[[:space:]]+)*qs([[:space:]]|$)' confi
 fi
 
 if rg -n '\b(pkill|killall)\b.*\b(dunst|mako|swaync)\b' config; then
-    printf 'Tsugumori must not terminate user-managed notification daemons.\n' >&2
+    printf 'Wille must not terminate user-managed notification daemons.\n' >&2
     exit 1
 fi
 
@@ -172,9 +172,9 @@ import struct
 from pathlib import Path
 
 expected = {
-    Path("assets/wallpapers/Aleph1.png"): (
-        "c4219b4d669751aa3ab7f8d621dc7a40d82b5e1daebf52ca2aaa575bc9bace87",
-        (8000, 4500),
+    Path("assets/wallpapers/Wille1.png"): (
+        "68afd537d5ffe5df14e7f567675db63ad224ed8b946712108c7b0ebc600c8e03",
+        (3840, 2160),
     ),
 }
 

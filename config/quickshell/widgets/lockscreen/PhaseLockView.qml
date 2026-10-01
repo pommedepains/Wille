@@ -34,9 +34,9 @@ FocusScope {
     readonly property bool transitioning: progress > 0 && progress < 1
     readonly property string lockLabel: hiding ? (compact ? "RELEASE" : "UNLOCK / CLEAR")
         : progress < 1 ? (compact ? "REGISTER" : "LOCK / APPEAR") : "LOCKED"
-    readonly property color red: "#d1161c"
-    readonly property color ivory: "#e4e2dc"
-    readonly property color grey: "#99958c"
+    readonly property color cyan: "#20bee5"
+    readonly property color ivory: "#dee0e2"
+    readonly property color grey: "#8c9299"
     readonly property string mono: "JetBrains Mono"
     readonly property real panelWidth: Math.min(408, Math.max(240, width - 32))
     readonly property real panelHeight: login.implicitHeight + login.contentInset * 2 + 2
@@ -69,7 +69,7 @@ FocusScope {
     }
     function useCpuFallback(description) {
         if (shaderFailed) return;
-        console.error("Tsugumori: GPU artwork unavailable; using static artwork fallback:", description);
+        console.error("Wille: GPU artwork unavailable; using static artwork fallback:", description);
         shaderFailed = true;
     }
     function animateGlyph() {
@@ -164,13 +164,13 @@ FocusScope {
             anchors.fill: parent
             color: "transparent"
             border.width: 1
-            border.color: "#49423a"
+            border.color: "#3e4245"
             opacity: view.phase.border
         }
         Rectangle {
             x: 1; y: 1
             width: view.folioWidth; height: parent.height - 2
-            color: view.red; opacity: view.phase.folio
+            color: view.cyan; opacity: view.phase.folio
         }
         Item {
             x: 1; y: 1; width: view.folioWidth; height: parent.height - 2
@@ -179,19 +179,19 @@ FocusScope {
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: view.compact ? 35 : 20
                 rotation: view.compact ? 90 : 0
-                text: "TYPE-17"
-                color: "#170b0a"
+                text: "NERV-C3"
+                color: "#0c1015"
                 font { family: view.mono; pixelSize: 11; weight: Font.Medium; letterSpacing: 1 }
                 renderType: Text.CurveRendering
             }
             Column {
                 anchors.centerIn: parent
                 Repeater {
-                    model: ["継", "衛"]
+                    model: ["予", "備"]
                     Text {
                         required property string modelData
                         text: modelData
-                        color: "#170b0a"
+                        color: "#0c1015"
                         height: font.pixelSize * 1.08
                         font { family: "Noto Sans CJK JP"; pixelSize: view.compact ? 43 : 68; weight: Font.Medium }
                         renderType: Text.CurveRendering
@@ -202,13 +202,13 @@ FocusScope {
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: parent.height - (view.compact ? 68 : 43)
                 width: folioLabel.implicitWidth + 14; height: 23
-                color: "#190a09"
+                color: "#0a121a"
                 rotation: view.compact ? 90 : 0
                 Text {
                     id: folioLabel
                     anchors.centerIn: parent
-                    text: "SID0NIA"
-                    color: view.red
+                    text: "MAGI-03"
+                    color: view.cyan
                     font { family: view.mono; pixelSize: 11; weight: Font.Medium; letterSpacing: 1 }
                     renderType: Text.CurveRendering
                 }
@@ -229,7 +229,7 @@ FocusScope {
                     width: parent.width; height: 21
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "USER <font color='#d1161c'>//</font>"
+                        text: "USER <font color='#20bee5'>//</font>"
                         textFormat: Text.StyledText
                         color: view.grey
                         font { family: view.mono; pixelSize: 11; letterSpacing: 1 }
@@ -237,10 +237,10 @@ FocusScope {
                     }
                     Rectangle {
                         anchors.right: parent.right
-                        width: 53; height: 21; color: view.red
+                        width: 53; height: 21; color: view.cyan
                         Text {
                             anchors.centerIn: parent
-                            text: "◆ 704"; color: "#090909"
+                            text: "◆ 3I"; color: "#090909"
                             font { family: view.mono; pixelSize: 11; weight: Font.Medium }
                             renderType: Text.CurveRendering
                         }
@@ -266,7 +266,7 @@ FocusScope {
                 opacity: view.phase.clock
                 Text {
                     id: clock
-                    text: Qt.formatDateTime(view.now, "HH") + "<font color='#d1161c'>:</font>" + Qt.formatDateTime(view.now, "mm")
+                    text: Qt.formatDateTime(view.now, "HH") + "<font color='#20bee5'>:</font>" + Qt.formatDateTime(view.now, "mm")
                     textFormat: Text.StyledText
                     color: view.ivory
                     font { family: view.mono; pixelSize: view.compact ? 30 : 32; letterSpacing: -1 }
@@ -287,7 +287,7 @@ FocusScope {
                     }
                     Text {
                         id: yearLabel
-                        text: Qt.formatDateTime(view.now, "ddd").toUpperCase() + " <font color='#d1161c'>//</font> " + Qt.formatDateTime(view.now, "yyyy")
+                        text: Qt.formatDateTime(view.now, "ddd").toUpperCase() + " <font color='#20bee5'>//</font> " + Qt.formatDateTime(view.now, "yyyy")
                         textFormat: Text.StyledText
                         color: view.grey
                         font { family: view.mono; pixelSize: 11 }
@@ -297,9 +297,9 @@ FocusScope {
                 Rectangle {
                     x: dateColumn.x - 12; y: dateColumn.y
                     width: 1; height: dateColumn.height
-                    color: "#3b3631"; visible: !view.compact && !clockStrip.stacked
+                    color: "#333639"; visible: !view.compact && !clockStrip.stacked
                 }
-                Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#3b3631" }
+                Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#333639" }
             }
 
             Item {
@@ -339,7 +339,7 @@ FocusScope {
                 Item {
                     width: parent.width; height: 15
                     Text {
-                        text: "PASSWORD <font color='#d1161c'>//</font>"
+                        text: "PASSWORD <font color='#20bee5'>//</font>"
                         textFormat: Text.StyledText
                         color: view.grey
                         font { family: view.mono; pixelSize: 11; letterSpacing: .7 }
@@ -355,10 +355,10 @@ FocusScope {
                 Rectangle {
                     objectName: "passwordRow"
                     width: parent.width; height: 44
-                    color: "#111111"; border.width: 1; border.color: "#55504a"
+                    color: "#111111"; border.width: 1; border.color: "#4b5054"
                     Rectangle {
                         width: 2; height: parent.height
-                        color: passwordInput.activeFocus ? "#ed272d" : view.red
+                        color: passwordInput.activeFocus ? "#45ccee" : view.cyan
                     }
                     TextInput {
                         id: passwordInput
@@ -371,7 +371,7 @@ FocusScope {
                         selectByMouse: true
                         clip: true
                         color: view.ivory
-                        selectionColor: "#751418"
+                        selectionColor: "#184678"
                         selectedTextColor: view.ivory
                         verticalAlignment: TextInput.AlignVCenter
                         font { family: view.mono; pixelSize: 16; letterSpacing: 2 }
@@ -380,7 +380,7 @@ FocusScope {
                         enabled: view.controlsReady
                         activeFocusOnTab: true
                         focus: true
-                        cursorDelegate: Rectangle { width: 2; color: view.red; visible: passwordInput.activeFocus }
+                        cursorDelegate: Rectangle { width: 2; color: view.cyan; visible: passwordInput.activeFocus }
                         Accessible.name: "Password"
                         Accessible.role: Accessible.EditableText
                         onTextEdited: view.passwordEdited(text)
@@ -405,7 +405,7 @@ FocusScope {
                         width: 42; padding: 0
                         enabled: view.controlsReady
                         Accessible.name: "Unlock"
-                        background: Rectangle { color: submitButton.hovered || submitButton.visualFocus ? "#e7282e" : view.red }
+                        background: Rectangle { color: submitButton.hovered || submitButton.visualFocus ? "#45c8e8" : view.cyan }
                         contentItem: Text {
                             text: "↗"; color: "#090909"
                             horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
@@ -423,7 +423,7 @@ FocusScope {
                         : view.error ? "AUTHENTICATION FAILED" : view.pending ? "AUTHENTICATING…"
                         : view.hiding ? "SESSION RELEASE" : "SESSION LOCKED"
                     wrapMode: Text.Wrap
-                    color: view.error || view.powerError !== "" && !view.powerBusy ? view.red : view.grey
+                    color: view.error || view.powerError !== "" && !view.powerBusy ? view.cyan : view.grey
                     font { family: view.mono; pixelSize: 11 }
                     renderType: Text.CurveRendering
                     Accessible.role: Accessible.StaticText
@@ -433,7 +433,7 @@ FocusScope {
                     width: parent.width; height: 44
                     Rectangle {
                         width: parent.width; height: 1
-                        color: "#3b3631"
+                        color: "#333639"
                     }
                     Row {
                         objectName: "powerControls"
@@ -486,7 +486,7 @@ FocusScope {
                 x: 2; y: 2
                 width: Math.max(0, parent.width - 4) * button.fillProgress
                 height: Math.max(0, parent.height - 4)
-                color: view.red
+                color: view.cyan
             }
             Repeater {
                 model: 4
@@ -502,12 +502,12 @@ FocusScope {
                     Rectangle {
                         width: parent.width; height: 1
                         y: corner.bottomEdge ? parent.height - height : 0
-                        color: view.red
+                        color: view.cyan
                     }
                     Rectangle {
                         width: 1; height: parent.height
                         x: corner.rightEdge ? parent.width - width : 0
-                        color: view.red
+                        color: view.cyan
                     }
                 }
             }
@@ -515,7 +515,7 @@ FocusScope {
         contentItem: Text {
             text: button.text
             textFormat: Text.PlainText
-            color: button.interactionActive ? "#090909" : "#b0aba6"
+            color: button.interactionActive ? "#090909" : "#a6abb0"
             horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
             font { family: view.mono; pixelSize: 10; letterSpacing: 1.3 }
             renderType: Text.CurveRendering
@@ -540,7 +540,7 @@ FocusScope {
                 x: ((index % 19) + .5) * registration.width / 19
                 y: (index < 19 ? 0 : registration.height) - tickHeight
                 width: 1 / view.dpr; height: tickHeight * 2
-                color: index < 19 && index % 6 === 0 ? "#b91a20" : "#999486"
+                color: index < 19 && index % 6 === 0 ? "#20aed2" : "#899096"
                 opacity: index < 19 ? .7 : .45
             }
         }
@@ -548,12 +548,12 @@ FocusScope {
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
             ShapePath {
-                strokeWidth: 1; strokeColor: "#b91a20"; fillColor: "transparent"
+                strokeWidth: 1; strokeColor: "#20aed2"; fillColor: "transparent"
                 PathSvg { path: "M0,32 V0 H32 M" + (registration.width - 32) + "," + registration.height
                     + " H" + registration.width + " V" + (registration.height - 32) }
             }
             ShapePath {
-                strokeWidth: 1; strokeColor: "#999486"; fillColor: "transparent"
+                strokeWidth: 1; strokeColor: "#899096"; fillColor: "transparent"
                 PathSvg { path: "M" + (registration.width - 32) + ",0 H" + registration.width
                     + " V32 M0," + (registration.height - 32) + " V" + registration.height + " H32" }
             }
@@ -561,7 +561,7 @@ FocusScope {
         Rectangle {
             x: view.folioWidth; width: 1 / view.dpr
             height: parent.height * Art.ramp(view.progress, .18, .61)
-            color: "#b91a20"; opacity: .6
+            color: "#20aed2"; opacity: .6
         }
     }
 

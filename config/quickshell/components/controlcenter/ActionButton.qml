@@ -37,17 +37,17 @@ Button {
     background: Rectangle {
         color: root.primary ? "#e8e8e8" : "#111111"
         border.width: 1
-        border.color: root.selected ? "#cc1515" : root.primary ? "#e8e8e8" : "#858585"
+        border.color: root.selected ? "#1ec8f0" : root.primary ? "#e8e8e8" : "#858585"
         Rectangle {
             visible: root.rowStyle
             x: 1; y: 1; height: parent.height - 2; width: (parent.width - 2) * root.fill
-            color: "#cc1515"
+            color: "#1ec8f0"
         }
         Rectangle {
             visible: !root.rowStyle
             anchors.bottom: parent.bottom
             width: parent.width * root.underline; height: 3
-            color: "#cc1515"
+            color: "#1ec8f0"
         }
         Rectangle {
             anchors.fill: parent; anchors.margins: 3
@@ -100,7 +100,7 @@ Button {
             text: root.text
             alignment: root.rowStyle ? Text.AlignHCenter : Text.AlignLeft
             pixelSize: 12; letterSpacing: 0.45
-            color: root.rowStyle ? "#e8e8e8" : root.primary ? (root.interactionActive ? "#a81010" : "#080808") : (root.interactionActive ? "#ef7664" : "#e8e8e8")
+            color: root.rowStyle ? "#e8e8e8" : root.primary ? (root.interactionActive ? "#149fc2" : "#080808") : (root.interactionActive ? "#81daf1" : "#e8e8e8")
             reducedMotion: root.reducedMotion
         }
     }

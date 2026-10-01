@@ -25,7 +25,7 @@ ShellRoot {
 
     property string home: Quickshell.env("HOME")
     property string xdgConfigHome: Quickshell.env("XDG_CONFIG_HOME") || (home + "/.config")
-    property string handshakeDir: Quickshell.env("TSUGUMORI_LOCK_HANDSHAKE_DIR") || ""
+    property string handshakeDir: Quickshell.env("WILLE_LOCK_HANDSHAKE_DIR") || ""
     property string handshakeHelper: xdgConfigHome + "/quickshell/lock-handshake.sh"
     property string currentUser: Quickshell.env("USER") || "user"
 
@@ -72,7 +72,7 @@ ShellRoot {
             if (exitCode === 0) {
                 root.secureSignalConfirmed = true
             } else {
-                console.error("Tsugumori lock: could not confirm secure startup")
+                console.error("Wille lock: could not confirm secure startup")
                 Qt.exit(1)
             }
         }
@@ -86,7 +86,7 @@ ShellRoot {
                 root.releaseAuthorized = true
                 root.beginHide()
             } else {
-                console.error("Tsugumori lock: could not authorize the session release")
+                console.error("Wille lock: could not authorize the session release")
                 Qt.exit(1)
             }
         }
@@ -100,7 +100,7 @@ ShellRoot {
                 root.releaseRequestRecorded = true
                 releaseQuitTimer.restart()
             } else {
-                console.error("Tsugumori lock: could not record the authenticated release request")
+                console.error("Wille lock: could not record the authenticated release request")
                 Qt.exit(1)
             }
         }
@@ -137,7 +137,7 @@ ShellRoot {
                 respond(response)
             } else {
                 root.pamResponse = ""
-                console.error("Tsugumori lock: unsupported additional PAM challenge")
+                console.error("Wille lock: unsupported additional PAM challenge")
                 abort()
                 root.pamResponseSent = false
                 root.lockPending = false
@@ -235,13 +235,13 @@ ShellRoot {
 
     function failLockAcquisition() {
         if (root.lockEverSecure || root.releaseRequested) return
-        console.error("Tsugumori lock: compositor rejected session-lock acquisition")
+        console.error("Wille lock: compositor rejected session-lock acquisition")
         Qt.exit(1)
     }
 
     Component.onCompleted: {
         if (root.handshakeDir === "") {
-            console.error("Tsugumori lock: supervised handshake environment is missing")
+            console.error("Wille lock: supervised handshake environment is missing")
             Qt.exit(1)
             return
         }

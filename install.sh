@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════════
-#   Tsugumori installer — Hyprland + Quickshell + Waybar rice
-#   Usage: bash <(curl -fsSL https://raw.githubusercontent.com/Aleph1-9012/Tsugumori/main/install.sh)
+#   Wille installer — Hyprland + Quickshell + Waybar rice
+#   Usage: bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh)
 # ═══════════════════════════════════════════════════════════════════
 set -euo pipefail
 
 # ─── Configuration ──────────────────────────────────────────────────
-readonly REPO_URL="${TSUGUMORI_REPO_URL:-https://github.com/Aleph1-9012/Tsugumori.git}"
-readonly REPO_BRANCH="${TSUGUMORI_BRANCH:-main}"
-readonly CLONE_DIR="${TMPDIR:-/tmp}/Tsugumori-install-$$"
+# Run from a local checkout, install that checkout (committed state). Piped from
+# curl, there is no checkout, so the published repository is used. Replace
+# YOUR_GITHUB_USER once the project is published, or set WILLE_REPO_URL.
+_wille_script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd -P || true)
+if [[ -z "${WILLE_REPO_URL:-}" && -n "$_wille_script_dir" \
+    && -d "$_wille_script_dir/.git" && -f "$_wille_script_dir/config/hypr/hyprland.lua" ]]; then
+    _wille_default_repo="$_wille_script_dir"
+else
+    _wille_default_repo="https://github.com/YOUR_GITHUB_USER/Wille.git"
+fi
+readonly REPO_URL="${WILLE_REPO_URL:-$_wille_default_repo}"
+readonly REPO_BRANCH="${WILLE_BRANCH:-main}"
+readonly CLONE_DIR="${TMPDIR:-/tmp}/Wille-install-$$"
 readonly MIN_HYPRLAND_VERSION="0.55.2"
 BACKUP_DIR="$HOME/.config-backup-$(date +%Y%m%d-%H%M%S)"
 readonly BACKUP_DIR
@@ -29,7 +39,7 @@ PINNED_MODE=false
 VM_GL_TWEAKS=false          # Mesa llvmpipe + software libgl for Quickshell/Kitty (VirtualBox and similar).
 BOOT_WALLPAPER_VM=false     # Lua start callback applies the first wallpaper in VM mode
 
-[[ "${TSUGUMORI_VM:-}" == "1" || "${TSUGUMORI_VM:-}" == "yes" ]] && VM_GL_TWEAKS=true
+[[ "${WILLE_VM:-}" == "1" || "${WILLE_VM:-}" == "yes" ]] && VM_GL_TWEAKS=true
 
 for arg in "$@"; do
     case "$arg" in
@@ -44,9 +54,9 @@ Usage: install.sh [options]
   --pinned   Install exact versions tested by the maintainer.
              Requires packages/pinned-pacman.txt.
   --vm       VirtualBox / weak GPU: configure Quickshell + Kitty to use software OpenGL
-             (llvmpipe), optional boot wallpaper. Or set env TSUGUMORI_VM=1.
+             (llvmpipe), optional boot wallpaper. Or set env WILLE_VM=1.
 
-  Also: TSUGUMORI_VM=1 same effect as --vm for non-interactive installs.
+  Also: WILLE_VM=1 same effect as --vm for non-interactive installs.
 EOF
             exit 0
             ;;
@@ -130,12 +140,12 @@ collect_choices() {
     echo
     BACKUP_OLD=true;          ask_yn "Backup existing configs to $BACKUP_DIR?" y || BACKUP_OLD=false
     INSTALL_WALLPAPERS=true;  ask_yn "Install default wallpapers to ~/Pictures/wallpapers?" y || INSTALL_WALLPAPERS=false
-    INSTALL_BASHRC=true;      ask_yn "Install Tsugumori .bashrc (welcome banner + Tsugumori prompt)?" y || INSTALL_BASHRC=false
+    INSTALL_BASHRC=true;      ask_yn "Install Wille .bashrc (welcome banner + Wille prompt)?" y || INSTALL_BASHRC=false
     INSTALL_NAUTILUS=true;    ask_yn "Install Nautilus and its matching file-dialog theme (builds a small GTK module)?" y || INSTALL_NAUTILUS=false
     ENABLE_SERVICES=true;     ask_yn "Enable system services (NetworkManager, pipewire)?" y || ENABLE_SERVICES=false
 
     if $VM_GL_TWEAKS; then
-        log "VirtualBox / software-GL mode enabled (--vm or TSUGUMORI_VM=1)."
+        log "VirtualBox / software-GL mode enabled (--vm or WILLE_VM=1)."
     elif ask_yn "VirtualBox or limited GPU? Apply software OpenGL for Quickshell + Kitty (fixes many VM crashes)" n; then
         VM_GL_TWEAKS=true
     fi
@@ -192,7 +202,7 @@ install_base() {
 
 # ─── Clone ──────────────────────────────────────────────────────────
 clone_repo() {
-    log "Cloning Tsugumori ($REPO_BRANCH)…"
+    log "Cloning Wille ($REPO_BRANCH)…"
     git clone --depth=1 --branch "$REPO_BRANCH" "$REPO_URL" "$CLONE_DIR"
 }
 
@@ -236,7 +246,7 @@ install_packages() {
         local pacman_pkgs
         mapfile -t pacman_pkgs < <(grep -vE '^\s*(#|$)' "$pacman_list")
 
-        # Older Tsugumori releases installed quickshell-git from the AUR. It
+        # Older Wille releases installed quickshell-git from the AUR. It
         # provides the same `quickshell` dependency but conflicts with the now
         # official package. Preserve a working provider instead of forcing a
         # destructive package replacement during an unattended upgrade.
@@ -245,7 +255,7 @@ install_packages() {
             installed_qs_version=$(qs --version 2>/dev/null | sed -n 's/.* \([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' | head -n 1)
             [[ -n "$installed_qs_version" ]] || fatal "The installed Quickshell provider has an unreadable version; install official quickshell 0.3 or newer."
             if [[ "$(vercmp "$installed_qs_version" 0.3.0)" == -* ]]; then
-                fatal "The installed Quickshell provider is $installed_qs_version. Replace it with official quickshell 0.3 or newer before installing Tsugumori."
+                fatal "The installed Quickshell provider is $installed_qs_version. Replace it with official quickshell 0.3 or newer before installing Wille."
             fi
             local filtered_pacman_pkgs=()
             local package
@@ -283,7 +293,7 @@ install_font_assets() {
     local font_source="$source_dir/ShareTechMono-Regular.ttf"
     local license_source="$source_dir/OFL.txt"
     local data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
-    local font_dir="$data_home/fonts/Tsugumori"
+    local font_dir="$data_home/fonts/Wille"
     local font_tmp license_tmp
 
     [[ -s "$font_source" ]] || fatal "Bundled Share Tech Mono font is missing or empty."
@@ -334,7 +344,7 @@ validate_hyprland_config() {
     command -v vercmp >/dev/null || fatal "vercmp was not installed; cannot enforce the Hyprland compatibility floor."
     [[ -f "$config" ]] || fatal "Bundled Hyprland Lua configuration is missing."
     [[ -f "$CLONE_DIR/config/hypr/user.lua" ]] || fatal "Bundled Hyprland user.lua template is missing."
-    [[ -f "$CLONE_DIR/config/hypr/tsugumori_options.lua" ]] || fatal "Bundled installer options module is missing."
+    [[ -f "$CLONE_DIR/config/hypr/wille_options.lua" ]] || fatal "Bundled installer options module is missing."
 
     installed_version=$(pacman -Q hyprland 2>/dev/null | awk 'NR == 1 { print $2 }')
     [[ -n "$installed_version" ]] || fatal "Could not determine the installed Hyprland package version."
@@ -352,7 +362,7 @@ validate_hyprland_config() {
     log "Validating bundled Lua configuration with Hyprland $installed_version…"
     if ! XDG_RUNTIME_DIR="$runtime_dir" Hyprland --verify-config --config "$config"; then
         [[ -z "$runtime_tmp" ]] || rm -rf "$runtime_tmp"
-        fatal "The installed Hyprland cannot parse this Tsugumori configuration. No user configuration has been replaced."
+        fatal "The installed Hyprland cannot parse this Wille configuration. No user configuration has been replaced."
     fi
 
     # Validate the exact effective configuration before deployment. A preserved
@@ -368,7 +378,7 @@ validate_hyprland_config() {
         # so the deployed user-owned symlink itself is preserved.
         cp -L "$CONFIG_HOME/hypr/user.lua" "$candidate_root/hypr/user.lua"
     fi
-    write_tsugumori_options "$candidate_root/hypr/tsugumori_options.lua" false
+    write_wille_options "$candidate_root/hypr/wille_options.lua" false
     candidate_config="$candidate_root/hypr/hyprland.lua"
 
     if ! XDG_RUNTIME_DIR="$runtime_dir" Hyprland --verify-config --config "$candidate_config"; then
@@ -662,8 +672,8 @@ deploy_configs() {
             btop)      src="$CLONE_DIR/config/kitty/btop.conf" ;;
         esac
         [[ -e "$src" ]] || { warn "Skipping $name (not in repo)."; continue; }
-        if [[ "$name" == "btop" && ! -f "$CLONE_DIR/config/kitty/tsugumori-btop.theme" ]]; then
-            fatal "Missing btop theme: config/kitty/tsugumori-btop.theme"
+        if [[ "$name" == "btop" && ! -f "$CLONE_DIR/config/kitty/wille-btop.theme" ]]; then
+            fatal "Missing btop theme: config/kitty/wille-btop.theme"
         fi
 
         if [[ -e "$dest" ]]; then
@@ -682,7 +692,7 @@ deploy_configs() {
             fastfetch) install -Dm644 "$src" "$dest/config.jsonc" ;;
             btop)
                 install -Dm644 "$src" "$dest/btop.conf"
-                install -Dm644 "$CLONE_DIR/config/kitty/tsugumori-btop.theme" "$dest/themes/tsugumori.theme"
+                install -Dm644 "$CLONE_DIR/config/kitty/wille-btop.theme" "$dest/themes/wille.theme"
                 ;;
             *) cp -r "$src" "$dest" ;;
         esac
@@ -704,7 +714,7 @@ deploy_configs() {
 -- Personal Hyprland Lua overrides.
 --
 -- The installer preserves this file across upgrades. It loads after the
--- Tsugumori defaults, so later hl.config calls override matching base values.
+-- Wille defaults, so later hl.config calls override matching base values.
 -- Replace an existing bind with hl.unbind("KEYS") followed by hl.bind(...).
 --
 -- Examples:
@@ -740,7 +750,7 @@ build_nautilus_theme() {
     read -r -a gtk_flags <<< "$flags"
     gcc -shared -fPIC -O2 -Wall -Wextra -Wl,-z,relro,-z,now \
         -o "$CLONE_DIR/filechooser-gtk3.so" \
-        "$CLONE_DIR/config/nautilus/tsugumori/filechooser-gtk3.c" "${gtk_flags[@]}" \
+        "$CLONE_DIR/config/nautilus/wille/filechooser-gtk3.c" "${gtk_flags[@]}" \
         || fatal "Could not build the GTK 3 file-dialog theme. No theme files were installed."
 }
 
@@ -764,13 +774,13 @@ if any(char in str(config) for char in ":\n\r"):
     raise SystemExit("The GTK module path cannot contain a colon or newline.")
 
 # Each entry is a file we own. Do not replace Nautilus, GTK or extension folders.
-theme = source / "config/nautilus/tsugumori"
-files = {config / "nautilus/tsugumori" / path.relative_to(theme): path
+theme = source / "config/nautilus/wille"
+files = {config / "nautilus/wille" / path.relative_to(theme): path
          for path in theme.rglob("*") if path.is_file() or path.is_symlink()}
-files[data / "nautilus-python/extensions/tsugumori.py"] = source / "config/nautilus/tsugumori.py"
-files[config / "nautilus/tsugumori/filechooser-gtk3.so"] = source / "filechooser-gtk3.so"
+files[data / "nautilus-python/extensions/wille.py"] = source / "config/nautilus/wille.py"
+files[config / "nautilus/wille/filechooser-gtk3.so"] = source / "filechooser-gtk3.so"
 css = config / "gtk-4.0/gtk.css"
-environment = config / "environment.d/80-tsugumori-filechooser.conf"
+environment = config / "environment.d/80-wille-filechooser.conf"
 
 # Validate every destination before writing. Shared dotfile symlinks must be
 # managed by their owner, and should never be replaced or followed silently.
@@ -798,7 +808,7 @@ for target, original in files.items():
         contents[target] = original.read_bytes()
 
 css_text = css.read_text() if css.exists() else ""
-import_line = '@import url("../nautilus/tsugumori/filechooser-gtk4.css");'
+import_line = '@import url("../nautilus/wille/filechooser-gtk4.css");'
 if import_line not in css_text.splitlines():
     css_text = import_line + "\n" + css_text
 contents[css] = css_text.encode()
@@ -808,7 +818,7 @@ contents[css] = css_text.encode()
 env_text = environment.read_text() if environment.exists() else ""
 env_lines = [line for line in env_text.splitlines()
              if not line.lstrip().startswith("GTK3_MODULES=")]
-env_lines.append('GTK3_MODULES="${GTK3_MODULES:+${GTK3_MODULES}:}${XDG_CONFIG_HOME:-${HOME}/.config}/nautilus/tsugumori/filechooser-gtk3.so"')
+env_lines.append('GTK3_MODULES="${GTK3_MODULES:+${GTK3_MODULES}:}${XDG_CONFIG_HOME:-${HOME}/.config}/nautilus/wille/filechooser-gtk3.so"')
 contents[environment] = ("\n".join(env_lines) + "\n").encode()
 
 for target, content in contents.items():
@@ -825,7 +835,7 @@ for target, content in contents.items():
         shutil.copy2(target, saved, follow_symlinks=False)
     target.parent.mkdir(parents=True, exist_ok=True)
     if content is None:
-        descriptor, temporary = tempfile.mkstemp(prefix=".tsugumori-", dir=target.parent)
+        descriptor, temporary = tempfile.mkstemp(prefix=".wille-", dir=target.parent)
         os.close(descriptor)
         Path(temporary).unlink()
         try:
@@ -835,7 +845,7 @@ for target, content in contents.items():
             Path(temporary).unlink(missing_ok=True)
         continue
     mode = stat.S_IMODE(target.stat().st_mode) if target.exists() else 0o644
-    descriptor, temporary = tempfile.mkstemp(prefix=".tsugumori-", dir=target.parent)
+    descriptor, temporary = tempfile.mkstemp(prefix=".wille-", dir=target.parent)
     try:
         with os.fdopen(descriptor, "wb") as stream:
             os.fchmod(stream.fileno(), mode)
@@ -848,27 +858,27 @@ PY
 }
 
 install_lock_background() {
-    local bundled="$CLONE_DIR/assets/wallpapers/Aleph1.png"
+    local bundled="$CLONE_DIR/assets/wallpapers/Wille1.png"
     local output="$CONFIG_HOME/hypr/lockbg.png"
 
-    log "Installing the bundled Tsugumori wallpaper for Hyprlock…"
+    log "Installing the bundled Wille wallpaper for Hyprlock…"
     if [[ -s "$bundled" ]] && install -m 644 "$bundled" "$output"; then
         ok "Installed Hyprlock background: $output"
         return 0
     fi
 
-    warn "Aleph1.png is unavailable; Hyprlock will use its configured solid-color fallback."
+    warn "Wille1.png is unavailable; Hyprlock will use its configured solid-color fallback."
 }
 
 warn_legacy_pam() {
     if [[ -e /etc/pam.d/qs-lock ]]; then
-        warn "Legacy /etc/pam.d/qs-lock remains from an older Tsugumori install. It is no longer used; review and remove it manually after confirming no local service depends on it."
+        warn "Legacy /etc/pam.d/qs-lock remains from an older Wille install. It is no longer used; review and remove it manually after confirming no local service depends on it."
     fi
 }
 
 # Render the installer-owned options module atomically, without ever modifying
 # preserved user.lua. Re-rendering false values also removes stale --vm state.
-write_tsugumori_options() {
+write_wille_options() {
     local target="$1"
     local report_changes="${2:-true}"
     local vm_software_gl=false boot_wallpaper=false target_dir tmp
@@ -878,9 +888,9 @@ write_tsugumori_options() {
 
     target_dir=$(dirname -- "$target")
     mkdir -p "$target_dir"
-    tmp=$(mktemp "$target_dir/.tsugumori_options.lua.XXXXXX")
+    tmp=$(mktemp "$target_dir/.wille_options.lua.XXXXXX")
     {
-        printf '%s\n' '-- Managed by the Tsugumori installer. Personal settings belong in user.lua.'
+        printf '%s\n' '-- Managed by the Wille installer. Personal settings belong in user.lua.'
         printf '%s\n' 'return {'
         printf '    vm_software_gl = %s,\n' "$vm_software_gl"
         printf '    boot_wallpaper = %s,\n' "$boot_wallpaper"
@@ -917,7 +927,7 @@ deploy_shell_config() {
         fi
     fi
 
-    log "Installing Tsugumori .bashrc (welcome banner enabled)…"
+    log "Installing Wille .bashrc (welcome banner enabled)…"
     local bashrc_stage
     bashrc_stage=$(mktemp "$HOME/.bashrc.XXXXXX")
     if ! install -m 644 -- "$bashrc_src" "$bashrc_stage" \
@@ -929,7 +939,7 @@ deploy_shell_config() {
     # Create empty user override if missing
     if [[ ! -f "$HOME/.bashrc.local" ]]; then
         cat > "$HOME/.bashrc.local" <<'OVR'
-# Tsugumori user overrides — never touched by updates.
+# Wille user overrides — never touched by updates.
 # Put your personal aliases, functions, exports here.
 #
 # Examples:
@@ -1020,8 +1030,92 @@ finalize() {
     fi
     echo
     echo "  ${C_BOLD}Docs & support:${C_RESET}"
-    echo "    https://github.com/Aleph1-9012/Tsugumori#readme"
+    echo "    https://github.com/YOUR_GITHUB_USER/Wille#readme"
     echo
+}
+
+# ─── Migration from the former "Tsugumori" name ─────────────────────
+# Earlier releases used the name "tsugumori" for data, fonts, Nautilus assets
+# and the GTK file-dialog module. Move what the user created, and remove only
+# files that the installer itself created under the old name.
+legacy_backup_and_remove() {
+    local path="$1" root="$2" kind="$3" rel saved
+    [[ -e "$path" || -L "$path" ]] || return 0
+    if $BACKUP_OLD; then
+        rel="${path#"$root"/}"
+        saved="$BACKUP_DIR/$kind/$rel"
+        mkdir -p -- "$(dirname -- "$saved")"
+        if [[ ! -e "$saved" && ! -L "$saved" ]]; then
+            cp -a -- "$path" "$saved" || warn "Could not back up $path before removing it."
+        fi
+    fi
+    rm -rf -- "$path"
+}
+
+# User data (notes, clipboard history) is moved, never deleted.
+migrate_legacy_data() {
+    local data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
+    local old="$data_home/tsugumori" new="$data_home/wille"
+    [[ -e "$old" || -L "$old" ]] || return 0
+    if [[ -e "$new" || -L "$new" ]]; then
+        warn "Both $old and $new exist; leaving the old data untouched."
+        return 0
+    fi
+    log "Migrating notes and clipboard history to $new..."
+    if mv -- "$old" "$new"; then
+        ok "Moved $old to $new."
+    else
+        warn "Could not move $old; your notes and clipboard history stay at the old path."
+    fi
+}
+
+# Run after deploy_configs: the preserved Settings.qml still holds the old
+# default accent. Replace only that exact default, never a custom colour.
+migrate_legacy_user_files() {
+    local settings="$CONFIG_HOME/quickshell/settings/Settings.qml"
+    if [[ -f "$settings" && ! -L "$settings" ]] \
+        && grep -q 'curtainColor: "#cc1515"' "$settings"; then
+        sed -i 's/curtainColor: "#cc1515"/curtainColor: "#1ec8f0"/' "$settings" \
+            && ok "Updated the legacy curtain colour in Settings.qml to the Wille accent."
+    fi
+    local file
+    for file in "$CONFIG_HOME/hypr/user.lua" "$CONFIG_HOME/hypr/user.conf" "$HOME/.bashrc.local"; do
+        [[ -f "$file" ]] || continue
+        if grep -qi 'tsugumori' "$file"; then
+            warn "$file still mentions \"tsugumori\". It is yours and was not changed; rename those entries (IPC target: willeShell)."
+        fi
+    done
+}
+
+# Run after the new fonts and Nautilus assets are in place.
+cleanup_legacy_install() {
+    local data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+    if [[ -e "$data_home/fonts/Tsugumori" ]]; then
+        legacy_backup_and_remove "$data_home/fonts/Tsugumori" "$data_home" data
+        command -v fc-cache >/dev/null 2>&1 && fc-cache -f "$data_home/fonts" >/dev/null 2>&1 || true
+        ok "Removed the old bundled font folder."
+    fi
+
+    [[ -n "${HOME:-}" ]] && rm -rf -- "$HOME/.cache/tsugumori"
+    [[ -n "${XDG_RUNTIME_DIR:-}" && -d "$XDG_RUNTIME_DIR/tsugumori" ]] \
+        && rm -rf -- "$XDG_RUNTIME_DIR/tsugumori"
+
+    ${INSTALL_NAUTILUS:-false} || return 0
+
+    legacy_backup_and_remove "$CONFIG_HOME/nautilus/tsugumori" "$CONFIG_HOME" config
+    legacy_backup_and_remove "$data_home/nautilus-python/extensions/tsugumori.py" "$data_home" data
+    legacy_backup_and_remove "$CONFIG_HOME/environment.d/80-tsugumori-filechooser.conf" "$CONFIG_HOME" config
+
+    local css="$CONFIG_HOME/gtk-4.0/gtk.css"
+    if [[ -f "$css" && ! -L "$css" ]] && grep -q 'nautilus/tsugumori/' "$css"; then
+        if $BACKUP_OLD; then
+            mkdir -p -- "$BACKUP_DIR/config/gtk-4.0"
+            [[ -e "$BACKUP_DIR/config/gtk-4.0/gtk.css" ]] || cp -a -- "$css" "$BACKUP_DIR/config/gtk-4.0/gtk.css"
+        fi
+        sed -i '\|nautilus/tsugumori/|d' "$css"
+        ok "Removed the old GTK 4 file-dialog import."
+    fi
 }
 
 main() {
@@ -1033,13 +1127,16 @@ main() {
     install_packages
     validate_font_assets
     validate_wallpaper_runtime
-    write_tsugumori_options "$CLONE_DIR/config/hypr/tsugumori_options.lua"
+    write_wille_options "$CLONE_DIR/config/hypr/wille_options.lua"
     validate_lock_runtime
     validate_hyprland_config
     prepare_nautilus_theme
     deploy_configs
+    migrate_legacy_data
+    migrate_legacy_user_files
     deploy_nautilus_theme
     install_font_assets
+    cleanup_legacy_install
     install_lock_background
     warn_legacy_pam
     deploy_shell_config

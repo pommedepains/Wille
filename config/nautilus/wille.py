@@ -1,4 +1,4 @@
-"""Tsugumori appearance, isolated to Nautilus's existing process.
+"""Wille appearance, isolated to Nautilus's existing process.
 
 Native file operations and controls remain intact. GTK events drive the
 cosmetic adjustments; there is no polling or animation timer.
@@ -16,7 +16,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Nautilus", "4.1")
 from gi.repository import Adw, Gdk, Gio, GLib, GObject, Gtk, Nautilus
 
-THEME = Path(GLib.get_user_config_dir()) / "nautilus" / "tsugumori"
+THEME = Path(GLib.get_user_config_dir()) / "nautilus" / "wille"
 
 
 def descendants(widget):
@@ -27,7 +27,7 @@ def descendants(widget):
         child = child.get_next_sibling()
 
 
-class TsugumoriTheme(GObject.GObject, Nautilus.MenuProvider):
+class WilleTheme(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         super().__init__()
         self.pending = set()
@@ -44,7 +44,7 @@ class TsugumoriTheme(GObject.GObject, Nautilus.MenuProvider):
         icons = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
         icons.add_search_path(str(THEME / "icons"))
         # Process-local GtkSettings, never the desktop's global GSettings.
-        Gtk.Settings.get_default().set_property("gtk-icon-theme-name", "TsugumoriNautilus")
+        Gtk.Settings.get_default().set_property("gtk-icon-theme-name", "WilleNautilus")
         self.provider = Gtk.CssProvider()
         self.provider.connect("parsing-error", self._css_error)
         self._load_css()
@@ -79,13 +79,13 @@ class TsugumoriTheme(GObject.GObject, Nautilus.MenuProvider):
             self._load_css()
 
     def _css_error(self, _provider, section, error):
-        print("Tsugumori CSS:", section.to_string(), error.message, flush=True)
+        print("Wille CSS:", section.to_string(), error.message, flush=True)
 
     def _windows_changed(self, *_args):
         for index in range(self.windows.get_n_items()):
             window = self.windows.get_item(index)
-            if window.has_css_class("nautilus-window") and not window.has_css_class("tsugumori"):
-                window.add_css_class("tsugumori")
+            if window.has_css_class("nautilus-window") and not window.has_css_class("wille"):
+                window.add_css_class("wille")
                 window.connect("map", self._queue)
                 window.connect("notify::active-slot", self._queue)
                 self._queue(window)

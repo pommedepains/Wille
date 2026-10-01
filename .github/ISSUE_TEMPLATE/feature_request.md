@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea or improvement for Tsugumori
+about: Suggest an idea or improvement for Wille
 title: "[FEATURE] "
 labels: enhancement
 assignees: ''

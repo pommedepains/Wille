@@ -29,7 +29,7 @@ class NativeIntegrationTests(unittest.TestCase):
                 self.assertFalse(refs - members, (path, refs - members))
 
     def test_startup_check_accepts_native_files_without_videos(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="tsugumori-native-check-") as temp:
+        with tempfile.TemporaryDirectory(prefix="wille-native-check-") as temp:
             env = {**os.environ, "XDG_CONFIG_HOME": str(REPO / "config"), "XDG_CACHE_HOME": temp}
             result = subprocess.run(["bash", str(SHELL / "wave-check.sh")], env=env,
                                     capture_output=True, text=True)
@@ -48,7 +48,7 @@ class NativeIntegrationTests(unittest.TestCase):
         for asset in assets:
             for empty in (False, True):
                 with self.subTest(asset=asset, empty=empty), tempfile.TemporaryDirectory(
-                    prefix="tsugumori-native-assets-"
+                    prefix="wille-native-assets-"
                 ) as temp:
                     root = Path(temp)
                     widgets = root / "config/quickshell/widgets"
@@ -90,7 +90,7 @@ class NativeIntegrationTests(unittest.TestCase):
             self.assertIn(key, bindings)
 
     def test_terminal_noninteractive_use_is_silent(self) -> None:
-        for name in ("tsugumori-welcome.sh", "tsugumori-prompt.sh"):
+        for name in ("wille-welcome.sh", "wille-prompt.sh"):
             result = subprocess.run(["bash", str(SHELL / name)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(result.stdout, "")

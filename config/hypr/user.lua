@@ -2,7 +2,7 @@
 --
 -- The installer preserves this file across upgrades. Keep machine-specific
 -- monitors, bindings, environment variables, and theme tweaks here. This file
--- is loaded after Tsugumori's defaults, so later hl.config() calls take effect.
+-- is loaded after Wille's defaults, so later hl.config() calls take effect.
 -- Use hl.unbind() before replacing an existing keybind.
 --
 -- Examples:

@@ -169,7 +169,7 @@ class BridgeProcess:
 
 class MpvCtlBridgeTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-mpv-test-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-mpv-test-")
         self.socket_path = Path(self.tempdir.name) / "mpv.sock"
         self.resources: list[FakeMpvServer | BridgeProcess] = []
 

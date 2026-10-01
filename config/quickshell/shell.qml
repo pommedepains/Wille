@@ -449,8 +449,8 @@ ShellRoot {
 
     // ── LOCAL MUSIC ──
     readonly property string homeDir: String(Quickshell.env("HOME") || "")
-    readonly property string runtimeBase: Quickshell.env("XDG_RUNTIME_DIR") || (homeDir + "/.cache/tsugumori/runtime")
-    readonly property string runtimeDir: runtimeBase + (Quickshell.env("XDG_RUNTIME_DIR") ? "/tsugumori" : "")
+    readonly property string runtimeBase: Quickshell.env("XDG_RUNTIME_DIR") || (homeDir + "/.cache/wille/runtime")
+    readonly property string runtimeDir: runtimeBase + (Quickshell.env("XDG_RUNTIME_DIR") ? "/wille" : "")
     property var    localTracks: []
     property bool   localMode: false
     readonly property string mpvSocket: runtimeDir + "/mpv.sock"
@@ -768,7 +768,7 @@ ShellRoot {
             margins.top:Math.max(0, Math.round((modelData.height-playerItem.collapsedHeight)*Settings.playerPositionY))
             margins.right:Settings.playerMarginRight
             exclusionMode:ExclusionMode.Ignore
-            WlrLayershell.namespace: "tsugumori-player"
+            WlrLayershell.namespace: "wille-player"
             WlrLayershell.layer: root.playerOnTop ? WlrLayer.Overlay : WlrLayer.Bottom
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
             color:"transparent"

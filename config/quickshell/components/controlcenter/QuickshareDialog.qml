@@ -42,7 +42,7 @@ Frame {
         spacing: 12
         Row {
             width: parent.width; spacing: 9
-            Rectangle { y: 4; width: 7; height: 7; color: "#cc1515" }
+            Rectangle { y: 4; width: 7; height: 7; color: "#1ec8f0" }
             Text {
                 width: parent.width - 16
                 text: (dialog.controller.qshareLabel.indexOf("receiving") === 0 ? "RECEIVE" : "SEND")
@@ -85,8 +85,8 @@ Frame {
                         x: index % 2 === 0 ? -4 : qrFrame.width - 6
                         y: index < 2 ? -4 : qrFrame.height - 6
                         width: 10; height: 10
-                        Rectangle { width: 10; height: 2; y: parent.index < 2 ? 0 : 8; color: "#cc1515" }
-                        Rectangle { width: 2; height: 10; x: parent.index % 2 === 0 ? 0 : 8; color: "#cc1515" }
+                        Rectangle { width: 10; height: 2; y: parent.index < 2 ? 0 : 8; color: "#1ec8f0" }
+                        Rectangle { width: 2; height: 10; x: parent.index % 2 === 0 ? 0 : 8; color: "#1ec8f0" }
                     }
                 }
             }

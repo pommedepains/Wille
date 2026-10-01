@@ -14,8 +14,8 @@ do not load it. Move any settings you still need into `user.lua`.
 
 Only one notification service can run at a time. If dunst, mako, swaync, or
 another notification daemon is already running, it will receive notifications
-instead of Tsugumori. Disable that daemon through its own service or autostart
-configuration if you want to use Tsugumori's notification panel.
+instead of Wille. Disable that daemon through its own service or autostart
+configuration if you want to use Wille's notification panel.
 
 ## The desktop shell needs restarting
 
@@ -50,14 +50,14 @@ the damaged file under a unique `notes.json.damaged-*` name. Recovery is only
 available before editing begins. If no valid backup exists, the drawer leaves
 the original file untouched for manual recovery.
 
-The data directory is `$XDG_DATA_HOME/tsugumori`, falling back to
-`~/.local/share/tsugumori`. Keep it when reinstalling or removing the widget.
+The data directory is `$XDG_DATA_HOME/wille`, falling back to
+`~/.local/share/wille`. Keep it when reinstalling or removing the widget.
 The previous-file backup is not unlimited history, and deletion Undo only
 lasts for the current shell session.
 
 ## Lock-screen fallback
 
-If the Quickshell lock cannot start safely, Tsugumori starts Hyprlock instead.
+If the Quickshell lock cannot start safely, Wille starts Hyprlock instead.
 An unused `/etc/pam.d/qs-lock` file can remain after upgrading from an older
 version. Remove it only after confirming that no local service uses it.
 

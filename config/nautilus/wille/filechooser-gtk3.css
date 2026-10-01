@@ -1,0 +1,77 @@
+/* GTK 3 file dialogs only. The module adds this class to GtkFileChooserDialog. */
+.wille-filechooser {
+  background: #0d0d0e;
+  color: #dbdcde;
+  font-family: "IBM Plex Sans", "Inter", sans-serif;
+  font-size: 14px;
+  border-radius: 0;
+}
+.wille-filechooser decoration { border-radius: 0; box-shadow: none; border: 1px solid #262627; }
+.wille-filechooser headerbar {
+  background: #0d0d0e;
+  color: #dbdcde;
+  border: 0;
+  border-bottom: 1px solid #262627;
+  box-shadow: none;
+  min-height: 48px;
+  padding: 6px 12px;
+}
+.wille-filechooser headerbar .title { font: 13px "JetBrains Mono"; color: #aaa9a5; }
+.wille-filechooser filechooser,
+.wille-filechooser .view,
+.wille-filechooser .sidebar,
+.wille-filechooser viewport,
+.wille-filechooser list,
+.wille-filechooser actionbar {
+  background: #0d0d0e;
+  color: #afb3b8;
+  border-radius: 0;
+  box-shadow: none;
+}
+.wille-filechooser filechooser { -gtk-icon-style: symbolic; }
+.wille-filechooser button {
+  background: transparent;
+  color: #a6acb1;
+  border: 1px solid transparent;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  min-height: 24px;
+  padding: 5px 10px;
+  transition: background-color 120ms ease-out, color 120ms ease-out;
+}
+.wille-filechooser button:hover { background: #1a1a1c; color: #dcdee0; }
+.wille-filechooser button:checked,
+.wille-filechooser button:active { background: #191919; color: #dcdee0; box-shadow: inset 0 -1px #1ec8f0; }
+.wille-filechooser button.suggested-action { background: #1ec8f0; color: #0d0d0e; border-color: #1ec8f0; padding-left: 22px; padding-right: 22px; }
+.wille-filechooser button.suggested-action:hover { background: #43c4e5; border-color: #43c4e5; }
+.wille-filechooser button:disabled { color: #606061; background: transparent; border-color: transparent; }
+.wille-filechooser button:focus,
+.wille-filechooser entry:focus { outline: none; box-shadow: inset 0 -1px #1ec8f0; }
+.wille-filechooser #pathbarbox { background: #0d0d0e; border-bottom: 1px solid #262627; padding: 6px 8px; }
+.wille-filechooser .path-bar button { font: 13px "JetBrains Mono"; border: 0; }
+.wille-filechooser .path-bar button:checked { background: transparent; color: #dcdee0; box-shadow: inset 0 -1px #1ec8f0; }
+.wille-filechooser placessidebar { border: 0; border-right: 1px solid #262627; }
+.wille-filechooser placessidebar list { padding: 12px 8px; }
+.wille-filechooser placessidebar row { min-height: 22px; padding: 7px 8px; margin: 1px 0; border-radius: 0; color: #a5a5a3; }
+.wille-filechooser placessidebar row:selected { background: #191919; color: #dcdee0; box-shadow: inset 2px 0 #1ec8f0; outline: none; }
+.wille-filechooser placessidebar row:hover:not(:selected) { background: #161617; }
+.wille-filechooser placessidebar image { color: #8b8b88; }
+.wille-filechooser placessidebar row:selected image { color: #bcc0c4; }
+.wille-filechooser treeview { outline: none; -GtkTreeView-vertical-separator: 12; }
+.wille-filechooser treeview header button { background: #0d0d0e; color: #929295; border: 0; border-bottom: 1px solid #262627; font: 11px "JetBrains Mono"; padding: 7px 8px; }
+.wille-filechooser treeview:selected { background: #191919; color: #dcdee0; outline: none; border: 0; }
+.wille-filechooser treeview:focus { outline: none; }
+.wille-filechooser treeview:selected:focus { box-shadow: inset 0 -1px #1ec8f0; }
+.wille-filechooser entry { background: #121213; color: #dedede; border: 1px solid #262627; border-bottom-color: #1ec8f0; border-radius: 0; padding: 7px 10px; caret-color: #1ec8f0; }
+.wille-filechooser entry selection { background: #19324b; color: #ededed; }
+.wille-filechooser separator { background: #262627; }
+.wille-filechooser paned > separator { min-width: 1px; min-height: 1px; background: #262627; }
+.wille-filechooser scrollbar { background: #0d0d0e; border: 0; }
+.wille-filechooser scrollbar slider { background: #393939; min-width: 3px; min-height: 3px; border: 0; border-radius: 0; }
+.wille-filechooser popover,
+.wille-filechooser menu { background: #0d0d0e; color: #dedede; border: 1px solid #262627; border-radius: 0; box-shadow: none; }
+.wille-filechooser menuitem { background: transparent; color: #dedede; padding: 7px 10px; }
+.wille-filechooser menuitem:hover { background: #1a1a1c; box-shadow: inset 1px 0 #1ec8f0; }
+.wille-filechooser rubberband { background: rgba(30,200,240,0.05); border: 1px solid #1ec8f0; border-radius: 0; }

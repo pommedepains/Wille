@@ -18,7 +18,7 @@ QML_TEST_RUNNER = "/usr/lib/qt6/bin/qmltestrunner"
 
 class PlayerTests(unittest.TestCase):
     def setUp(self) -> None:
-        temp = tempfile.TemporaryDirectory(prefix="tsugumori-player-test-")
+        temp = tempfile.TemporaryDirectory(prefix="wille-player-test-")
         self.addCleanup(temp.cleanup)
         self.path = Path(temp.name)
 

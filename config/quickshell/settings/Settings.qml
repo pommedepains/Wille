@@ -2,8 +2,8 @@ pragma Singleton
 import QtQuick
 
 // ╔══════════════════════════════════════════════════════════════╗
-// ║  SETTINGS — Tsugumori shell configuration options            ║
-// ║  Edit these values to customize shell behavior.                ║
+// ║  SETTINGS — Wille shell configuration options                ║
+// ║  Edit these values to customize shell behavior.              ║
 // ╚══════════════════════════════════════════════════════════════╝
 
 QtObject {
@@ -40,7 +40,7 @@ QtObject {
 
     // ── ANIMATIONS ──────────────────────────────────────────────
 
-    readonly property color curtainColor: "#cc1515"  // Red stencil curtain.
+    readonly property color curtainColor: "#1ec8f0"  // Cyan stencil curtain.
 
     // Reveal duration (ms).
     readonly property int revealDuration: 460
@@ -55,7 +55,7 @@ QtObject {
 
 
     // ── SHORTCUTS (also declared in hyprland.lua) ───────────────
-    //   SUPER+RETURN        →  qs ipc call tsugumoriShell togglePlayer  (show/hide player)
-    //   SUPER+SHIFT+RETURN  →  qs ipc call tsugumoriShell toggleFront   (front/back)
+    //   SUPER+RETURN        →  qs ipc call willeShell togglePlayer  (show/hide player)
+    //   SUPER+SHIFT+RETURN  →  qs ipc call willeShell toggleFront   (front/back)
 
 }

@@ -26,7 +26,7 @@ Item {
             compare(field.status, ShaderEffect.Compiled);
             compare(glyph.status, ShaderEffect.Compiled);
             var frame = grabImage(scene), count = 0;
-            for (var y = 0; y < 84; y++) for (var x = 0; x < 500; x++) if (frame.red(x,y) > 20) count++;
+            for (var y = 0; y < 84; y++) for (var x = 0; x < 500; x++) if (frame.blue(x,y) > 20) count++;
             verify(count > 200, "GPU field must render visible strokes");
         }
     }

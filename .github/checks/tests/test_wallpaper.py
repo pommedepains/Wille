@@ -15,7 +15,7 @@ PICKER_QML = REPO_ROOT / "config/quickshell/widgets/WallpaperPicker.qml"
 
 class WallpaperCommandTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-wallpaper-test-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-wallpaper-test-")
         self.root = Path(self.tempdir.name)
         self.bin_dir = self.root / "bin"
         self.bin_dir.mkdir()

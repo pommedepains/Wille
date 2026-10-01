@@ -2,21 +2,21 @@
 
 ## Terminal and widgets
 
-The terminal uses the R2-A header, a glyph illustration, bold 704 badge, and
-SID0NIA band, separated from the first prompt by one blank line. Kitty uses
+The terminal uses the Wille terminal header, a glyph illustration, bold 3I badge, and
+MAGI-03 band, separated from the first prompt by one blank line. Kitty uses
 JetBrains Mono with a block cursor. The P4 Bash prompt places the current
-directory beside a thin divider, with red brackets around the Git branch at
-the right. The brackets remain empty outside Git repositories. A red corner
+directory beside a thin divider, with cyan brackets around the Git branch at
+the right. The brackets remain empty outside Git repositories. A cyan corner
 marks the command line below; failed commands also show their exit status.
 The welcome script uses Kitty's text-sizing protocol where available and
 normal text elsewhere. Neither script prints into pipes or logs, and the
 prompt hook runs only in interactive shells.
 
 Fastfetch uses a compact glyph beside native system and hardware readings.
-btop uses charcoal frames, red activity and selection, square corners, and a
-SID0NIA clock label. Its CPU, memory, network, and process panels remain native.
+btop uses charcoal frames, cyan activity and selection, square corners, and a
+MAGI-03 clock label. Its CPU, memory, network, and process panels remain native.
 
-Player, Quick Notes, Clipboard, and Quickshare share the red illustrated
+Player, Quick Notes, Clipboard, and Quickshare share the cyan illustrated
 curtain. The player's opening and closing timing is 25% longer. Quick Notes
 has a COPY/COPIED button beside its save status, sized to match the new-note
 button, and copies only the body. Clipboard keeps the grid inside its content area, leaves its header
@@ -35,14 +35,14 @@ backlight power. Runtime state remains outside the repository.
 Volume and mute are available in the Control Center and through the volume
 keys. There is no separate left-edge volume popup or hover area.
 
-Quickshare uses a charcoal, light, and red glyph-style QR image. Tests check
+Quickshare uses a charcoal, light, and cyan glyph-style QR image. Tests check
 module centres and protected QR regions. These checks do not replace scanning
 the displayed result with a phone.
 
 ## Native lock and wallpaper picker
 
 The lock replaces the old video wave with native Phase drawing. It has the K
-glyph's stronger red typing response, a panel scaled to 132.25% of its original
+glyph's stronger cyan typing response, a panel scaled to 132.25% of its original
 size with a small-screen fit guard, and four animated corners. The username, clock, date, and password field use the approved layout.
 Compact restart and shutdown buttons sit at the panel's bottom right and require
 confirmation. Power requests do not release the compositor lock.
@@ -54,7 +54,7 @@ fallback. The visual tests do not authenticate against a real session. The
 wallpaper picker shares the visual components only, including the Phase motion
 and live corners. It can reverse an early close request and applies a selected
 wallpaper after closing. Preview cards fill their image area without letterbox
-padding and show the filename beside the red counter. The dark apply panel
+padding and show the filename beside the cyan counter. The dark apply panel
 uses the menu's bracketed buttons; wallpaper files remain unchanged.
 
 GPU drawing uses the compiled shaders in
@@ -71,5 +71,5 @@ versions are recoverable from Git history.
 
 The installer preserves the user's `hypr/user.lua` and Quickshell
 `Settings.qml`. On an existing installation, review the latter if the curtain
-is still white: the new default is `curtainColor: "#cc1515"`. Do not replace
+is still white: the new default is `curtainColor: "#1ec8f0"`. Do not replace
 personal monitor or scaling settings just to update the colour.

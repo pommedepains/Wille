@@ -22,15 +22,15 @@ Scope {
     property double now: Date.now()
     // Clipboard-only scale; leave the other desktop widgets unchanged.
     readonly property real s: Math.max(0.5, Settings.scale) * 0.9
-    readonly property bool reducedMotion: Quickshell.env("TSUGUMORI_REDUCED_MOTION") === "1" || Settings.revealDuration <= 0
+    readonly property bool reducedMotion: Quickshell.env("WILLE_REDUCED_MOTION") === "1" || Settings.revealDuration <= 0
     readonly property bool dark: Settings.clipboardDark
-    readonly property color paper: dark ? "#111112" : "#c8c8c4"
+    readonly property color paper: dark ? "#111112" : "#c4c6c8"
     readonly property color ink: dark ? "#c5c4c2" : "#252424"
-    readonly property color muted: dark ? "#92908e" : "#62605a"
+    readonly property color muted: dark ? "#92908e" : "#5a5e62"
     readonly property color line: dark ? "#373435" : "#a4a4a0"
     readonly property color faint: dark ? "#282526" : "#b4b4b0"
-    readonly property color accent: "#d4161c"
-    readonly property color actionInk: dark ? "#ee5155" : "#a3181e"
+    readonly property color accent: "#23bfe6"
+    readonly property color actionInk: dark ? "#6ed6ef" : "#1e9cbc"
 
     function show() { requestOpen(false) }
     function toggle() {
@@ -197,7 +197,7 @@ Scope {
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         visible: root.opened || wipeReveal.running || wipeHide.running || root.reveal > 0
-        WlrLayershell.namespace: "tsugumori-clipboard"
+        WlrLayershell.namespace: "wille-clipboard"
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: root.opened ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
         mask: Region { width: root.opened ? panel.width : 0; height: root.opened ? panel.height : 0 }
@@ -674,9 +674,9 @@ Scope {
         property bool reducedMotion: false
         property real uiScale: 1
         property color ink: "#252424"
-        property color muted: "#62605a"
-        property color line: "#c3bcb2"
-        property color accent: "#d4161c"
+        property color muted: "#5a5e62"
+        property color line: "#b6babf"
+        property color accent: "#23bfe6"
         property real fillProgress: 0
         readonly property bool rowHighlighted: selected || hovered
         implicitHeight: 71 * uiScale

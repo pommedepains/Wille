@@ -24,7 +24,7 @@ Button {
     onPressed: summary.stopRoll()
     background: Rectangle {
         color: "#111111"; border.width: 1; border.color: "#858585"
-        Rectangle { x: 1; y: 1; width: (parent.width - 2) * root.fill; height: parent.height - 2; color: "#cc1515" }
+        Rectangle { x: 1; y: 1; width: (parent.width - 2) * root.fill; height: parent.height - 2; color: "#1ec8f0" }
         Rectangle { anchors.fill: parent; anchors.margins: 3; color: "transparent"; border.color: "#e8e8e8"; visible: root.visualFocus }
     }
     contentItem: Column {
@@ -59,7 +59,7 @@ Button {
         Accessible.name: "Dismiss " + root.entry.label
         hoverEnabled: true
         background: Item {
-            Rectangle { anchors.bottom: parent.bottom; width: parent.width * (dismissButton.hovered || dismissButton.visualFocus ? 1 : 0); height: 3; color: "#cc1515"; Behavior on width { NumberAnimation { duration: 220 } } }
+            Rectangle { anchors.bottom: parent.bottom; width: parent.width * (dismissButton.hovered || dismissButton.visualFocus ? 1 : 0); height: 3; color: "#1ec8f0"; Behavior on width { NumberAnimation { duration: 220 } } }
         }
         contentItem: Text { text: "×"; color: "#e8e8e8"; font.pixelSize: 20; horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter }
         onClicked: root.dismissed()

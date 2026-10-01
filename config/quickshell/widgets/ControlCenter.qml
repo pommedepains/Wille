@@ -6,7 +6,7 @@ import "../services"
 import "../components/controlcenter"
 
 // ═════════════════════════════════════════════════════════════════════
-//   Knights of Sidonia Control Center — Quickshell module
+//   Wille Control Center — Quickshell module
 //   Live services with the approved B2 control-center presentation
 //   IPC : qs ipc call ctrl toggle
 // ═════════════════════════════════════════════════════════════════════
@@ -17,8 +17,8 @@ ShellRoot {
     // ── Paths ──
     property string home:          Quickshell.env("HOME")
     property string xdgConfigHome: Quickshell.env("XDG_CONFIG_HOME") || (home + "/.config")
-    readonly property string runtimeBase: Quickshell.env("XDG_RUNTIME_DIR") || (home + "/.cache/tsugumori/runtime")
-    readonly property string runtimeDir: runtimeBase + (Quickshell.env("XDG_RUNTIME_DIR") ? "/tsugumori" : "")
+    readonly property string runtimeBase: Quickshell.env("XDG_RUNTIME_DIR") || (home + "/.cache/wille/runtime")
+    readonly property string runtimeDir: runtimeBase + (Quickshell.env("XDG_RUNTIME_DIR") ? "/wille" : "")
     Process {
         id: runtimeInitProc
         command: ["install", "-d", "-m", "700", root.runtimeDir]
@@ -1368,7 +1368,7 @@ ShellRoot {
             implicitWidth: modelData.width
             implicitHeight: modelData.height
             WlrLayershell.layer: WlrLayer.Top
-            WlrLayershell.namespace: "tsugumori-brightness-dimmer"
+            WlrLayershell.namespace: "wille-brightness-dimmer"
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
             mask: Region { width: 0; height: 0 }

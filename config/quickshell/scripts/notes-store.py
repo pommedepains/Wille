@@ -104,7 +104,7 @@ def run(request):
     data_root = os.environ.get("XDG_DATA_HOME") or str(Path.home() / ".local/share")
     if not os.path.isabs(data_root):
         raise StoreError("path")
-    directory = Path(data_root) / "tsugumori"
+    directory = Path(data_root) / "wille"
     directory.mkdir(mode=0o700, parents=True, exist_ok=True)
     info = directory.lstat()
     if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():

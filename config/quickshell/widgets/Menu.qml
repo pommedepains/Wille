@@ -23,13 +23,13 @@ Item {
     implicitHeight: screenH
 
     // Palette.
-    readonly property color paper:    Qt.rgba(10/255, 10/255, 10/255, 0.88)
-    readonly property color ink:       "#cc1515"
+    readonly property color paper:    Qt.rgba(10/255,10/255,10/255, 0.88)
+    readonly property color ink:       "#1ec8f0"
     readonly property color inkStrong: "#e8e8e8"
     readonly property color inkSoft:   "#909090"
-    readonly property color lineSoft:  Qt.rgba(204/255,21/255,21/255,0.15)
-    readonly property color lineVsoft: Qt.rgba(204/255,21/255,21/255,0.08)
-    readonly property color accent:    "#9e1010"
+    readonly property color lineSoft:  Qt.rgba(30/255,200/255,240/255,0.15)
+    readonly property color lineVsoft: Qt.rgba(30/255,200/255,240/255,0.08)
+    readonly property color accent:    "#1559a2"
 
     // Keep the app-list typography local to this widget.
     FontLoader {
@@ -296,7 +296,7 @@ Item {
                         font.family: Theme.mono
                         font.pixelSize: 11
                         font.letterSpacing: 2
-                        color: "#aaa5a0"
+                        color: "#a0a5aa"
                     }
                 }
 
@@ -306,7 +306,7 @@ Item {
 
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "SID0NIA"
+                        text: "MAGI-03"
                         font.family: Theme.mono
                         font.pixelSize: 10
                         font.letterSpacing: 2
@@ -347,7 +347,7 @@ Item {
                         font.family: Theme.mono
                         font.pixelSize: 11
                         font.letterSpacing: 1
-                        color: "#b0aba6"
+                        color: "#a6abb0"
                     }
                 }
                 Rectangle { anchors.bottom:parent.bottom; width:parent.width; height:1; color:root.lineSoft }
@@ -400,7 +400,7 @@ Item {
                                     anchors { right:parent.right; rightMargin:12; verticalCenter:parent.verticalCenter }
                                     text: root.apps.filter(function(a){ return modelData==="all"||a.cat===modelData }).length.toString().padStart(2,"0")
                                     font.pixelSize:9; font.letterSpacing:1
-                                    color: parent.isActive ? Qt.rgba(204/255,21/255,21/255,0.20) : Qt.rgba(204/255,21/255,21/255,0.12)
+                                    color: parent.isActive ? Qt.rgba(30/255,200/255,240/255,0.20) : Qt.rgba(30/255,200/255,240/255,0.12)
                                 }
                                 MouseArea { id:catMA; anchors.fill:parent; hoverEnabled:true
                                     onClicked: { root.currentCat=modelData; root.focusIdx=-1; searchInput.forceActiveFocus() } }
@@ -502,7 +502,7 @@ Item {
                                             anchors.verticalCenter:parent.verticalCenter
                                             text:"Search application…"
                                             font:searchInput.font
-                                            color:"#99928d"
+                                            color:"#8d9399"
                                         }
                                     }
                                 }
@@ -572,7 +572,7 @@ Item {
                                         font.pixelSize: 11
                                         font.letterSpacing: 0.4
                                         color: appRow.highlighted
-                                               ? "#0a0a0a" : "#b1a8a2"
+                                               ? "#0a0a0a" : "#a4aaaf"
                                         Behavior on color { ColorAnimation { duration:120 } }
                                     }
 
@@ -679,7 +679,7 @@ Item {
                 anchors.bottom: parent.bottom
                 width: parent.width
                 height: 44
-                readonly property bool reducedMotion: Quickshell.env("TSUGUMORI_REDUCED_MOTION") === "1"
+                readonly property bool reducedMotion: Quickshell.env("WILLE_REDUCED_MOTION") === "1"
                 Keys.onEscapePressed: root.closeMenu()
                 Rectangle { anchors.top:parent.top; width:parent.width; height:1; color:root.lineSoft }
 

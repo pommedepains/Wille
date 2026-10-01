@@ -1,26 +1,15 @@
-<h1><samp>TSUGUMORI // 継衛</samp></h1>
+<h1><samp>WILLE // NERV CONTINGENCY SHELL</samp></h1>
 
-<p><samp>KNIGHTS OF SIDONIA-INSPIRED HYPRLAND DESKTOP // ARCH LINUX</samp></p>
+<p><samp>HYPRLAND DESKTOP // ARCH LINUX // BLACK, WHITE AND CYAN</samp></p>
 
-![Type-17: Sidonia / 704](https://img.shields.io/badge/TYPE--17-SIDONIA%20%2F%20704-cc1515?style=flat-square&labelColor=2a2a2a)
-![Hyprland: 0.55.2+](https://img.shields.io/badge/HYPRLAND-0.55.2%2B-cc1515?style=flat-square&labelColor=2a2a2a)
-![License: MIT](https://img.shields.io/badge/LICENSE-MIT-cc1515?style=flat-square&labelColor=2a2a2a)
+![Wille: NERV-C3 / 3I](https://img.shields.io/badge/WILLE-NERV--C3%20%2F%203I-1ec8f0?style=flat-square&labelColor=0a0a0a)
+![Hyprland: 0.55.2+](https://img.shields.io/badge/HYPRLAND-0.55.2%2B-1ec8f0?style=flat-square&labelColor=0a0a0a)
+![License: MIT](https://img.shields.io/badge/LICENSE-MIT-1ec8f0?style=flat-square&labelColor=0a0a0a)
 
-https://github.com/user-attachments/assets/0f27254b-d3ef-4ce7-a7c8-903179d5269e
-<p align="center">
-  <a href="https://youtu.be/nO3lfZ2hsdM">Watch the showcase in higher quality on YouTube</a>
-</p>
-
-## Screenshots
-
-<p align="center">
-  <img width="49%" alt="Tsugumori desktop screenshot 1" src="https://github.com/user-attachments/assets/46133f0e-0af4-4d45-a132-355acf489372">
-  <img width="49%" alt="Tsugumori desktop screenshot 2" src="https://github.com/user-attachments/assets/40c3157f-0e7d-4941-b7ad-318cbc3b7a3e">  
-</p>
-<p align="center">
-  <img width="49%" alt="Tsugumori desktop screenshot 3" src="https://github.com/user-attachments/assets/ad4b8e28-9891-4ba5-a0c5-714d9ceb9823">
-  <img width="49%" alt="Tsugumori desktop screenshot 4" src="https://github.com/user-attachments/assets/19deb533-1a98-40b5-b9c5-4b80b84335a3">
-</p>
+Wille is a Hyprland desktop written as if it were NERV's fallback console,
+rebuilt by Wille for the day the primary systems are gone: black glass, white
+type, one cyan signal, and every panel cut at the corners. Application windows
+are chamfered too, border included.
 
 > [!NOTE]
 > The installer checks the configuration before replacing anything and keeps
@@ -32,29 +21,33 @@ You need Arch Linux, Hyprland 0.55.2 or newer, a normal user account, and
 `sudo` access.
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Aleph1-9012/Tsugumori/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh)
 ```
+
+From a local checkout, run `./install.sh` instead; it installs the committed state
+of that checkout. Replace `YOUR_GITHUB_USER` with the account that hosts the
+repository, or set `WILLE_REPO_URL`.
 
 To see the available installer options without changing your system:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Aleph1-9012/Tsugumori/main/install.sh) --help
+bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/Wille/main/install.sh) --help
 ```
 
-Tsugumori uses official Arch packages. IBM Plex Mono and Share Tech Mono ship
+Wille uses official Arch packages. IBM Plex Mono and Share Tech Mono ship
 with their licenses, so the installer does not need an AUR helper.
 
 ## What you get
 
-- Hyprland with a native Lua configuration and custom keybindings
-- A NieR:Automata-style Control Center with a Knights of Sidonia theme
+- Hyprland with a native Lua configuration, custom keybindings, and chamfered window corners
+- A Control Center with a NERV-console look: chamfered panels, cyan telemetry
 - Quickshell launcher, lock screen, notifications, player, and wallpaper picker
 - Wi-Fi, Bluetooth, audio, per-monitor brightness, and Quickshare controls
 - Standalone quick notes drawer on `SUPER + N`, with local autosave and deletion Undo
 - Clipboard history on `SUPER + C`, with search, image previews, pins, and deletion Undo
 - Compact music player with an artwork glyph matrix, hover colour reveal, and local track drawer
 - Waybar and Kitty configurations, plus themed Fastfetch and btop
-- Native Phase lock and wallpaper-picker transitions, shared red curtains, and bundled wallpapers
+- Native Phase lock and wallpaper-picker transitions, shared cyan curtains, and four bundled wallpapers
 
 See [desktop design and runtime notes](docs/native-desktop.md) for the terminal,
 widgets, fonts, and native animation details.
@@ -68,10 +61,10 @@ widgets, fonts, and native animation details.
 | Quickshell options | [`config/quickshell/settings/Settings.qml`](config/quickshell/settings/Settings.qml) |
 | Terminal appearance | [`config/kitty/kitty.conf`](config/kitty/kitty.conf) |
 | Fastfetch layout | [`config/kitty/fastfetch.jsonc`](config/kitty/fastfetch.jsonc) |
-| btop colors and layout | [`config/kitty/btop.conf`](config/kitty/btop.conf) and [`tsugumori-btop.theme`](config/kitty/tsugumori-btop.theme) |
+| btop colors and layout | [`config/kitty/btop.conf`](config/kitty/btop.conf) and [`wille-btop.theme`](config/kitty/wille-btop.theme) |
 | Waybar | [`config/waybar/`](config/waybar) |
 | Installed applications | [`packages/pacman.txt`](packages/pacman.txt) |
-| Wallpapers | [`assets/wallpapers/`](assets/wallpapers) |
+| Wallpapers | [`assets/wallpapers/`](assets/wallpapers), regenerated by [`tools/generate_wallpapers.py`](tools/generate_wallpapers.py) |
 
 The installer preserves `~/.config/hypr/user.lua` and Quickshell's
 `Settings.qml` during upgrades. See the [customization guide](docs/customize.md)
@@ -113,13 +106,49 @@ restored with Undo during the current shell session.
 |---|---|
 | `config/` | Desktop configuration installed into `~/.config` |
 | `assets/` | Wallpapers and the bundled font |
+| `tools/` | Wallpaper generator |
 | `packages/` | Applications installed by `install.sh` |
 | `docs/` | Customization, controls, help, and software requirements |
 | `.github/` | GitHub checks and issue templates; not installed on the desktop |
 
+## Upgrading from Tsugumori
+
+The project was renamed from Tsugumori to Wille. Run the installer over an
+existing install and it will:
+
+- move notes and clipboard history from `~/.local/share/tsugumori` to `~/.local/share/wille`;
+- replace the managed configuration folders (the old ones are backed up unless you decline);
+- remove the old `tsugumori` fonts, Nautilus theme, extension, and GTK file-dialog module;
+- change `curtainColor` in `Settings.qml` to the new cyan, but only if it still has the old default.
+
+Your own `user.lua`, `user.conf`, and `.bashrc.local` are never rewritten. If
+they mention `tsugumori` (for example `qs ipc call tsugumoriShell`), the
+installer lists them; rename those entries to `willeShell`.
+
+## Window corners
+
+Hyprland rounds corners with a superellipse. At power 2 that is a circle; at
+power 1 the same mask becomes a straight diagonal, a chamfer. `hyprland.lua`
+applies `rounding = 20, rounding_power = 1.0` to every window, which cuts each
+corner by 10 px, and the border follows the cut. The global
+`decoration:rounding_power` option is clamped to 2 or more on 0.55.x, so the bevel
+is a window rule. Quickshell panels draw their own square frames and opt out.
+To go back to rounded corners, add a later rule to `user.lua`, which loads after
+the defaults:
+
+```lua
+hl.window_rule({ name = "my-round", match = { class = ".*" }, rounding = 8, rounding_power = 2.0 })
+```
+
+A wider bevel needs a larger `rounding` (the cut is `rounding * rounding_power / 2`
+pixels per side; Hyprland caps `rounding` at 20, so 10 px is the maximum at power 1).
+Raise `rounding_power` toward 2 for a softer corner. This needs Hyprland 0.55.2 or
+newer, where the per-window rule accepts a power below 2; an older build would
+fall back to ordinary rounded corners.
+
 ## Credits
 
-Inspired by [caelestia-dots/shell](https://github.com/caelestia-dots/shell),
+Wille is derived from Tsugumori by Aleph1-9012 (MIT). Inspired by [caelestia-dots/shell](https://github.com/caelestia-dots/shell),
 [flickowoa/dotfiles](https://github.com/flickowoa/dotfiles), and
 [samyns/Unit-3](https://github.com/samyns/Unit-3).
 

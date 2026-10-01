@@ -23,11 +23,11 @@ Item {
     }
     Rectangle {
         x: -1; y: 8; width: 3; height: root.headerHeight
-        color: "#cc1515"; opacity: root.highlight
+        color: "#1ec8f0"; opacity: root.highlight
     }
     Item {
         x: 8; y: 8; width: parent.width - 16; height: root.headerHeight
-        Rectangle { width: parent.width * root.highlight; height: parent.height; color: "#cc1515" }
+        Rectangle { width: parent.width * root.highlight; height: parent.height; color: "#1ec8f0" }
         Text {
             width: 32; height: parent.height
             text: root.number

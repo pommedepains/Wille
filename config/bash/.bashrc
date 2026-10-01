@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════
-# Tsugumori default .bashrc
+# Wille default .bashrc
 # Personal overrides go in ~/.bashrc.local — never touched by updates.
 # ═══════════════════════════════════════════════════════════════════
 
@@ -13,18 +13,18 @@
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-# ─── Tsugumori terminal ────────────────────────────────────────────
-_tsugumori_shell_dir="${XDG_CONFIG_HOME:-$HOME/.config}/quickshell"
-if [[ -r "$_tsugumori_shell_dir/tsugumori-prompt.sh" ]]; then
-    . "$_tsugumori_shell_dir/tsugumori-prompt.sh"
+# ─── Wille terminal ────────────────────────────────────────────
+_wille_shell_dir="${XDG_CONFIG_HOME:-$HOME/.config}/quickshell"
+if [[ -r "$_wille_shell_dir/wille-prompt.sh" ]]; then
+    . "$_wille_shell_dir/wille-prompt.sh"
 fi
 
 # Show the header once per interactive Bash process, including new windows.
-if [[ -x "$_tsugumori_shell_dir/tsugumori-welcome.sh" && ${_tsugumori_welcome_pid-} != "$BASHPID" ]]; then
-    _tsugumori_welcome_pid=$BASHPID
-    "$_tsugumori_shell_dir/tsugumori-welcome.sh"
+if [[ -x "$_wille_shell_dir/wille-welcome.sh" && ${_wille_welcome_pid-} != "$BASHPID" ]]; then
+    _wille_welcome_pid=$BASHPID
+    "$_wille_shell_dir/wille-welcome.sh"
 fi
-unset _tsugumori_shell_dir
+unset _wille_shell_dir
 
 # ─── User-specific overrides ───────────────────────────────────────
 [ -f ~/.bashrc.local ] && . ~/.bashrc.local

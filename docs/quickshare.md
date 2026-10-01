@@ -14,7 +14,7 @@ minutes by default. Advanced users can change the download deadline with
 
 ## Receive files
 
-Receive mode displays a QR code. Scanning it opens Tsugumori's upload page on
+Receive mode displays a QR code. Scanning it opens Wille's upload page on
 the other device.
 
 The default limits are:

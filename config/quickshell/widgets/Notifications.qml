@@ -1,9 +1,9 @@
 // notifications.qml
-// Notification daemon with Sidonia styling.
+// Notification daemon with Wille styling.
 //
 // Installation :
 //   1. Disable any other notification daemon (dunst, mako, swaync) via its own
-//      service or autostart configuration; Tsugumori never terminates them.
+//      service or autostart configuration; Wille never terminates them.
 //   2. qs -p notifications.qml
 //
 // Tests :
@@ -252,9 +252,9 @@ Scope {
 
         readonly property int urgency: notification ? notification.urgency : 1
         readonly property color accentColor: {
-            if (urgency === 2) return "#9e1010";
-            if (urgency === 0) return "#7a7358";
-            return "#cc1515";
+            if (urgency === 2) return "#1559a2";
+            if (urgency === 0) return "#63696f";
+            return "#1ec8f0";
         }
 
         readonly property string urgencyLabel: {
@@ -394,8 +394,8 @@ Scope {
             width: parent.width
             implicitHeight: contentCol.implicitHeight + 12
 
-            color: "#c8c8c4"
-            border.color: "#cc1515"
+            color: "#c4c6c8"
+            border.color: "#1ec8f0"
             border.width: 1
 
             // Colored left border.
@@ -419,7 +419,7 @@ Scope {
                 gradient: Gradient {
                     orientation: Gradient.Horizontal
                     GradientStop { position: 0.0; color: "transparent" }
-                    GradientStop { position: 0.5; color: "#406e2a2a" }
+                    GradientStop { position: 0.5; color: "#402e4f72" }
                     GradientStop { position: 1.0; color: "transparent" }
                 }
                 opacity: scanProgress > 0 && scanProgress < 1 ? 1 : 0
@@ -436,7 +436,7 @@ Scope {
                 z: 0
                 onPaint: {
                     const ctx = getContext("2d");
-                    ctx.strokeStyle = "rgba(70, 63, 46, 0.25)";
+                    ctx.strokeStyle = "rgba(55, 58, 61, 0.25)";
                     ctx.lineWidth = 1;
                     for (let x = 0; x < width; x += 16) {
                         ctx.beginPath();
@@ -475,7 +475,7 @@ Scope {
                             id: urgLabel
                             anchors.centerIn: parent
                             text: notif.urgencyLabel
-                            color: "#c8c8c4"
+                            color: "#c4c6c8"
                             font.family: "Iosevka"
                             font.pixelSize: 8
                             font.weight: Font.Medium
@@ -485,7 +485,7 @@ Scope {
 
                     Text {
                         text: notif.urgencyJp
-                        color: "#7a7358"
+                        color: "#63696f"
                         font.family: "Noto Sans JP"
                         font.pixelSize: 9
                     }
@@ -495,7 +495,7 @@ Scope {
                         text: notif.notification
                               ? (notif.notification.appName || "SYSTEM").toUpperCase()
                               : "SYSTEM"
-                        color: "#7a7358"
+                        color: "#63696f"
                         font.family: "Iosevka"
                         font.pixelSize: 8
                         font.letterSpacing: 2
@@ -508,7 +508,7 @@ Scope {
                             const p = n => String(n).padStart(2, '0');
                             return `${p(d.getHours())}:${p(d.getMinutes())}`;
                         }
-                        color: "#7a7358"
+                        color: "#63696f"
                         font.family: "Iosevka"
                         font.pixelSize: 8
                         font.letterSpacing: 1
@@ -518,7 +518,7 @@ Scope {
                         Layout.preferredWidth: 16
                         Layout.preferredHeight: 14
                         color: closeMouse.containsMouse ? notif.accentColor : "transparent"
-                        border.color: "#cc1515"
+                        border.color: "#1ec8f0"
                         border.width: 1
 
                         Behavior on color { ColorAnimation { duration: 120 } }
@@ -526,7 +526,7 @@ Scope {
                         Text {
                             anchors.centerIn: parent
                             text: "✕"
-                            color: closeMouse.containsMouse ? "#c8c8c4" : "#cc1515"
+                            color: closeMouse.containsMouse ? "#c4c6c8" : "#1ec8f0"
                             font.family: "Iosevka"
                             font.pixelSize: 9
                             Behavior on color { ColorAnimation { duration: 120 } }
@@ -545,7 +545,7 @@ Scope {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 1
-                    color: "#cc1515"
+                    color: "#1ec8f0"
                     opacity: 0.2
                 }
 
@@ -580,11 +580,11 @@ Scope {
 
                         visible: imageSource.length > 0
 
-                        // Sidonia-styled frame.
+                        // Wille-styled frame.
                         Rectangle {
                             anchors.fill: parent
                             color: "transparent"
-                            border.color: "#cc1515"
+                            border.color: "#1ec8f0"
                             border.width: 1
                         }
 
@@ -600,7 +600,7 @@ Scope {
                             Text {
                                 anchors.centerIn: parent
                                 text: String(notif.itemIndex + 1).padStart(2, '0')
-                                color: "#c8c8c4"
+                                color: "#c4c6c8"
                                 font.family: "Iosevka"
                                 font.pixelSize: 7
                                 font.letterSpacing: 0.5
@@ -654,7 +654,7 @@ Scope {
                         Text {
                             Layout.fillWidth: true
                             text: notif.notification ? notif.notification.summary : ""
-                            color: "#2e2a1f"
+                            color: "#242629"
                             font.family: "Inter"
                             font.pixelSize: 13
                             font.weight: Font.Medium
@@ -668,7 +668,7 @@ Scope {
                         Text {
                             Layout.fillWidth: true
                             text: notif.notification ? notif.notification.body : ""
-                            color: "#cc1515"
+                            color: "#1ec8f0"
                             font.family: "Inter"
                             font.pixelSize: 11
                             font.weight: Font.Light
@@ -699,8 +699,8 @@ Scope {
 
                             Layout.preferredHeight: 22
                             Layout.preferredWidth: actionText.implicitWidth + 16
-                            color: actMouse.containsMouse ? "#cc1515" : "transparent"
-                            border.color: "#cc1515"
+                            color: actMouse.containsMouse ? "#1ec8f0" : "transparent"
+                            border.color: "#1ec8f0"
                             border.width: 1
 
                             Behavior on color { ColorAnimation { duration: 120 } }
@@ -709,7 +709,7 @@ Scope {
                                 id: actionText
                                 anchors.centerIn: parent
                                 text: `▸ ${(modelData && modelData.text ? modelData.text : "").toUpperCase()}`
-                                color: actMouse.containsMouse ? "#c8c8c4" : "#cc1515"
+                                color: actMouse.containsMouse ? "#c4c6c8" : "#1ec8f0"
                                 font.family: "Iosevka"
                                 font.pixelSize: 9
                                 font.letterSpacing: 1.5

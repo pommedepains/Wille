@@ -57,7 +57,7 @@ Item {
             keyClick(Qt.Key_Backspace); tryCompare(view, "glyphPhase", 2, 1000);
             compare(view.password, "ab"); compare(view.glyphPhase, 2);
             mouseClick(input, 8, 10);
-            compare(row.border.color.toString(), "#55504a");
+            compare(row.border.color.toString(), "#4b5054");
             compare(input.echoMode, TextInput.Password);
             compare(input.passwordMaskDelay, 0);
             keyClick(Qt.Key_Return); compare(submitted.count, 1);

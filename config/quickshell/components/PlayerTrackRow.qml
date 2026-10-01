@@ -40,7 +40,7 @@ Button {
     background: Item {
         Rectangle { anchors.fill: parent; color: Theme.bg }
         Rectangle { width: parent.width * root.fillProgress; height: parent.height; color: Theme.a1 }
-        Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#2c2622" }
+        Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#252729" }
         Rectangle {
             x: 9 * root.uiScale
             anchors.verticalCenter: parent.verticalCenter
@@ -66,13 +66,13 @@ Button {
             Text {
                 Layout.fillWidth: true; text: root.subtitle; textFormat: Text.PlainText
                 font.family: Theme.mono; font.pixelSize: 11 * root.uiScale
-                elide: Text.ElideRight; color: root.fillActive ? Theme.fg : "#aaa29c"
+                elide: Text.ElideRight; color: root.fillActive ? Theme.fg : "#9da3a9"
             }
         }
         Text {
             visible: root.durationText.length > 0; text: root.durationText
             font.family: Theme.mono; font.pixelSize: 11 * root.uiScale
-            color: root.fillActive ? Theme.fg : "#aaa29c"
+            color: root.fillActive ? Theme.fg : "#9da3a9"
         }
     }
 }

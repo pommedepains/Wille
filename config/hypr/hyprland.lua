@@ -1,5 +1,11 @@
--- Tsugumori's authoritative Hyprland configuration.
+-- Wille's authoritative Hyprland configuration.
 -- Requires Hyprland 0.55.2 or newer.
+--
+-- Window corners are cut, not rounded. A superellipse power of 1 turns
+-- Hyprland's corner mask into a straight diagonal (a chamfer), and the border
+-- follows it. The global decoration:rounding_power option is clamped to >= 2
+-- on 0.55.x, but the per-window rule accepts 1, so the bevel is a window rule.
+-- The cut is rounding * power / 2 pixels per leg; the rule caps rounding at 20.
 
 local home = os.getenv("HOME")
 assert(home and home ~= "", "HOME must be set")
@@ -8,7 +14,7 @@ if not config_home or config_home == "" then
     config_home = home .. "/.config"
 end
 local quickshell_dir = config_home .. "/quickshell"
-local options = require("tsugumori_options")
+local options = require("wille_options")
 
 local function shell_quote(value)
     return "'" .. value:gsub("'", [['"'"']]) .. "'"
@@ -48,8 +54,8 @@ hl.config({
         gaps_out = 8,
         border_size = 1,
         col = {
-            active_border = "rgba(cc1515ff)",
-            inactive_border = "rgba(1a1814aa)",
+            active_border = "rgba(1ec8f0ff)",
+            inactive_border = "rgba(161718aa)",
         },
         layout = "dwindle",
     },
@@ -79,34 +85,43 @@ hl.config({
     },
 })
 
-hl.curve("tsugumori", {
+hl.curve("wille", {
     type = "bezier",
     points = { { 0.4, 0 }, { 0.2, 1 } },
 })
 
-hl.animation({ leaf = "windows", enabled = true, speed = 4, bezier = "tsugumori", style = "slide" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 3, bezier = "tsugumori", style = "slide" })
-hl.animation({ leaf = "fade", enabled = true, speed = 4, bezier = "tsugumori" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "tsugumori", style = "slidevert" })
+hl.animation({ leaf = "windows", enabled = true, speed = 4, bezier = "wille", style = "slide" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 3, bezier = "wille", style = "slide" })
+hl.animation({ leaf = "fade", enabled = true, speed = 4, bezier = "wille" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "wille", style = "slidevert" })
 
 hl.window_rule({
-    name = "tsugumori-quickshell",
+    name = "wille-bevel",
+    match = { class = ".*" },
+    rounding = 20,
+    rounding_power = 1.0,
+})
+
+hl.window_rule({
+    name = "wille-quickshell",
     match = { class = "^(quickshell)$" },
     float = true,
     pin = true,
     no_blur = true,
     no_shadow = true,
+    -- HUD panels draw their own square frames; keep them uncut.
+    rounding = 0,
 })
 
 hl.window_rule({
-    name = "tsugumori-spotify",
+    name = "wille-spotify",
     match = { class = "^(Spotify)$" },
     workspace = "special:spotify",
     fullscreen = true,
 })
 
 hl.window_rule({
-    name = "tsugumori-yazi-picker",
+    name = "wille-yazi-picker",
     match = { class = "^(qs-yazi-picker)$" },
     float = true,
     size = { 900, 600 },
@@ -137,15 +152,15 @@ hl.on("hyprland.start", function()
 end)
 
 -- Launcher and Quickshell panels.
-hl.bind("SUPER + Super_L", exec("qs ipc call tsugumoriShell toggleMenu"), { release = true })
+hl.bind("SUPER + Super_L", exec("qs ipc call willeShell toggleMenu"), { release = true })
 hl.bind("SUPER + Tab", exec(quickshell_script("ctrl.sh")))
 hl.bind("SUPER + N", exec("qs ipc --path " .. shell_quote(quickshell_dir .. "/shell.qml")
-    .. " call tsugumoriShell toggleNotes"))
+    .. " call willeShell toggleNotes"))
 hl.bind("SUPER + C", exec("qs ipc --path " .. shell_quote(quickshell_dir .. "/shell.qml")
-    .. " call tsugumoriShell toggleClipboard"))
+    .. " call willeShell toggleClipboard"))
 hl.bind("SUPER + L", exec(quickshell_script("lock.sh")), { release = true })
-hl.bind("SUPER + Return", exec("qs ipc call tsugumoriShell togglePlayer"))
-hl.bind("SUPER + SHIFT + Return", exec("qs ipc call tsugumoriShell toggleFront"))
+hl.bind("SUPER + Return", exec("qs ipc call willeShell togglePlayer"))
+hl.bind("SUPER + SHIFT + Return", exec("qs ipc call willeShell toggleFront"))
 
 -- Applications.
 local kitty_command = "/usr/bin/kitty"
@@ -217,6 +232,6 @@ hl.bind("XF86MonBrightnessDown", exec("brightnessctl set 5%-"))
 hl.bind("ALT + SHIFT + S", exec("hyprshot -m region"))
 hl.bind("Print", exec([[grim -g "$(slurp)" "$HOME/Screenshots/$(date +%Y%m%d_%H%M%S).png"]]))
 
--- Loaded last so machine-specific settings can override Tsugumori defaults.
+-- Loaded last so machine-specific settings can override Wille defaults.
 -- The installer always creates and preserves this module.
 require("user")

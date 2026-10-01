@@ -7,12 +7,12 @@ config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 shell_qml="$config_home/quickshell/shell.qml"
 
 if ! command -v qs >/dev/null 2>&1; then
-    printf 'Tsugumori: Quickshell is required.\n' >&2
+    printf 'Wille: Quickshell is required.\n' >&2
     exit 127
 fi
 
 if [[ ! -r "$shell_qml" ]]; then
-    printf 'Tsugumori: missing readable shell: %s\n' "$shell_qml" >&2
+    printf 'Wille: missing readable shell: %s\n' "$shell_qml" >&2
     exit 1
 fi
 
@@ -30,7 +30,7 @@ if [[ -n "$shell_pid" ]]; then
         sleep 0.05
     done
     if [[ -d "/proc/$shell_pid" ]]; then
-        printf 'Tsugumori: desktop shell PID %s did not exit; restart aborted.\n' "$shell_pid" >&2
+        printf 'Wille: desktop shell PID %s did not exit; restart aborted.\n' "$shell_pid" >&2
         exit 1
     fi
 fi

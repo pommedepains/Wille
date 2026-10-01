@@ -1,4 +1,4 @@
-# Tsugumori guides
+# Wille guides
 
 - [Customize the desktop](customize.md)
 - [Controls and keybindings](controls.md)

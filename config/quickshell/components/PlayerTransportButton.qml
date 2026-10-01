@@ -29,7 +29,7 @@ Button {
         Rectangle {
             anchors.bottom: parent.bottom
             width: parent.width; height: Math.max(1, root.uiScale)
-            color: root.primary ? Theme.a1 : "#655448"
+            color: root.primary ? Theme.a1 : "#51565c"
         }
         Rectangle {
             anchors.bottom: parent.bottom
@@ -51,7 +51,7 @@ Button {
                 Layout.alignment: Qt.AlignHCenter
                 text: root.glyph; textFormat: Text.PlainText
                 font.family: Theme.mono; font.pixelSize: 18 * root.uiScale
-                color: root.interactionActive ? "#ef7664" : Theme.fg
+                color: root.interactionActive ? "#81daf1" : Theme.fg
                 Behavior on color { ColorAnimation { duration: root.reducedMotion ? 0 : 220 } }
             }
             Text {
@@ -59,7 +59,7 @@ Button {
                 text: root.text; textFormat: Text.PlainText
                 font.family: Theme.mono; font.pixelSize: 11 * root.uiScale
                 font.weight: Font.Medium; font.letterSpacing: root.uiScale
-                color: root.interactionActive ? "#ef7664" : Theme.fg
+                color: root.interactionActive ? "#81daf1" : Theme.fg
                 Behavior on color { ColorAnimation { duration: root.reducedMotion ? 0 : 220 } }
             }
         }

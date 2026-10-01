@@ -59,7 +59,7 @@ Item {
             b: value * (1 - (peak - rgb.b) / span * saturation)
         }
     }
-    function compileCells(raw, red, seed, adaptive, colours) {
+    function compileCells(raw, accent, seed, adaptive, colours) {
         var sorted = raw.slice().sort(function(a, b) { return a - b })
         var lo = adaptive && sorted[972] - sorted[51] > 0.1 ? Math.max(0, sorted[51] - 0.02) : 0
         var hi = adaptive && sorted[972] - sorted[51] > 0.1 ? Math.min(1, sorted[972] + 0.06) : 1
@@ -72,14 +72,14 @@ Item {
             var gy = raw[Math.min(31, row + 1) * 32 + col] - raw[Math.max(0, row - 1) * 32 + col]
             if (tone > 0.16 && tone < 0.55 && Math.sqrt(gx * gx + gy * gy) > 0.23)
                 glyph = Math.abs(gx) > Math.abs(gy) * 1.8 ? "|" : Math.abs(gy) > Math.abs(gx) * 1.8 ? "=" : gx * gy > 0 ? "\\" : "/"
-            result.push({ glyph: glyph, alpha: 0.24 + 0.76 * Math.sqrt(tone), red: red[index],
+            result.push({ glyph: glyph, alpha: 0.24 + 0.76 * Math.sqrt(tone), accent: accent[index],
                           rgb: colours ? hoverColour(colours[index]) : null,
                           noise: ((Math.imul(index + 1, 2654435761) ^ seed) >>> 0) / 4294967296 })
         }
         return result
     }
     function signature() {
-        var seed = signatureSeed(), rand = random(seed), raw = [], red = []
+        var seed = signatureSeed(), rand = random(seed), raw = [], accent = []
         var cx = 0.25 + rand() * 0.5, cy = 0.28 + rand() * 0.44
         var radius = 0.19 + rand() * 0.15, angle = rand() * Math.PI, offset = rand() * 0.25 - 0.125
         for (var row = 0; row < 32; ++row) for (var col = 0; col < 32; ++col) {
@@ -89,9 +89,9 @@ Item {
             var inner = Math.exp(-Math.abs(dist - radius * 0.54) * 60) * 0.48
             var axis = Math.exp(-Math.abs((x - 0.5) * Math.cos(angle) + (y - 0.5) * Math.sin(angle) - offset) * 55) * 0.70
             raw.push(mediaAvailable ? clamp(ring * 0.82 + inner + axis + (rand() > 0.95 ? 0.24 : 0), 0, 1) : 0.025)
-            red.push(mediaAvailable && axis > 0.53 && dist < radius * 1.13)
+            accent.push(mediaAvailable && axis > 0.53 && dist < radius * 1.13)
         }
-        return compileCells(raw, red, seed, false)
+        return compileCells(raw, accent, seed, false)
     }
     function repaintGlyph() {
         if (glyphCanvas.available) glyphCanvas.requestPaint()
@@ -208,13 +208,13 @@ Item {
                 y += Math.cos(g.noise * 31) * cellH * 1.35 * motion * (outgoing ? 1 : -0.65)
             }
             if (alpha <= 0) continue
-            ctx.globalAlpha = g.alpha * alpha; ctx.fillStyle = g.red ? "#e4372b" : "#e8e8df"
+            ctx.globalAlpha = g.alpha * alpha; ctx.fillStyle = g.accent ? "#48c6e6" : "#e2e3e5"
             if (g.rgb && colourAmounts && colourAmounts[i] > 0) {
                 var mix = 1 - Math.pow(1 - colourAmounts[i], 1.6)
                 ctx.globalAlpha = (g.alpha + (1 - g.alpha) * mix) * alpha
-                var r = g.red ? 228 / 255 : 232 / 255
-                var green = g.red ? 55 / 255 : 232 / 255
-                var b = g.red ? 43 / 255 : 223 / 255
+                var r = g.accent ? 72 / 255 : 226 / 255
+                var green = g.accent ? 198 / 255 : 227 / 255
+                var b = g.accent ? 230 / 255 : 229 / 255
                 ctx.fillStyle = Qt.rgba(r + (g.rgb.r - r) * mix,
                                        green + (g.rgb.g - green) * mix,
                                        b + (g.rgb.b - b) * mix, 1)
@@ -297,7 +297,7 @@ Item {
             var side = Math.min(sw, sh)
             ctx.reset(); ctx.clearRect(0, 0, 128, 128)
             ctx.drawImage(sampleUrl, (sw - side) / 2, (sh - side) / 2, side, side, 0, 0, 128, 128)
-            var pixels = ctx.getImageData(0, 0, 128, 128).data, raw = [], red = [], colours = []
+            var pixels = ctx.getImageData(0, 0, 128, 128).data, raw = [], accent = [], colours = []
             for (var row = 0; row < 32; ++row) for (var col = 0; col < 32; ++col) {
                 var r = 0, g = 0, b = 0
                 for (var dy = 0; dy < 4; ++dy) for (var dx = 0; dx < 4; ++dx) {
@@ -305,12 +305,12 @@ Item {
                     r += pixels[p]; g += pixels[p + 1]; b += pixels[p + 2]
                 }
                 raw.push((r * 0.2126 + g * 0.7152 + b * 0.0722) / (16 * 255))
-                red.push(r > g * 1.42 && r > b * 1.28 && r / 16 > 62)
+                accent.push(b > r * 1.42 && g > r * 1.28 && b / 16 > 62)
                 colours.push({ r: r / (16 * 255), g: g / (16 * 255), b: b / (16 * 255) })
             }
             if (token !== root.generation) return
             root.needsSample = false
-            root.commitCells(root.compileCells(raw, red, root.signatureSeed(), true, colours), false)
+            root.commitCells(root.compileCells(raw, accent, root.signatureSeed(), true, colours), false)
         }
     }
     Canvas {

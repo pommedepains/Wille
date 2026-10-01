@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tsugumori animated secure lock launcher.
+# Wille animated secure lock launcher.
 #
 # Quickshell owns ext-session-lock-v1 and authenticates through PamContext;
 # Phase and K glyphs are rendered natively, without a video decoder.
@@ -155,13 +155,13 @@ fallback_lock() {
         handshake_dir=""
     fi
     close_protocol
-    printf 'Tsugumori: %s; starting the Hyprlock fallback.\n' "$reason" >&2
+    printf 'Wille: %s; starting the Hyprlock fallback.\n' "$reason" >&2
     if ! command -v hyprlock >/dev/null 2>&1; then
-        printf 'Tsugumori: Hyprlock is unavailable; the session was not locked.\n' >&2
+        printf 'Wille: Hyprlock is unavailable; the session was not locked.\n' >&2
         exit 127
     fi
     if [[ ! -r "$hyprlock_config" ]]; then
-        printf 'Tsugumori: missing readable fallback config: %s\n' "$hyprlock_config" >&2
+        printf 'Wille: missing readable fallback config: %s\n' "$hyprlock_config" >&2
         exit 1
     fi
     exec hyprlock --config "$hyprlock_config" --grace 0 --immediate-render
@@ -188,9 +188,9 @@ if ! command -v flock >/dev/null 2>&1; then
 fi
 
 if [[ -n "${XDG_RUNTIME_DIR:-}" ]]; then
-    lock_runtime="$XDG_RUNTIME_DIR/tsugumori"
+    lock_runtime="$XDG_RUNTIME_DIR/wille"
 else
-    lock_runtime="$HOME/.cache/tsugumori/runtime"
+    lock_runtime="$HOME/.cache/wille/runtime"
 fi
 session_key="${HYPRLAND_INSTANCE_SIGNATURE:-${WAYLAND_DISPLAY:-default}}"
 session_key="${session_key//[^[:alnum:]._-]/_}"
@@ -301,7 +301,7 @@ initialize_handshake() {
             || ! clear_lifecycle_markers "$handshake_dir"; then
         return 1
     fi
-    export TSUGUMORI_LOCK_HANDSHAKE_DIR="$handshake_dir"
+    export WILLE_LOCK_HANDSHAKE_DIR="$handshake_dir"
     release_protocol
 }
 
@@ -334,8 +334,8 @@ for component in "$visual_dir/PhaseLockView.qml" "$visual_dir/PhaseArt.js" \
 done
 
 pam_service=/etc/pam.d/hyprlock
-if [[ "${TSUGUMORI_LOCK_TESTING:-0}" == "1" ]]; then
-    pam_service="${TSUGUMORI_LOCK_TEST_PAM_SERVICE:-$pam_service}"
+if [[ "${WILLE_LOCK_TESTING:-0}" == "1" ]]; then
+    pam_service="${WILLE_LOCK_TEST_PAM_SERVICE:-$pam_service}"
 fi
 if [[ ! -r "$pam_service" ]]; then
     fallback_lock "the required PAM service is unavailable ($pam_service)"

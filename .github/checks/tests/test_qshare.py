@@ -206,13 +206,13 @@ class QuicksharePresentationTests(unittest.TestCase):
             token="test-token",
         )
 
-    def test_upload_page_uses_sidonia_palette_and_english_copy(self) -> None:
+    def test_upload_page_uses_wille_palette_and_english_copy(self) -> None:
         html = self.rendered_upload_page()
 
-        for value in ("#0a0a0a", "#111111", "#e8e8e8", "#909090", "#cc1515"):
+        for value in ("#0a0a0a", "#111111", "#e8e8e8", "#909090", "#1ec8f0"):
             self.assertIn(value, html)
         for text in (
-            "Sidonia // File Transfer",
+            "Wille // File Transfer",
             "QShare Uplink",
             "Upload files",
             "Awaiting selection.",
@@ -228,7 +228,7 @@ class QuicksharePresentationTests(unittest.TestCase):
         background = (17, 17, 17)
         ink = (232, 232, 232)
         for url in ("https://qshare.test/token", "https://qshare.test/?t=" + "a" * 400):
-            with self.subTest(length=len(url)), tempfile.TemporaryDirectory(prefix="tsugumori-qr-") as tempdir:
+            with self.subTest(length=len(url)), tempfile.TemporaryDirectory(prefix="wille-qr-") as tempdir:
                 qr = qshare.qrcode.QRCode(border=qshare.QR_BORDER, box_size=qshare.QR_BOX_SIZE,
                                          error_correction=qshare.qrcode.constants.ERROR_CORRECT_H)
                 qr.add_data(url)
@@ -247,12 +247,12 @@ class QuicksharePresentationTests(unittest.TestCase):
                                 tile = image.crop((x * 20, y * 20, (x + 1) * 20, (y + 1) * 20))
                                 self.assertEqual(tile.getcolors(), [(400, expected)])
                     colors = {color for _, color in image.getcolors(image.width * image.height)}
-                    self.assertIn((204, 21, 21), colors)
+                    self.assertIn((30, 200, 240), colors)
 
 
 class QuickshareReceiveTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-qshare-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-qshare-")
         self.root = Path(self.tempdir.name)
         self.output = self.root / "received"
         self.output.mkdir()
@@ -467,7 +467,7 @@ class QuickshareReceiveTests(unittest.TestCase):
 
 class QuickshareSendTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-qshare-send-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-qshare-send-")
         self.root = Path(self.tempdir.name)
         self.payload = self.root / "payload.bin"
         self.payload.write_bytes(b"x" * (qshare._DOWNLOAD_CHUNK_SIZE + 17))

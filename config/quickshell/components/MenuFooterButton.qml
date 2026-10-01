@@ -8,7 +8,7 @@ Button {
 
     property bool reducedMotion: false
     readonly property bool interactionActive: enabled && (hovered || down || activeFocus)
-    readonly property color labelColor: interactionActive ? Theme.bg : "#b0aba6"
+    readonly property color labelColor: interactionActive ? Theme.bg : "#a6abb0"
     property real fillProgress: interactionActive ? 1 : 0
 
     implicitWidth: Math.max(88, contentItem.implicitWidth + 24)

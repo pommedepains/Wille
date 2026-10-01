@@ -51,7 +51,7 @@ Item {
                 }
                 Rectangle {
                     anchors.centerIn: parent; width: 800; height: 500
-                    color: "#0f0d0a"; border.color: "#e8e8e8"; border.width: 2
+                    color: "#090c10"; border.color: "#e8e8e8"; border.width: 2
                     opacity: Art.ramp(timeline.progress, .22, .73)
                     Text { anchors.centerIn: parent; text: "WALLPAPER PREVIEW"; color: "#e8e8e8"; font.family: "JetBrains Mono" }
                 }

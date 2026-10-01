@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Something in Tsugumori isn't working as expected
+about: Something in Wille isn't working as expected
 title: "[BUG] "
 labels: bug
 assignees: ''

@@ -22,9 +22,9 @@ import tempfile
 DRM = Path("/sys/class/drm")
 DEVICES = Path("/dev/dri")
 PCI = re.compile(r"[0-9a-f]{4}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-7]\Z")
-BEGIN = "# BEGIN TSUGUMORI GPU PREFERENCE\n"
-END = "# END TSUGUMORI GPU PREFERENCE\n"
-SESSION_KEY = "TSUGUMORI_GPU_PREFERENCE"
+BEGIN = "# BEGIN WILLE GPU PREFERENCE\n"
+END = "# END WILLE GPU PREFERENCE\n"
+SESSION_KEY = "WILLE_GPU_PREFERENCE"
 VENDORS = {"0x8086": "Intel", "0x1002": "AMD", "0x10de": "NVIDIA"}
 MAX_SESSION_LOG = 8 * 1024 * 1024
 
@@ -192,13 +192,13 @@ def make_block(preferred):
     python = shlex.quote(sys.executable)
     return (BEGIN + f"# preferred={preferred}\n"
             "# Resolve PCI identity on every login; retain other GPUs for their displays.\n"
-            f"if _tsugumori_gpu_devices=$({python} {helper} devices {shlex.quote(preferred)}); then\n"
-            '    if [ -n "$_tsugumori_gpu_devices" ]; then\n'
-            '        export AQ_DRM_DEVICES="$_tsugumori_gpu_devices"\n'
+            f"if _wille_gpu_devices=$({python} {helper} devices {shlex.quote(preferred)}); then\n"
+            '    if [ -n "$_wille_gpu_devices" ]; then\n'
+            '        export AQ_DRM_DEVICES="$_wille_gpu_devices"\n'
             f"        export {SESSION_KEY}={shlex.quote(preferred)}\n"
             "    fi\n"
             "fi\n"
-            "unset _tsugumori_gpu_devices\n" + END)
+            "unset _wille_gpu_devices\n" + END)
 
 
 def save(preferred):
@@ -228,7 +228,7 @@ def save(preferred):
             raise ValueError("The startup file changed while saving. Refresh and try again.")
         updated = remainder if preferred == "auto" else make_block(preferred) + remainder
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
-                                         prefix=".tsugumori-gpu-", delete=False) as stream:
+                                         prefix=".wille-gpu-", delete=False) as stream:
             temporary = Path(stream.name)
             os.fchmod(stream.fileno(), mode)
             stream.write(updated)

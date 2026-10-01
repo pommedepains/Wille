@@ -13,10 +13,10 @@ Item {
     readonly property int pw: Math.round(width)
     readonly property bool narrow: pw <= s(420)
     readonly property bool compact: pw <= s(560)
-    readonly property color lineColor: "#3b312c"
-    readonly property color mutedColor: "#a7a29e"
-    readonly property color headerRed: "#e4372b"
-    readonly property bool reducedMotion: Quickshell.env("TSUGUMORI_REDUCED_MOTION") === "1"
+    readonly property color lineColor: "#303437"
+    readonly property color mutedColor: "#9ea2a7"
+    readonly property color headerAccent: "#48c6e6"
+    readonly property bool reducedMotion: Quickshell.env("WILLE_REDUCED_MOTION") === "1"
     // Lengthen only the Player's opening and closing transitions by 25%.
     readonly property real visibilityDurationScale: 1.25
     readonly property color surfaceColor: Settings.playerBackground ? Settings.playerBgColor : "transparent"
@@ -116,7 +116,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: root.surfaceColor; border.width: 1; border.color: "#453a34"
+            color: root.surfaceColor; border.width: 1; border.color: "#393c40"
         }
         Column {
             x: 1; y: 1; width: root.pw - 2
@@ -139,14 +139,14 @@ Item {
                         Text {
                             id: brandTitle
                             anchors.verticalCenter: parent.verticalCenter
-                            text: "TSUGUMORI"; color: "#d8d3cd"
+                            text: "WILLE"; color: "#d0d2d5"
                             font.family: Theme.mono; font.pixelSize: root.s(11)
                             font.letterSpacing: (root.narrow ? 0.3 : 1.5) * root.sc
                         }
                         Text {
                             id: brandDivider
                             anchors.verticalCenter: parent.verticalCenter
-                            text: "//"; color: root.headerRed
+                            text: "//"; color: root.headerAccent
                             font.family: Theme.mono; font.pixelSize: root.s(11)
                         }
                         Text {
@@ -154,7 +154,7 @@ Item {
                             width: Math.max(0, Math.min(implicitWidth, header.width - 2 * header.inset
                                 - root.s(5) - brand.spacing - brandTitle.implicitWidth
                                 - brandDivider.implicitWidth - 2 * wordmark.spacing))
-                            text: "東亜重工製 一七式衛人 白月改 継衛"; color: root.headerRed
+                            text: "特務機関ネルフ製 予備系 ヴィレ改"; color: root.headerAccent
                             font.family: "Noto Sans CJK JP"; font.pixelSize: root.s(11)
                             font.letterSpacing: root.narrow ? 0 : 0.66 * root.sc
                             elide: Text.ElideRight; textFormat: Text.PlainText
@@ -202,10 +202,10 @@ Item {
                             mediaAvailable: root.mediaAvailable; active: root.shown
                             reducedMotion: root.reducedMotion
                         }
-                        Rectangle { anchors.top: parent.top; anchors.right: parent.right; width: root.s(15); height: 1; color: "#7d6b5e" }
-                        Rectangle { anchors.top: parent.top; anchors.right: parent.right; width: 1; height: root.s(15); color: "#7d6b5e" }
-                        Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; width: root.s(15); height: 1; color: "#7d6b5e" }
-                        Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; width: 1; height: root.s(15); color: "#7d6b5e" }
+                        Rectangle { anchors.top: parent.top; anchors.right: parent.right; width: root.s(15); height: 1; color: "#676e74" }
+                        Rectangle { anchors.top: parent.top; anchors.right: parent.right; width: 1; height: root.s(15); color: "#676e74" }
+                        Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; width: root.s(15); height: 1; color: "#676e74" }
+                        Rectangle { anchors.bottom: parent.bottom; anchors.left: parent.left; width: 1; height: root.s(15); color: "#676e74" }
                     }
                     Rectangle {
                         x: root.narrow ? 0 : parent.width - 1
@@ -256,7 +256,7 @@ Item {
                             width: parent.width; height: root.s(17)
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: root.numberText + " //"; color: "#d76151"
+                                text: root.numberText + " //"; color: "#6bc5dc"
                                 font.family: Theme.mono; font.pixelSize: root.s(11); font.letterSpacing: root.sc
                             }
                             Row {
@@ -265,7 +265,7 @@ Item {
                                 Rectangle {
                                     anchors.verticalCenter: parent.verticalCenter
                                     width: root.s(4); height: width
-                                    color: root.mpPlaying ? Theme.a1 : "#77655a"
+                                    color: root.mpPlaying ? Theme.a1 : "#62686f"
                                 }
                                 Text {
                                     text: !root.mediaAvailable ? "IDLE" : root.mpPlaying ? "PLAYING" : "PAUSED"
@@ -293,26 +293,26 @@ Item {
                                     width: parent.width
                                     text: root.mpArtist || (root.mediaAvailable ? "UNKNOWN ARTIST" : "")
                                     textFormat: Text.PlainText; elide: Text.ElideRight
-                                    font.family: Theme.mono; font.pixelSize: root.s(13); color: "#b8b2ac"
+                                    font.family: Theme.mono; font.pixelSize: root.s(13); color: "#adb2b7"
                                 }
                             }
                         }
 
                         Item {
                             width: parent.width; height: albumRow.implicitHeight + root.s(9)
-                            Rectangle { width: parent.width; height: 1; color: "#342b26" }
+                            Rectangle { width: parent.width; height: 1; color: "#2a2d30" }
                             RowLayout {
                                 id: albumRow
                                 y: root.s(8); width: parent.width; spacing: root.s(10)
                                 Text {
                                     Layout.alignment: Qt.AlignTop
-                                    text: "ALBUM"; color: "#8f847c"
+                                    text: "ALBUM"; color: "#7e868d"
                                     font.family: Theme.mono; font.pixelSize: root.s(11); font.letterSpacing: 1.5 * root.sc
                                 }
                                 Text {
                                     Layout.fillWidth: true; Layout.minimumWidth: 0
                                     text: root.albumText; textFormat: Text.PlainText
-                                    color: "#b8b2ac"; font.family: Theme.mono; font.pixelSize: root.s(11)
+                                    color: "#adb2b7"; font.family: Theme.mono; font.pixelSize: root.s(11)
                                     font.letterSpacing: 0.5 * root.sc
                                     wrapMode: Text.Wrap; maximumLineCount: 2; elide: Text.ElideRight
                                 }
@@ -376,7 +376,7 @@ Item {
                             required property int index
                             x: index * (ruler.width - width) / 20; width: 1
                             height: root.s(index % 5 === 0 ? 6 : 3); anchors.bottom: parent.bottom
-                            color: index % 5 === 0 ? "#85715f" : "#514239"
+                            color: index % 5 === 0 ? "#6b7279" : "#414549"
                         }
                     }
                 }
@@ -402,12 +402,12 @@ Item {
                     }
                     background: Rectangle {
                         x: 0; y: (seek.height - height) / 2
-                        width: seek.width; height: root.s(2); color: "#483b34"
+                        width: seek.width; height: root.s(2); color: "#3a3e42"
                         Rectangle { width: parent.width * seek.position; height: parent.height; color: Theme.a1 }
                     }
                     handle: Rectangle {
                         x: seek.visualPosition * (seek.width - width); y: (seek.height - height) / 2
-                        width: root.s(5); height: root.s(15); color: seek.enabled ? Theme.fg : "#665b55"
+                        width: root.s(5); height: root.s(15); color: seek.enabled ? Theme.fg : "#585e63"
                         border.width: seek.activeFocus ? 1 : 0; border.color: Theme.a1
                     }
                 }
@@ -442,7 +442,7 @@ Item {
                     spacing: root.s(12)
                     Text {
                         Layout.fillWidth: true
-                        text: libraryToggle.text; color: libraryToggle.interactionActive ? Theme.a1 : "#bab1a8"
+                        text: libraryToggle.text; color: libraryToggle.interactionActive ? Theme.a1 : "#acb1b6"
                         font.family: Theme.mono; font.pixelSize: root.s(11); font.letterSpacing: 1.1 * root.sc
                         elide: Text.ElideRight
                     }

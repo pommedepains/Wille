@@ -8,7 +8,7 @@ Rectangle {
     id: root
 
     property real uiScale: 1
-    readonly property color stencilInk: "#130707"
+    readonly property color stencilInk: "#080d14"
 
     color: Settings.curtainColor
     clip: true
@@ -22,7 +22,7 @@ Rectangle {
         spacing: 3 * root.uiScale
 
         Text {
-            text: "継衛"
+            text: "予備"
             height: 17 * root.uiScale
             font.family: Theme.mono
             font.pixelSize: Math.max(1, Math.round(11 * root.uiScale))
@@ -30,7 +30,7 @@ Rectangle {
             color: root.stencilInk
         }
         Text {
-            text: "TYPE 17"
+            text: "NERV-C3"
             height: 17 * root.uiScale
             font.family: Theme.mono
             font.pixelSize: Math.max(1, Math.round(11 * root.uiScale))
@@ -41,7 +41,7 @@ Rectangle {
 
     Text {
         anchors.centerIn: parent
-        text: "SID0NIA"
+        text: "MAGI-03"
         font.family: Theme.mono
         font.weight: Font.Medium
         font.pixelSize: Math.max(1, Math.round(24 * root.uiScale))
@@ -103,7 +103,7 @@ Rectangle {
             }
         }
         Text {
-            text: "TS // 017"
+            text: "3I // 017"
             height: 17 * root.uiScale
             font.family: Theme.mono
             font.pixelSize: Math.max(1, Math.round(11 * root.uiScale))
@@ -119,6 +119,6 @@ Rectangle {
         anchors.bottomMargin: 17 * root.uiScale
         width: 46 * root.uiScale
         height: 3 * root.uiScale
-        color: "#160707"
+        color: "#080f17"
     }
 }

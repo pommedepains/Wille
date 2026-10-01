@@ -9,10 +9,10 @@ Item {
     required property string label
     property bool live: false
     property real span: width - 10
-    readonly property color white: "#e4e2dc"
-    readonly property color grey: "#aaa59b"
-    readonly property color dim: "#57534b"
-    readonly property color red: "#d1161c"
+    readonly property color white: "#dee0e2"
+    readonly property color grey: "#9da2a8"
+    readonly property color dim: "#4c5156"
+    readonly property color cyan: "#20bee5"
     readonly property bool animating: live && visible
     property real travel: 0
     property real signalOpacity: 0
@@ -79,20 +79,20 @@ Item {
         function add(d,color,fill,station) { p.push({d:d,color:color,fill:fill||"transparent",station:station === undefined ? -1 : station}); }
         if(index===0) {
             add("M0,35 V5 H26 V28 H10 V16 H35",grey);
-            add("M6,0 V39 H21",red); add(diamond(26,5),red,red);
+            add("M6,0 V39 H21",cyan); add(diamond(26,5),cyan,cyan);
         } else if(index===1) {
-            add("M"+(w-43)+",6 H"+w+" V38 H"+(w-43),red);
+            add("M"+(w-43)+",6 H"+w+" V38 H"+(w-43),cyan);
             add("M0,32 H"+(w-56)+" V22 H"+(w-48),dim); add(diamond(0,32),grey);
         } else if(index===2) {
             var step=(w-18)/3;
             for(var i=0;i<4;i++) {
                 var x=9+i*step,y=10+(i%2?8:0),nextY=10+((i+1)%2?8:0);
                 if(i<3)add("M"+x+","+y+" H"+(x+step*.5)+" V"+nextY+" H"+(x+step),dim);
-                add(diamond(x,y),i===3?red:grey,i===3?red:"transparent",i);
+                add(diamond(x,y),i===3?cyan:grey,i===3?cyan:"transparent",i);
             }
         } else {
             add("M0,9 V33 H"+(w-14)+" V43",grey);
-            add("M"+(w-4)+",4 V25 H"+(w-29),red); add(diamond(w-14,43),red,red);
+            add("M"+(w-4)+",4 V25 H"+(w-29),cyan); add(diamond(w-14,43),cyan,cyan);
         }
         return p;
     }
@@ -101,9 +101,9 @@ Item {
         function add(text,x,y,color,size,weight,space,align) {
             p.push({text:text,x:x,y:y,color:color,size:size||11,weight:weight||400,space:space||0,align:align||"left"});
         }
-        if(index===0) { add("TSUGUMORI",44,13,white,11,500,compact?0:.7); add("TYPE-17",44,33,grey); }
-        else if(index===1) { add("704",w-22,23,red,20,500,0,"center"); add("SID0NIA",0,13,white,11,500,.3); }
-        else if(index===2) for(var i=0;i<4;i++)add("0"+(i+1),9+i*(w-18)/3,38,i===3?red:grey,11,400,0,"center");
+        if(index===0) { add("WILLE",44,13,white,11,500,compact?0:.7); add("NERV-C3",44,33,grey); }
+        else if(index===1) { add("3I",w-22,23,cyan,20,500,0,"center"); add("MAGI-03",0,13,white,11,500,.3); }
+        else if(index===2) for(var i=0;i<4;i++)add("0"+(i+1),9+i*(w-18)/3,38,i===3?cyan:grey,11,400,0,"center");
         else { add(label,w-15,12,white,11,500,.6,"right"); if(!compact)add("LOCAL // 17",8,19,grey); }
         return p;
     }
@@ -119,8 +119,8 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             ShapePath {
                 strokeWidth: 1
-                strokeColor: shape.station ? (shape.selected ? corner.red : corner.grey) : shape.modelData.color
-                fillColor: shape.station ? (shape.selected ? corner.red : "transparent") : shape.modelData.fill
+                strokeColor: shape.station ? (shape.selected ? corner.cyan : corner.grey) : shape.modelData.color
+                fillColor: shape.station ? (shape.selected ? corner.cyan : "transparent") : shape.modelData.fill
                 capStyle: ShapePath.FlatCap; joinStyle: ShapePath.MiterJoin
                 PathSvg { path: shape.modelData.d }
             }
@@ -142,7 +142,7 @@ Item {
                 width: modelData.dx === 0 ? 1 : extent
                 height: modelData.dy === 0 ? 1 : extent
                 visible: extent > 0
-                color: corner.red
+                color: corner.cyan
             }
         }
         Rectangle {
@@ -150,7 +150,7 @@ Item {
             y: corner.signalPosition.y - height / 2
             width: 3; height: 3; rotation: 45
             antialiasing: true
-            color: corner.red
+            color: corner.cyan
         }
     }
     Repeater {
@@ -161,7 +161,7 @@ Item {
             x: 5 + modelData.x - (modelData.align==="right"?width:modelData.align==="center"?width/2:0)
             y: 3 + modelData.y - height/2
             text: modelData.text; textFormat: Text.PlainText
-            color: corner.index === 2 ? (index === corner.activeStation ? corner.red : corner.grey) : modelData.color
+            color: corner.index === 2 ? (index === corner.activeStation ? corner.cyan : corner.grey) : modelData.color
             font { family: "JetBrains Mono"; pixelSize: modelData.size; weight: modelData.weight; letterSpacing: modelData.space }
             renderType: Text.CurveRendering
         }

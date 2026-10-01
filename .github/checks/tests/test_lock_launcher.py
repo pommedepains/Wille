@@ -20,7 +20,7 @@ HYPRLAND_LUA = REPO_ROOT / "config/hypr/hyprland.lua"
 
 class LockHandshakeHelperTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-lock-handshake-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-lock-handshake-")
         self.handshake_dir = Path(self.tempdir.name) / "private"
         self.handshake_dir.mkdir(mode=0o700)
         (self.handshake_dir / ".protocol.lock").touch(mode=0o600)
@@ -69,7 +69,7 @@ class LockHandshakeHelperTests(unittest.TestCase):
 
 class SupervisedLockLauncherTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.tempdir = tempfile.TemporaryDirectory(prefix="tsugumori-lock-launcher-")
+        self.tempdir = tempfile.TemporaryDirectory(prefix="wille-lock-launcher-")
         self.root = Path(self.tempdir.name)
         self.config_home = self.root / "config"
         self.runtime_dir = self.root / "runtime"
@@ -78,7 +78,7 @@ class SupervisedLockLauncherTests(unittest.TestCase):
         self.qs_log = self.root / "qs.log"
         self.pam_service = self.root / "pam-hyprlock"
         self.release_trigger = self.root / "release.trigger"
-        self.state_dir = self.runtime_dir / "tsugumori/lock-handshake-wayland-test"
+        self.state_dir = self.runtime_dir / "wille/lock-handshake-wayland-test"
         self.processes: list[subprocess.Popen[str]] = []
 
         quickshell = self.config_home / "quickshell"
@@ -117,43 +117,43 @@ class SupervisedLockLauncherTests(unittest.TestCase):
                     exit 23
                     ;;
                 secure-release)
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" secure
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-authorized
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-requested
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" secure
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-authorized
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-requested
                     exit 0
                     ;;
                 secure-await-relock)
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" secure
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-authorized
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" secure
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-authorized
                     for ((attempt = 0; attempt < 500; attempt++)); do
-                        [[ -f "$TSUGUMORI_LOCK_HANDSHAKE_DIR/relock-requested" ]] && break
+                        [[ -f "$WILLE_LOCK_HANDSHAKE_DIR/relock-requested" ]] && break
                         sleep 0.01
                     done
-                    [[ -f "$TSUGUMORI_LOCK_HANDSHAKE_DIR/relock-requested" ]] || exit 65
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-requested
+                    [[ -f "$WILLE_LOCK_HANDSHAKE_DIR/relock-requested" ]] || exit 65
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-requested
                     exit 0
                     ;;
                 stable-secure)
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" secure
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" secure
                     for ((attempt = 0; attempt < 500; attempt++)); do
                         [[ -f "$FAKE_RELEASE_TRIGGER" ]] && break
                         sleep 0.01
                     done
                     [[ -f "$FAKE_RELEASE_TRIGGER" ]] || exit 66
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-authorized
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" release-requested
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-authorized
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" release-requested
                     exit 0
                     ;;
                 secure-crash)
-                    "$helper" "$TSUGUMORI_LOCK_HANDSHAKE_DIR" secure
+                    "$helper" "$WILLE_LOCK_HANDSHAKE_DIR" secure
                     exit 24
                     ;;
                 hang)
                     exec sleep 30
                     ;;
                 insecure-marker)
-                    printf 'secure\n' >"$TSUGUMORI_LOCK_HANDSHAKE_DIR/secure"
-                    chmod 644 "$TSUGUMORI_LOCK_HANDSHAKE_DIR/secure"
+                    printf 'secure\n' >"$WILLE_LOCK_HANDSHAKE_DIR/secure"
+                    chmod 644 "$WILLE_LOCK_HANDSHAKE_DIR/secure"
                     exit 0
                     ;;
                 *)
@@ -189,8 +189,8 @@ class SupervisedLockLauncherTests(unittest.TestCase):
                 "FAKE_QS_LOG": str(self.qs_log),
                 "FAKE_HYPRLOCK_LOG": str(self.hyprlock_log),
                 "FAKE_RELEASE_TRIGGER": str(self.release_trigger),
-                "TSUGUMORI_LOCK_TESTING": "1",
-                "TSUGUMORI_LOCK_TEST_PAM_SERVICE": str(self.pam_service),
+                "WILLE_LOCK_TESTING": "1",
+                "WILLE_LOCK_TEST_PAM_SERVICE": str(self.pam_service),
             }
         )
         return env

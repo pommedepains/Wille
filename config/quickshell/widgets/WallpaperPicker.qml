@@ -453,7 +453,7 @@ ShellRoot {
             opacity: Art.ramp(corners.progress, .28, .74)
             text: corners.clockText + "  //  " + corners.monitorName + "  //  ↑↓ / SCROLL · ESC QUIT"
             textFormat: Text.PlainText
-            color: "#aaa59b"
+            color: "#9da2a8"
             font { family: "JetBrains Mono"; pixelSize: 9; letterSpacing: .3 }
             renderType: Text.CurveRendering
             horizontalAlignment: Text.AlignHCenter
@@ -476,7 +476,7 @@ ShellRoot {
                 x: Math.round(((index % 19) + .5) * frame.width / 19 * frame.dpr) / frame.dpr
                 y: Math.round(((index < 19 ? 0 : frame.height) - tickHeight) * frame.dpr) / frame.dpr
                 width: 1 / frame.dpr; height: Math.round(tickHeight * 2 * frame.dpr) / frame.dpr
-                color: index % 6 === 0 ? "#d1161c" : "#999486"
+                color: index % 6 === 0 ? "#20bee5" : "#899096"
             }
         }
         Repeater {
@@ -487,8 +487,8 @@ ShellRoot {
                 readonly property real arm: 32 * Art.ramp(frame.progress, .08, .6)
                 x: index % 2 ? frame.width : 0
                 y: index < 2 ? 0 : frame.height
-                Rectangle { x: corner.index % 2 ? -width : 0; width: corner.arm; height: 1 / frame.dpr; color: "#b91a20" }
-                Rectangle { y: corner.index < 2 ? 0 : -height; width: 1 / frame.dpr; height: corner.arm; color: "#b91a20" }
+                Rectangle { x: corner.index % 2 ? -width : 0; width: corner.arm; height: 1 / frame.dpr; color: "#20aed2" }
+                Rectangle { y: corner.index < 2 ? 0 : -height; width: 1 / frame.dpr; height: corner.arm; color: "#20aed2" }
             }
         }
     }
@@ -510,7 +510,7 @@ ShellRoot {
                 x: 2; y: 2
                 width: Math.max(0, parent.width - 4) * control.fillProgress
                 height: Math.max(0, parent.height - 4)
-                color: "#cc1515"
+                color: "#1ec8f0"
             }
             Repeater {
                 model: 4
@@ -521,8 +521,8 @@ ShellRoot {
                     x: index % 2 ? parent.width - width : 0
                     y: index >= 2 ? parent.height - height : 0
                     opacity: control.interactionActive ? 1 : .6
-                    Rectangle { width: parent.width; height: 1; y: corner.index >= 2 ? parent.height - height : 0; color: "#cc1515" }
-                    Rectangle { width: 1; height: parent.height; x: corner.index % 2 ? parent.width - width : 0; color: "#cc1515" }
+                    Rectangle { width: parent.width; height: 1; y: corner.index >= 2 ? parent.height - height : 0; color: "#1ec8f0" }
+                    Rectangle { width: 1; height: parent.height; x: corner.index % 2 ? parent.width - width : 0; color: "#1ec8f0" }
                 }
             }
         }
@@ -532,7 +532,7 @@ ShellRoot {
             font { family: "JetBrainsMono Nerd Font"; pixelSize: 10; letterSpacing: 1.3 }
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            color: control.interactionActive ? "#0a0a0a" : "#b0aba6"
+            color: control.interactionActive ? "#0a0a0a" : "#a6abb0"
             Behavior on color { ColorAnimation { duration: 120 } }
         }
     }
@@ -547,11 +547,11 @@ ShellRoot {
         implicitHeight: content.implicitHeight + 36
         color: "#0a0a0a"
         border.width: 1
-        border.color: "#4e4944"
+        border.color: "#45494d"
 
-        Rectangle { x: 0; y: 0; width: 36; height: 2; color: "#cc1515" }
-        Rectangle { x: 0; y: 0; width: 2; height: 20; color: "#cc1515" }
-        Rectangle { anchors.right: parent.right; anchors.bottom: parent.bottom; width: 36; height: 2; color: "#cc1515" }
+        Rectangle { x: 0; y: 0; width: 36; height: 2; color: "#1ec8f0" }
+        Rectangle { x: 0; y: 0; width: 2; height: 20; color: "#1ec8f0" }
+        Rectangle { anchors.right: parent.right; anchors.bottom: parent.bottom; width: 36; height: 2; color: "#1ec8f0" }
 
         ColumnLayout {
             id: content
@@ -568,11 +568,11 @@ ShellRoot {
                 }
                 Text {
                     text: "//"
-                    color: "#cc1515"
+                    color: "#1ec8f0"
                     font { family: "JetBrainsMono Nerd Font"; pixelSize: 14 }
                 }
             }
-            Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: "#373331" }
+            Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: "#313437" }
             Text {
                 Layout.fillWidth: true
                 text: panel.monitorName ? "TARGET / " + panel.monitorName : "TARGET / CURRENT SCREEN"
@@ -618,7 +618,7 @@ ShellRoot {
 
         color: "#0a0a0a"
         border.width: 1
-        border.color: selected ? "#655c52" : "#373331"
+        border.color: selected ? "#565c61" : "#313437"
         Behavior on border.color { ColorAnimation { duration: 200 } }
 
         Rectangle {
@@ -631,7 +631,7 @@ ShellRoot {
                 x: 14; anchors.verticalCenter: parent.verticalCenter
                 width: Math.min(implicitWidth, Math.max(0, (parent.width - 122) * .55))
                 text: "WALLPAPER / PREVIEW"
-                color: "#aaa59b"
+                color: "#9da2a8"
                 font { family: "JetBrainsMono Nerd Font"; pixelSize: 11; letterSpacing: 1 }
                 elide: Text.ElideRight
             }
@@ -654,7 +654,7 @@ ShellRoot {
                 objectName: "previewCounter"
                 anchors { right: parent.right; rightMargin: 12; verticalCenter: parent.verticalCenter }
                 width: 72; height: 22
-                color: preview.selected ? "#cc1515" : "#26221f"
+                color: preview.selected ? "#1ec8f0" : "#202225"
                 Text {
                     anchors.centerIn: parent
                     text: String(preview.itemNumber).padStart(2, "0") + " / " + String(preview.itemCount).padStart(2, "0")
@@ -662,7 +662,7 @@ ShellRoot {
                     font { family: "JetBrainsMono Nerd Font"; pixelSize: 10; weight: Font.Medium }
                 }
             }
-            Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#373331" }
+            Rectangle { anchors.bottom: parent.bottom; width: parent.width; height: 1; color: "#313437" }
         }
 
         Image {
@@ -687,8 +687,8 @@ ShellRoot {
                 x: index % 2 ? preview.width - width : 0
                 y: index < 2 ? 0 : preview.height - height
                 opacity: preview.selected ? 1 : .3
-                Rectangle { width: parent.width; height: 2; y: corner.index < 2 ? 0 : parent.height - height; color: "#cc1515" }
-                Rectangle { width: 2; height: parent.height; x: corner.index % 2 ? parent.width - width : 0; color: "#cc1515" }
+                Rectangle { width: parent.width; height: 2; y: corner.index < 2 ? 0 : parent.height - height; color: "#1ec8f0" }
+                Rectangle { width: 2; height: parent.height; x: corner.index % 2 ? parent.width - width : 0; color: "#1ec8f0" }
             }
         }
     }

@@ -7,8 +7,8 @@ CLI usage:
     qshare recv [-o DIR] [--tunnel] [-k]
 
 Internal usage (from Quickshell):
-    qshare ... --qr-out "$XDG_RUNTIME_DIR/tsugumori/qshare-qr-RUN.png" \
-        --event-file "$XDG_RUNTIME_DIR/tsugumori/qshare-events-RUN"
+    qshare ... --qr-out "$XDG_RUNTIME_DIR/wille/qshare-qr-RUN.png" \
+        --event-file "$XDG_RUNTIME_DIR/wille/qshare-events-RUN"
 """
 from __future__ import annotations
 
@@ -65,11 +65,11 @@ QSHARE_BG = "#0a0a0a"
 QSHARE_PANEL = "#111111"
 QSHARE_FG = "#e8e8e8"
 QSHARE_MUTED = "#909090"
-QSHARE_ACCENT = "#cc1515"
+QSHARE_ACCENT = "#1ec8f0"
 QR_BACKGROUND = QSHARE_PANEL
 QR_INK = QSHARE_FG
 QR_ACCENT = QSHARE_ACCENT
-QR_LINE = "#494643"
+QR_LINE = "#434649"
 QR_BORDER = 4
 QR_BOX_SIZE = 20
 ANSI_FG = "\033[38;2;232;232;232m"
@@ -166,7 +166,7 @@ class _DeadlineReader:
             nonlocal written
             if written + len(data) > max_bytes:
                 raise UploadRejected(
-                    HTTPStatus.CONTENT_TOO_LARGE, "Size limit exceeded"
+                    HTTPStatus.REQUEST_ENTITY_TOO_LARGE, "Size limit exceeded"
                 )
             if out is not None:
                 out.write(data)
@@ -336,7 +336,7 @@ def _qr_protected(x: int, y: int, count: int, version: int,
 
 
 def write_qr_png(url: str, path: Path) -> None:
-    """Render the inverted C glyph map with the live rice's red accent."""
+    """Render the inverted C glyph map with the live rice's cyan accent."""
     qr = qrcode.QRCode(
         border=QR_BORDER,
         box_size=QR_BOX_SIZE,
@@ -378,7 +378,7 @@ def write_qr_png(url: str, path: Path) -> None:
             turn = (x * 3 + y * 7) % 4
             rect(x + 0.1, y + (0.1 if turn < 2 else 0.72), 0.8, 0.18, color)
             rect(x + (0.1 if turn in (0, 3) else 0.72), y + 0.1, 0.18, 0.8, color)
-            # Red alone is too dark on charcoal. Keep every data-cell center light.
+            # The accent alone is too dark on charcoal. Keep every data-cell center light.
             rect(x + 0.2, y + 0.2, 0.6, 0.6, QR_INK)
 
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -435,14 +435,14 @@ def build_payload(paths: list[Path]) -> tuple[Path, str, bool]:
     return zip_path, archive_name, True
 
 
-# ─── Upload HTML page (Tsugumori / Sidonia style) ───────────────────────────
+# ─── Upload HTML page (Wille style) ───────────────────────────
 UPLOAD_HTML = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="{bg}">
-<title>QShare // Sidonia Uplink</title>
+<title>QShare // Wille Uplink</title>
 <style>
   :root {{
     color-scheme: dark;
@@ -451,8 +451,8 @@ UPLOAD_HTML = """<!doctype html>
     --fg: {fg};
     --muted: {muted};
     --accent: {accent};
-    --line: rgba(204, 21, 21, 0.28);
-    --grid: rgba(204, 21, 21, 0.07);
+    --line: rgba(30, 200, 240, 0.28);
+    --grid: rgba(30, 200, 240, 0.07);
   }}
   * {{ box-sizing: border-box; }}
   html {{ min-height: 100%; background: var(--bg); }}
@@ -555,7 +555,7 @@ UPLOAD_HTML = """<!doctype html>
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 12px rgba(204, 21, 21, 0.8);
+    box-shadow: 0 0 12px rgba(30, 200, 240, 0.8);
     animation: pulse 1.8s ease-in-out infinite;
   }}
   form {{ margin-top: 1.4rem; }}
@@ -641,7 +641,7 @@ UPLOAD_HTML = """<!doctype html>
     font-size: 0.82rem;
   }}
   .ok {{ color: var(--fg); }}
-  .err {{ color: #ff6b6b; }}
+  .err {{ color: #8be7fe; }}
   .note {{
     margin: 1.35rem 0 0;
     padding-top: 1rem;
@@ -674,9 +674,9 @@ UPLOAD_HTML = """<!doctype html>
 <body>
 <main>
   <header>
-    <p class="kicker">Sidonia // File Transfer</p>
+    <p class="kicker">Wille // File Transfer</p>
     <h1>QShare Uplink</h1>
-    <p class="subtitle">Choose files on this device and send them to the paired Tsugumori session.</p>
+    <p class="subtitle">Choose files on this device and send them to the paired Wille session.</p>
   </header>
   <section class="frame" aria-labelledby="panel-title">
     <div class="panel-head">
@@ -693,7 +693,7 @@ UPLOAD_HTML = """<!doctype html>
     </form>
     <p class="note">Keep this page open until the transfer completes.</p>
   </section>
-  <footer>Tsugumori // Token-protected session</footer>
+  <footer>Wille // Token-protected session</footer>
 </main>
 <script>
 const TOKEN = "{token}";
@@ -1014,7 +1014,7 @@ class RecvHandler(BaseHTTPRequestHandler):
             raise UploadRejected(HTTPStatus.BAD_REQUEST, "Empty upload body")
         if length > self.max_upload_bytes:
             raise UploadRejected(
-                HTTPStatus.CONTENT_TOO_LARGE,
+                HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
                 f"Upload limited to {self.max_upload_bytes} bytes",
             )
         return boundary, length
@@ -1170,7 +1170,7 @@ class RecvHandler(BaseHTTPRequestHandler):
                 state = type(self)
                 if request_count > self.max_files_per_request:
                     raise UploadRejected(
-                        HTTPStatus.CONTENT_TOO_LARGE,
+                        HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
                         "Too many files in this upload",
                     )
                 if state.session_upload_count + request_count > self.max_files_per_session:
@@ -1186,7 +1186,7 @@ class RecvHandler(BaseHTTPRequestHandler):
                 )
                 if session_remaining < 0:
                     raise UploadRejected(
-                        HTTPStatus.CONTENT_TOO_LARGE,
+                        HTTPStatus.REQUEST_ENTITY_TOO_LARGE,
                         "Session size limit reached",
                     )
 

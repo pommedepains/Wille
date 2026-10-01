@@ -20,7 +20,7 @@ Scope {
     property string monitorResult: ""
     property string activeMonitor: ""
     property bool recoveryConfirm: false
-    readonly property bool reducedMotion: Quickshell.env("TSUGUMORI_REDUCED_MOTION") === "1"
+    readonly property bool reducedMotion: Quickshell.env("WILLE_REDUCED_MOTION") === "1"
                                           || Settings.revealDuration <= 0
     readonly property real uiScale: Math.max(0.5, Settings.scale)
 
@@ -176,7 +176,7 @@ Scope {
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         visible: root.opened || wipeReveal.running || wipeHide.running || root.reveal > 0
-        WlrLayershell.namespace: "tsugumori-notes"
+        WlrLayershell.namespace: "wille-notes"
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: root.opened ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
         mask: Region { width: root.opened ? panel.width : 0; height: root.opened ? panel.height : 0 }
@@ -688,7 +688,7 @@ Scope {
         implicitWidth: 378 * uiScale
 
         // Keep this fill alive when selection changes. Only hover-out animates;
-        // selecting a row always cancels the animation and pins it fully red.
+        // selecting a row always cancels the animation and pins it fully cyan.
         function updateFill() {
             wipe.stop()
             if (selected || reducedMotion) {

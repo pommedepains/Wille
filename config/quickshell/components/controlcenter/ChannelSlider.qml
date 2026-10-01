@@ -37,7 +37,7 @@ Rectangle {
         background: Rectangle {
             x: slider.leftPadding; y: slider.topPadding + slider.availableHeight / 2 - height / 2
             width: slider.availableWidth; height: 4; color: "#33e8e8e8"
-            Rectangle { width: slider.position * parent.width; height: 4; color: root.muted ? "#777777" : "#cc1515" }
+            Rectangle { width: slider.position * parent.width; height: 4; color: root.muted ? "#777777" : "#1ec8f0" }
         }
         handle: Rectangle {
             x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)

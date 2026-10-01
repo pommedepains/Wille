@@ -1,14 +1,14 @@
 #!/bin/bash
-# R2-A Shōi header. Native terminal text only; no output in pipes or logs.
+# Wille terminal header. Native terminal text only; no output in pipes or logs.
 [[ -t 1 && ${TERM-} != dumb ]] || exit 0
 
 ink=$'\033[38;2;232;232;232m'
-accent=$'\033[38;2;204;21;21m'
+accent=$'\033[38;2;30;200;240m'
 muted=$'\033[38;2;146;144;141m'
-rule=$'\033[38;2;55;51;49m'
-badge=$'\033[38;2;10;10;10;48;2;204;21;21m'
-glyph_regular=$'\033[38;2;101;98;93m'
-glyph_bright=$'\033[38;2;152;149;143m'
+rule=$'\033[38;2;49;52;55m'
+badge=$'\033[38;2;10;10;10;48;2;30;200;240m'
+glyph_regular=$'\033[38;2;93;97;101m'
+glyph_bright=$'\033[38;2;143;147;152m'
 glyph_quiet=$'\033[38;2;55;54;52m'
 glyph_bright_quiet=$'\033[38;2;81;79;77m'
 reset=$'\033[0m'
@@ -29,13 +29,13 @@ panel_width=$((terminal_columns - 2))
 # Kitty 0.40+ can size the title while retaining normal scrollback text.
 # https://sw.kovidgoyal.net/kitty/text-sizing-protocol/
 # Its three-row block is reserved below; no terminal capability queries needed.
-title='四騎掌位'
+title='特務機関'
 if [[ ${TERM-} == xterm-kitty && -n ${KITTY_WINDOW_ID-}
     && -z ${TMUX-} && -z ${STY-} && -z ${ZELLIJ-} ]]; then
-    title=$'\033]66;s=3:w=7:n=5:d=6:v=1;四騎掌位\033\\'
+    title=$'\033]66;s=3:w=7:n=5:d=6:v=1;特務機関\033\\'
 fi
 
-# Exact glyph rows and fourth-band trace from the selected R2-A design.
+# Exact glyph rows and fourth-band trace from the selected header design.
 # These are decorative unit markings, not system-status indicators.
 glyph_rows=(
     '┌╱·┐│┤╲·├─┬╱│·└┘'
@@ -125,15 +125,15 @@ ship_band() {
     if (( width >= 36 )); then
         right=$((width - 2))
         put 3 "$accent" '╴'
-        # Seven Japanese characters occupy fourteen terminal cells.
-        put 5 "$ink" '播種船 シドニア'
+        # Six Japanese characters occupy twelve terminal cells.
+        put 5 "$ink" 'ネルフ予備系'
         rule_left=21
     fi
     badge_left=$((right - 11))
     if (( badge_left > rule_left + 1 )); then
         horizontal_rule "$rule_left" "$rule" "$((badge_left - rule_left - 1))"
     fi
-    put "$badge_left" "$badge" $' \033[1mSID0NIA\033[22m '
+    put "$badge_left" "$badge" $' \033[1mMAGI-03\033[22m '
     put "$((right - 1))" "$accent" '//'
 }
 
@@ -160,12 +160,12 @@ if (( panel_width >= 36 )); then
                 ;;
             1)
                 put 1 "$accent" '│'
-                put 3 "$ink" "TSUGUMORI ${accent}// ${muted}TYPE-17"
-                put "$((panel_width - 8))" "$badge" $' ◆ \033[1m704\033[22m '
+                put 3 "$ink" "WILLE ${accent}// ${muted}NERV-C3"
+                put "$((panel_width - 7))" "$badge" $' ◆ \033[1m3I\033[22m '
                 ;;
             4) put 5 "$ink" "$title" ;;
-            7) put 5 "$accent" 'SHŌI LINK' ;;
-            10) put 5 "$muted" "東亜重工 ${accent}// ${muted}継衛" ;;
+            7) put 5 "$accent" 'MAGI LINK' ;;
+            10) put 5 "$muted" "ヴィレ ${accent}// ${muted}再編" ;;
         esac
 
         if (( row >= 4 && row <= 10 )); then
@@ -192,15 +192,15 @@ if (( panel_width >= 36 )); then
     done
 else
     # Tiny splits keep the identity readable without wrapping a framed layout.
-    put 1 "$ink" 'TSUGUMORI'
+    put 1 "$ink" 'WILLE'
     if (( panel_width >= 20 )); then
-        put 11 "$accent" "// ${muted}TYPE-17"
+        put 11 "$accent" "// ${muted}NERV-C3"
     fi
     new_line
-    put 1 "$ink" '四騎掌位'
-    (( panel_width >= 17 )) && put 10 "$badge" $' ◆ \033[1m704\033[22m '
+    put 1 "$ink" '特務機関'
+    (( panel_width >= 17 )) && put 10 "$badge" $' ◆ \033[1m3I\033[22m '
     new_line
-    put 1 "$accent" 'SHŌI LINK'
+    put 1 "$accent" 'MAGI LINK'
     new_line
     if (( panel_width >= glyph_width + 2 )); then
         new_line

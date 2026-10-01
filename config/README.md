@@ -1,7 +1,7 @@
 # Configuration map
 
 The installer places these files into `~/.config`. You do not need to
-understand every file to customize Tsugumori.
+understand every file to customize Wille.
 
 | I want to change... | Open... |
 |---|---|
@@ -11,14 +11,14 @@ understand every file to customize Tsugumori.
 | Emergency lock-screen appearance | `hypr/hyprlock.conf` |
 | Terminal colors and font | `kitty/kitty.conf` |
 | Fastfetch layout | `kitty/fastfetch.jsonc` |
-| btop colors and layout | `kitty/tsugumori-btop.theme` and `kitty/btop.conf` |
+| btop colors and layout | `kitty/wille-btop.theme` and `kitty/btop.conf` |
 | Quickshell colors, fonts, and spacing | `quickshell/theme/Theme.qml` |
 | Quickshell user options | `quickshell/settings/Settings.qml` |
 | Launcher, Control Center, or panels | `quickshell/widgets/` |
 | Waybar modules | `waybar/config.jsonc` |
 | Waybar appearance | `waybar/style.css` |
-| Nautilus appearance | `nautilus/tsugumori/style.css` |
-| GTK file-dialog appearance | `nautilus/tsugumori/filechooser-gtk3.css` and `filechooser-gtk4.css` |
+| Nautilus appearance | `nautilus/wille/style.css` |
+| GTK file-dialog appearance | `nautilus/wille/filechooser-gtk3.css` and `filechooser-gtk4.css` |
 
 Kitty, Fastfetch, and btop files share `kitty/` in the repository. The installer
 puts each file in its application's normal location: `~/.config/kitty/`,
@@ -26,7 +26,7 @@ puts each file in its application's normal location: `~/.config/kitty/`,
 
 The optional Nautilus theme stays together in `nautilus/` in the repository.
 The installer places its extension in the user data directory, copies the theme
-assets into `~/.config/nautilus/tsugumori/`, builds the GTK 3 dialog module, and
+assets into `~/.config/nautilus/wille/`, builds the GTK 3 dialog module, and
 adds the scoped GTK 4 stylesheet import. See the
 [customization guide](../docs/customize.md#nautilus-and-file-dialogs) for details.
 

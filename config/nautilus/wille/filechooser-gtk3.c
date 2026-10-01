@@ -13,7 +13,7 @@ static void
 neutral_icon(GObject *renderer, GParamSpec *property, gpointer data)
 {
     (void) property; (void) data;
-    if (g_object_get_data(renderer, "tsugumori-icon-busy"))
+    if (g_object_get_data(renderer, "wille-icon-busy"))
         return;
     cairo_surface_t *surface = NULL;
     g_object_get(renderer, "surface", &surface, NULL);
@@ -32,9 +32,9 @@ neutral_icon(GObject *renderer, GParamSpec *property, gpointer data)
         cairo_surface_t *neutral = gdk_cairo_surface_create_from_pixbuf(pixels, 1, NULL);
         cairo_surface_set_device_scale(neutral, sx, sy);
         cairo_surface_set_user_data(neutral, &neutral_surface_key, GINT_TO_POINTER(1), NULL);
-        g_object_set_data(renderer, "tsugumori-icon-busy", GINT_TO_POINTER(1));
+        g_object_set_data(renderer, "wille-icon-busy", GINT_TO_POINTER(1));
         g_object_set(renderer, "surface", neutral, NULL);
-        g_object_set_data(renderer, "tsugumori-icon-busy", NULL);
+        g_object_set_data(renderer, "wille-icon-busy", NULL);
         cairo_surface_destroy(neutral);
         g_object_unref(pixels);
     }
@@ -51,8 +51,8 @@ style_icons(GtkWidget *widget, gpointer data)
             GList *cells = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column->data));
             for (GList *cell = cells; cell; cell = cell->next) {
                 if (GTK_IS_CELL_RENDERER_PIXBUF(cell->data) &&
-                    !g_object_get_data(G_OBJECT(cell->data), "tsugumori-icon-hook")) {
-                    g_object_set_data(G_OBJECT(cell->data), "tsugumori-icon-hook", GINT_TO_POINTER(1));
+                    !g_object_get_data(G_OBJECT(cell->data), "wille-icon-hook")) {
+                    g_object_set_data(G_OBJECT(cell->data), "wille-icon-hook", GINT_TO_POINTER(1));
                     g_signal_connect(cell->data, "notify::surface", G_CALLBACK(neutral_icon), NULL);
                     neutral_icon(G_OBJECT(cell->data), NULL, NULL);
                 }
@@ -72,15 +72,15 @@ style_chooser(GtkWidget *widget)
         return;
 
     GdkScreen *screen = gtk_widget_get_screen(widget);
-    if (!g_object_get_data(G_OBJECT(screen), "tsugumori-chooser-provider")) {
+    if (!g_object_get_data(G_OBJECT(screen), "wille-chooser-provider")) {
         if (!provider) {
-            gchar *base = g_build_filename(g_get_user_config_dir(), "nautilus", "tsugumori", NULL);
+            gchar *base = g_build_filename(g_get_user_config_dir(), "nautilus", "wille", NULL);
             gchar *css = g_build_filename(base, "filechooser-gtk3.css", NULL);
             gchar *font = g_build_filename(base, "IBMPlexSans.ttf", NULL);
             GError *error = NULL;
             provider = gtk_css_provider_new();
             if (!gtk_css_provider_load_from_path(provider, css, &error)) {
-                g_warning("Tsugumori file chooser: %s", error->message);
+                g_warning("Wille file chooser: %s", error->message);
                 g_clear_error(&error);
             }
             FcConfigAppFontAddFile(FcConfigGetCurrent(), (const FcChar8 *) font);
@@ -90,9 +90,9 @@ style_chooser(GtkWidget *widget)
         }
         gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(provider),
                                                   GTK_STYLE_PROVIDER_PRIORITY_USER);
-        g_object_set_data(G_OBJECT(screen), "tsugumori-chooser-provider", provider);
+        g_object_set_data(G_OBJECT(screen), "wille-chooser-provider", provider);
     }
-    gtk_style_context_add_class(gtk_widget_get_style_context(widget), "tsugumori-filechooser");
+    gtk_style_context_add_class(gtk_widget_get_style_context(widget), "wille-filechooser");
     style_icons(widget, NULL);
 }
 

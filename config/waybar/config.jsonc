@@ -9,7 +9,7 @@
     "hyprland/window"
   ],
   "modules-center": [
-    "custom/sidonia"
+    "custom/wille"
   ],
   "modules-right": [
     "cpu",
@@ -27,23 +27,23 @@
   },
 
   "hyprland/window": {
-    "format": "<span foreground='#cc1515'>//</span> {title}",
+    "format": "<span foreground='#1ec8f0'>//</span> {title}",
     "max-length": 32
   },
 
   "cpu": {
-    "format": "<span foreground='#c8c8c4'>CPU</span> <span weight='medium'>{usage:02d}</span><span foreground='#c8c8c4'>%</span>",
+    "format": "<span foreground='#c4c6c8'>CPU</span> <span weight='medium'>{usage:02d}</span><span foreground='#c4c6c8'>%</span>",
     "interval": 3
   },
 
   "memory": {
-    "format": "<span foreground='#c8c8c4'>MEM</span> <span weight='medium'>{percentage}</span><span foreground='#c8c8c4'>%</span>",
+    "format": "<span foreground='#c4c6c8'>MEM</span> <span weight='medium'>{percentage}</span><span foreground='#c4c6c8'>%</span>",
     "interval": 3
   },
 
   "network": {
-    "format-wifi": "<span foreground='#c8c8c4'>NET</span> {essid}",
-    "format-ethernet": "<span foreground='#c8c8c4'>ETH</span> {ifname}",
+    "format-wifi": "<span foreground='#c4c6c8'>NET</span> {essid}",
+    "format-ethernet": "<span foreground='#c4c6c8'>ETH</span> {ifname}",
     "format-disconnected": "NET --",
     "max-length": 14,
     "tooltip-format": "{ipaddr}",
@@ -72,8 +72,8 @@
     "tooltip-format": "{:%A %d %B %Y}"
   },
 
-  "custom/sidonia": {
-    "format": "<span foreground='#cc1515' letter_spacing='2048' weight='medium'>SID0NIA</span>  <span foreground='#a29b96'>シドニア</span>",
+  "custom/wille": {
+    "format": "<span foreground='#1ec8f0' letter_spacing='2048' weight='medium'>WILLE</span>  <span foreground='#969ca2'>ヴィレ</span>",
     "tooltip": false
   },
 

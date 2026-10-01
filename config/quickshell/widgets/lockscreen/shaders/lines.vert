@@ -103,7 +103,7 @@ void main() {
         else if(path==4){a=vec2(-.4,-.39);b=vec2(-.2,-.39);c=b;two=false;}
         else {a=vec2(.22,-.4);b=vec2(.4,-.4);c=vec2(.4,-.25);}
         float tint=ease((glyphCount*.075+.23-hash(key,depth,61))/.2);
-        color=mix(vec3(104,102,94),vec3(209,22,28),tint)/255.0;
+        color=mix(vec3(94,99,104),vec3(32,190,229),tint)/255.0;
         float order=hash(key,path,93);
         fraction=ramp(ramp(progress,.22,.73),order*.26,.58+order*.42);
         alpha*=fraction;
@@ -116,9 +116,9 @@ void main() {
         else if(path==2){a=vec2(.02+shift,-.40);b=vec2(.02+shift,.35);c=b;two=false;}
         else if(path==3){a=vec2(-.12,.12);b=vec2(.35,.12);c=vec2(.35,.40);}
         else {a=vec2(.22,-.40);b=vec2(.40,-.40);c=vec2(.40,-.24);}
-        bool red=hash(key,depth,81)>.968;
-        color=(red?vec3(183,29,34):vec3(124,121,110))/255.0;
-        alpha*=red?.82:.47;
+        bool accent=hash(key,depth,81)>.968;
+        color=(accent?vec3(35,173,208):vec3(110,117,124))/255.0;
+        alpha*=accent?.82:.47;
         fraction=ramp(progress,.02+hash(key,path,13)*.20,.40+hash(key,path,13)*.26);
     }
     float first=length(b-a), second=two?length(c-b):0.0;

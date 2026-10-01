@@ -231,7 +231,7 @@ Item {
             Canvas {
                 id: arrowCanvas
                 anchors.fill: parent
-                onPaint: { const ctx = getContext("2d"); ctx.reset(); ctx.strokeStyle = arrow.selected ? "#cc1515" : "#e8e8e8"; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(11,18); ctx.lineTo(25,18); ctx.moveTo(19,12); ctx.lineTo(25,18); ctx.lineTo(19,24); ctx.stroke() }
+                onPaint: { const ctx = getContext("2d"); ctx.reset(); ctx.strokeStyle = arrow.selected ? "#1ec8f0" : "#e8e8e8"; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(11,18); ctx.lineTo(25,18); ctx.moveTo(19,12); ctx.lineTo(25,18); ctx.lineTo(19,24); ctx.stroke() }
                 Connections { target: arrow; function onSelectedChanged() { arrowCanvas.requestPaint() } }
             }
             Behavior on rotation { NumberAnimation { duration: view.reducedMotion ? 0 : 320; easing.type: Easing.OutCubic } }
@@ -325,7 +325,7 @@ Item {
                 Item { width: 1; height: 14 }
                 Row {
                     width: parent.width; spacing: 9
-                    Rectangle { y: 5; width: 7; height: 7; radius: 3.5; color: view.detailOn ? "#cc1515" : "#777777" }
+                    Rectangle { y: 5; width: 7; height: 7; radius: 3.5; color: view.detailOn ? "#1ec8f0" : "#777777" }
                     Text { width: parent.width - 16; text: view.detailStatus; textFormat: Text.PlainText; font.family: "JetBrains Mono"; font.pixelSize: 12; color: "#e8e8e8"; wrapMode: Text.Wrap }
                 }
                 Item { width: 1; height: 16 }
@@ -417,7 +417,7 @@ Item {
                         visible: text !== ""
                         textFormat: Text.PlainText; wrapMode: Text.Wrap
                         font.family: "JetBrains Mono"; font.pixelSize: 11
-                        color: view.controller.gpuFailed || view.controller.gpuStatus.reason ? "#ef7664" : "#a2a2a2"
+                        color: view.controller.gpuFailed || view.controller.gpuStatus.reason ? "#81daf1" : "#a2a2a2"
                     }
                     Text {
                         width: parent.width
@@ -464,7 +464,7 @@ Item {
                         onAccepted: view.controller.dispatchAction("top", "wifi", "submit-password")
                         Keys.onEscapePressed: event => { view.controller.dispatchAction("top", "wifi", "cancel-prompt"); event.accepted = true }
                     }
-                    Text { visible: view.controller.wifiError !== ""; width: parent.width; text: view.controller.wifiError; textFormat: Text.PlainText; font.family: "JetBrains Mono"; font.pixelSize: 11; color: "#ef7664"; wrapMode: Text.Wrap }
+                    Text { visible: view.controller.wifiError !== ""; width: parent.width; text: view.controller.wifiError; textFormat: Text.PlainText; font.family: "JetBrains Mono"; font.pixelSize: 11; color: "#81daf1"; wrapMode: Text.Wrap }
                     Row {
                         width: parent.width; spacing: 8
                         ActionButton { width: (parent.width - 8) / 2; text: "CONNECT"; primary: true; reducedMotion: view.reducedMotion; onClicked: view.controller.dispatchAction("top", "wifi", "submit-password") }

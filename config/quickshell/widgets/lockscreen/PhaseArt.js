@@ -70,11 +70,11 @@ function drawField(c, cells, p, dpr) {
         var shape = [[[-.36,-.39],[-.36,.33],[-.12,.33]],
             [[-.36,-.12],[.32,-.12],[.32,.11]], [[.02+shift,-.40],[.02+shift,.35]],
             [[-.12,.12],[.35,.12],[.35,.40]], [[.22,-.40],[.40,-.40],[.40,-.24]]];
-        var cos = Math.cos(node.angle), sin = Math.sin(node.angle), red = hash(key, depth, 81) > .968;
+        var cos = Math.cos(node.angle), sin = Math.sin(node.angle), accent = hash(key, depth, 81) > .968;
         for (var i = 0; i < shape.length; i++) {
             var local = ramp(p, .02 + hash(key, i, 13) * .20, .40 + hash(key, i, 13) * .26);
             var points = shape[i].map(function(pt) { return [cx + (pt[0]*cos - pt[1]*sin)*size, cy + (pt[0]*sin + pt[1]*cos)*size]; });
-            stroke(c, points, red ? '#b71d22' : '#7c796e', 1, alpha * (red ? .82 : .47), local, dpr);
+            stroke(c, points, accent ? '#23add0' : '#6e757c', 1, alpha * (accent ? .82 : .47), local, dpr);
         }
     }
     function branch(node, alpha, x, y, size) {
@@ -106,9 +106,9 @@ function glyphMarks(p) {
         var shape = [[[-.35,-.4],[-.35,.34],[-.14,.34]], [[-.35,-.13],[.31,-.13],[.31,.12]],
             [[.02+bend,-.39],[.02+bend,.34]], [[-.12,.12+local],[.35,.12+local],[.35,.39]],
             [[-.4,-.39],[-.2,-.39]], [[.22,-.4],[.4,-.4],[.4,-.25]]];
-        // Increased red coverage only. Keep the approved K geometry and timing.
+        // Increased accent coverage only. Keep the approved K geometry and timing.
         var tint = smooth((p*.075+.23-hash(key,depth,61))/.2);
-        var color = 'rgb('+Math.round(lerp(104,209,tint))+','+Math.round(lerp(102,22,tint))+','+Math.round(lerp(94,28,tint))+')';
+        var color = 'rgb('+Math.round(lerp(94,32,tint))+','+Math.round(lerp(99,190,tint))+','+Math.round(lerp(104,229,tint))+')';
         for (var i = 0; i < shape.length; i++) {
             var points = shape[i].map(function(pt) { return [cx+(pt[0]*cos-pt[1]*sin)*size, cy+(pt[0]*sin+pt[1]*cos)*size]; });
             marks.push({points:points,c:color,w:Math.max(.75,size*.031),alpha:alpha});

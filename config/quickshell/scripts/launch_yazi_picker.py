@@ -14,9 +14,9 @@ from pathlib import Path
 def runtime_dir() -> Path:
     base = os.environ.get("XDG_RUNTIME_DIR")
     if base:
-        path = Path(base) / "tsugumori"
+        path = Path(base) / "wille"
     else:
-        path = Path.home() / ".cache" / "tsugumori" / "runtime"
+        path = Path.home() / ".cache" / "wille" / "runtime"
     path.mkdir(mode=0o700, parents=True, exist_ok=True)
     path.chmod(0o700)
     return path
